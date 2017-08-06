@@ -6,6 +6,7 @@ import IconButton from 'material-ui/IconButton';
 import AddCircleIcon from 'material-ui-icons/AddCircle';
 import Typography from 'material-ui/Typography';
 import { REDIRECT_TO } from '../actionTypes';
+import mockData from '../mockData';
 
 const stylesheet = createStyleSheet((theme) => ({
   header: {
@@ -23,15 +24,9 @@ const stylesheet = createStyleSheet((theme) => ({
 
 const mapStateToProps = (state) => ({
   //surveys: state.SurveyList.surveys
-  surveys: [{
-    id: 1,
-    title: 'Book Survey',
-    description: 'Take a survey on books'
-  },
-  {
-    id: 2,
-    title: 'Economics Survey'
-  }]
+  surveys: Object.keys(mockData.surveys).map((id) => mockData.surveys[id]),
+  languages: Object.keys(mockData.languages).map((id) => mockData.languages[id]),
+  getLanguages: (langIds) => langIds.map((id) => mockData.languages[id]),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -41,7 +36,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 class SurveyList extends Component {
   render() {
-    const { classes, surveys, redirectToNewSurvey } = this.props;
+    const { classes, surveys, getLanguages, redirectToNewSurvey } = this.props;
     return (
       <div>
         <div className={classes.header}>
@@ -53,8 +48,8 @@ class SurveyList extends Component {
           </IconButton>
         </div>
         {
-          surveys.map(({id, title, description}) => 
-            <SurveyCard key={id} title={title} description={description} className={classes.card} />)
+          surveys.map(({id, title, description, languages:langIds}) => 
+            <SurveyCard key={id} title={title} description={description} languages={getLanguages(langIds)} className={classes.card} />)
         }
       </div>
     )

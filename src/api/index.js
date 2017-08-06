@@ -1,6 +1,6 @@
 import superagentPromise from 'superagent-promise';
 import _superagent from 'superagent';
-import normalizer from './normalizer';
+import mapper from './mapper';
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
@@ -25,9 +25,9 @@ const requests = {
 
 const Auth = {
   current: () =>
-    requests.get('/profiles/me/').then((data) => normalizer.current(data)),
+    requests.get('/profiles/me/').then((data) => mapper.current(data)),
   login: (username, password) =>
-    requests.post('/api-token-auth/', { username, password }).then((data) => normalizer.login(data)),
+    requests.post('/api-token-auth/', { username, password }).then((data) => mapper.login(data)),
   register: (username, first_name, last_name, email, password, confirm_password) =>
     superagent.post(`${BASE_URL}/profiles/`, {
       user: {
@@ -41,7 +41,7 @@ const Auth = {
     }).use(tokenPlugin).then(res => {
       console.log(res);
       const token = res.header['Authorization'].split(' ')[1];
-      return normalizer.register({...res.body, token});
+      return mapper.register({...res.body, token});
     }),
 }
 

@@ -15,13 +15,13 @@ const isPromise = (p) => {
 export const promiseMiddleware = store => next => action => {
   if(isPromise(action.payload)) {
     store.dispatch({ type: ASYNC_START, subtype: action.type });
-    const currentViewCount = store.getState().viewChangeCounter;
+    const currentViewCount = store.getState().common.viewChangeCounter;
     const skipTracking = action.skipTracking;
 
     store.dispatch({ type: NETWORK_ERROR, error: false});
     action.payload.then(
       res => {
-        const { viewChangeCounter } = store.getState();
+        const { viewChangeCounter } = store.getState().common;
         if(!skipTracking && viewChangeCounter !== currentViewCount) {
           return;
         }
@@ -30,7 +30,7 @@ export const promiseMiddleware = store => next => action => {
         store.dispatch(action);
       },
       error => {
-        const { viewChangeCounter } = store.getState();
+        const { viewChangeCounter } = store.getState().common;
         if(!skipTracking && viewChangeCounter !== currentViewCount) {
           return;
         }

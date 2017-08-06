@@ -41,10 +41,13 @@ const stylesheet = createStyleSheet((theme) => ({
       maxWidth: '100%',
       height: 'auto',
       width: 'auto'
-    }
+    },
+    input: {
+      boxShadow: 'none',
+    },
   },
   content: {
-    maxWidth: '1080px',
+    maxWidth: '700px',
     margin: '20px auto 0',
     paddingLeft: theme.spacing.unit * 2,
     paddingRight: theme.spacing.unit * 2,

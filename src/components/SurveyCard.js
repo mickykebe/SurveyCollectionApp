@@ -5,7 +5,6 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
 
 const stylesheet = createStyleSheet((theme) => ({
   row: {

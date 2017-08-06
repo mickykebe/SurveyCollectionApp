@@ -1,67 +1,37 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { reduxForm, Field, FieldArray } from 'redux-form';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import AuthContainer from './AuthContainer';
 import mockData from '../mockData';
-import Checkbox from 'material-ui/Checkbox';
-import { FormGroup, FormControl, FormLabel, FormHelperText, FormControlLabel } from 'material-ui/Form';
-import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import { renderTextField, renderMultiChoiceField } from './form/fieldRenderers';
+import MultiChoiceField from './form/MultiChoiceField';
+import QuestionListForm from './QuestionListForm';
 
 const stylesheet = createStyleSheet((theme) => ({
   root: {
     padding: '30px'
   },
-  langRow: {
-    marginTop: '16px',
-  },
-  langLabel: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    paddingRight: '16px',
-  },
-  button: {
-    marginLeft: 'auto',
-    marginRight: 0,
-    display: 'block',
-    marginTop: '10px',
-  },
 }));
+  
 
-const mapStateToProps = (state) => ({
-  languages: Object.keys(mockData.languages).map((key) => mockData.languages[key]),
-});
+const mapStateToProps = (state) => {
+  const languages = Object.keys(mockData.languages).map((key) => mockData.languages[key]);
 
-/* const renderTextField = ({
-  label, 
-  input,
-  meta: { error },
-  ...custom
-}) =>
-  <TextField 
-    label={label}
-    placeholder={label}
-    error={!!error}
-    helperText={error}
-    {...input}
-    {...custom}
-    />;
+  return {
+    languages: languages,
+  };
+};
 
-class MultiChoiceField extends Component {
-  render() {
-
-  }
-} */
-
-const renderMultiCheckbox = ({})
 class SurveyForm extends Component {
   constructor(props) {
     super(props);
 
+    this.state = { activeLanguages: [] };
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -71,44 +41,34 @@ class SurveyForm extends Component {
 
   render() {
     const { classes, languages } = this.props;
+    const langOptions = languages.map((lang) => ({val: lang.key, label: lang.name}));
 
     return (
       <AuthContainer>
         <Paper className={classes.root}>
           <form onSubmit={this.onSubmit}>
-            <TextField
+            <Field
+              name='title'
+              component={renderTextField}
+              label='Title'
               required={true}
-              label="Survey Title"
-              placeholder="Survey Title"
-              inputProps={{required: true}}
-              fullWidth={true}
-              margin="normal"
-              />
-            <TextField
-              label="Description"
-              placeholder="Description"
               fullWidth={true}
               margin="normal" />
-            <FormControl className={classes.langRow}>
-              <FormGroup row>
-                <FormLabel className={classes.langLabel}>
-                  Languages:
-                </FormLabel>
-                {
-                  languages.map((lang) => 
-                      <FormControlLabel
-                        key={lang.key}
-                        control={
-                          <Checkbox
-                            value={lang.key} />} 
-                        label={lang.name}
-                      /> 
-                    )
-                }
-              </FormGroup>
-              <FormHelperText></FormHelperText>
-            </FormControl>
-            <Button raised className={classes.button} type="submit" color="accent">Save</Button>
+            <Field
+              name='description'
+              component={renderTextField}
+              label='Description'
+              fullWidth={true}
+              margin="normal" />
+            <Field
+              name="languages"
+              component={renderMultiChoiceField}
+              label="Languages"
+              options={langOptions} />
+            <FieldArray 
+              name="questions"
+              component={QuestionListForm}
+               />
           </form>
         </Paper>
       </AuthContainer>

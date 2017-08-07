@@ -4,12 +4,9 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, FieldArray } from 'redux-form';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
 import AuthContainer from './AuthContainer';
 import mockData from '../mockData';
-import Button from 'material-ui/Button';
 import { renderTextField, renderMultiChoiceField } from './form/fieldRenderers';
-import MultiChoiceField from './form/MultiChoiceField';
 import QuestionListForm from './QuestionListForm';
 
 const stylesheet = createStyleSheet((theme) => ({
@@ -79,5 +76,5 @@ class SurveyForm extends Component {
 export default compose(
   connect(mapStateToProps), 
   withStyles(stylesheet),
-  reduxForm({form: 'surveyForm'}),
+  reduxForm({form: 'surveyForm', initialValues: { languages: ['en'] }}),
 )(SurveyForm);

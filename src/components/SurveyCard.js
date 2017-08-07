@@ -24,7 +24,6 @@ const stylesheet = createStyleSheet((theme) => ({
 
 function SurveyCard(props) {
   const { title, description, languages, classes, className } = props;
-  console.log(languages);
   const rootClass = classnames(className);
   return (
     <Card className={rootClass}>

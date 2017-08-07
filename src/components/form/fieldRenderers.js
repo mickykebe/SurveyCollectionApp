@@ -1,6 +1,7 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import MultiChoiceField from './MultiChoiceField'; 
+import MultiChoiceField from './MultiChoiceField';
+import MenuSelectField from './MenuSelectField';
 
 export const renderTextField = ({
   label, 
@@ -23,6 +24,17 @@ export const renderMultiChoiceField = ({
   ...custom
 }) => {
   return <MultiChoiceField
+    {...input}
+    {...meta}
+    {...custom} />
+}
+
+export const renderMenuSelectField = ({
+  input,
+  meta,
+  ...custom
+}) => {
+  return <MenuSelectField
     {...input}
     {...meta}
     {...custom} />

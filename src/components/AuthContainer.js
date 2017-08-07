@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
 import { REDIRECT_TO } from '../actionTypes';
-
-const stylesheet = createStyleSheet(() => ({
-
-}));
 
 const mapStateToProps = (state) => ({
   appLoaded: state.common.appLoaded,
-  currentUser: state.common.currentUser
+  currentUser: state.common.currentUser,
+  redirectTo: state.common.redirectTo,
 });
 const mapDispatchToProps = (dispatch) => ({
   redirectToLogin: () =>
@@ -35,4 +31,4 @@ class Home extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(stylesheet)(Home));
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

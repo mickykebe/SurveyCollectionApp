@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { Field } from 'redux-form';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
-import Card, { CardContent, CardActions } from 'material-ui/Card';
-import { renderTextField } from './form/fieldRenderers';
 import QuestionForm from './QuestionForm';
 
 const stylesheet = createStyleSheet((theme) => ({
@@ -17,7 +13,7 @@ const stylesheet = createStyleSheet((theme) => ({
 
 class QuestionListForm extends Component {
   render() {
-    const { classes, languages, fields, meta: { error } } = this.props;
+    const { classes, fields } = this.props;
 
     return (
       <div>
@@ -25,7 +21,7 @@ class QuestionListForm extends Component {
           raised 
           className={classes.button} 
           color="accent" 
-          onClick={() => fields.push()}>
+          onClick={() => fields.push({type: 'text'})}>
           Add Question
         </Button>
         {

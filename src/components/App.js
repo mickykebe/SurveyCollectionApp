@@ -47,7 +47,7 @@ const stylesheet = createStyleSheet((theme) => ({
     },
   },
   content: {
-    maxWidth: '700px',
+    maxWidth: '800px',
     margin: '20px auto 0',
     paddingLeft: theme.spacing.unit * 2,
     paddingRight: theme.spacing.unit * 2,

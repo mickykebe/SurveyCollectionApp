@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import createPalette from 'material-ui/styles/palette';
-import pink from 'material-ui/colors/pink';
 import indigo from 'material-ui/colors/indigo';
+import blueGrey from 'material-ui/colors/blueGrey';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './components/App';
@@ -12,8 +12,8 @@ import registerServiceWorker from './registerServiceWorker';
 
 const theme = createMuiTheme({
   palette: createPalette({
-    primary: indigo,
-    accent: pink,
+    primary: blueGrey,
+    accent: indigo,
   }),
 });
 

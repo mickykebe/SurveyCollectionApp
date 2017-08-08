@@ -7,7 +7,6 @@ import Card, { CardContent, CardActions} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
-import { renderMenuSelectField } from './form/fieldRenderers';
 import mockData from '../mockData';
 import QuestionTitle from './form/QuestionTitle';
 import QuestionTypeContainer from './QuestionTypeContainer';
@@ -32,19 +31,6 @@ const mapStateToProps = (state) => {
 };
 
 class QuestionForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { questionType: '' };
-    this.onQuestionTypeChange = this.onQuestionTypeChange.bind(this);
-  }
-
-  onQuestionTypeChange(e, value) {
-    this.setState({
-      questionType: value,
-    });
-  }
-
   render() {
     const { classes, question, index, activeLanguages } = this.props;
     const { onRemove } = this.props;
@@ -54,19 +40,11 @@ class QuestionForm extends Component {
           <Typography type="subheading" align="center">
             {`Question #${index+1}`}
           </Typography>
-          <Field
-            name={`${question}.type`}
-            component={renderMenuSelectField}
-            label='Question Type'
-            options={[{val: 'text', label: 'Short Answer'}, {val: 'choose-one', label: 'Multiple Choice'}, ]}
-            fullWidth={true}
-            margin="normal"
-            onChange={this.onQuestionTypeChange}
-            />
           <QuestionTitle
             question={question}
             activeLanguages={activeLanguages} />
           <QuestionTypeContainer 
+            question={question}
             questionIndex={index}
             activeLanguages={activeLanguages} />
         </CardContent>

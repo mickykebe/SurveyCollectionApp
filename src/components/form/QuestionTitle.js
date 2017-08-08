@@ -16,7 +16,7 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingRight: '16px',
   },
   fieldsContainer: {
-    flex: 5
+    flex: 3
   }
 }));
 

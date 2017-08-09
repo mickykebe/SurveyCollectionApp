@@ -1,21 +1,21 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import AlignedTextField from './AlignedTextField';
-import MultiChoiceField from './MultiChoiceField';
-import MenuSelectField from './MenuSelectField';
+import AlignedTextField from '../AlignedTextField';
+import MultiChoiceField from '../MultiChoiceField';
+import MenuSelectField from '../MenuSelectField';
 
 const renderTextFieldComponent = ({
   label, 
   input,
-  meta: { error },
+  meta: { touched, error },
   ...custom
 }) => 
   (Component) => 
     <Component
       label={label}
       placeholder={label}
-      error={!!error}
-      helperText={error}
+      error={touched && !!error}
+      helperText={touched && error}
       {...input}
       {...custom}
       />;
@@ -25,21 +25,6 @@ export const renderTextField = (props) =>
 
 export const renderAlignedTextField = (props) =>
   renderTextFieldComponent(props)(AlignedTextField);
-
-/* export const renderTextField = ({
-  label, 
-  input,
-  meta: { error },
-  ...custom
-}) =>
-  <TextField 
-    label={label}
-    placeholder={label}
-    error={!!error}
-    helperText={error}
-    {...input}
-    {...custom}
-    />; */
 
 export const renderMultiChoiceField = ({
   input,

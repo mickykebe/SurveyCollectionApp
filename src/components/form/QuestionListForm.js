@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import QuestionForm from './QuestionForm';
+import { FormHelperText } from 'material-ui/Form';
 
 const stylesheet = createStyleSheet((theme) => ({
   button: {
@@ -9,11 +10,15 @@ const stylesheet = createStyleSheet((theme) => ({
     display: 'block',
     marginTop: '10px',
   },
+  errorMessage: {
+    textAlign: 'center',
+    paddingTop: theme.spacing.unit,
+  }
 }));
 
 class QuestionListForm extends Component {
   render() {
-    const { classes, fields } = this.props;
+    const { classes, fields, meta: { dirty, error } } = this.props;
 
     return (
       <div>
@@ -24,6 +29,7 @@ class QuestionListForm extends Component {
           onClick={() => fields.push({type: 'text'})}>
           Add Question
         </Button>
+        <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>
         {
           fields.map((question, index) => 
             <QuestionForm 

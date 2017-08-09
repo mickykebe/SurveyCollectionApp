@@ -3,12 +3,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Field, FieldArray } from 'redux-form';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import BlankAnswer from './form/BlankAnswer';
-import NumberRangeAnswer from './form/NumberRangeAnswer';
-import ChoiceListAnswer from './form/ChoiceListAnswer';
+import BlankAnswer from './BlankAnswer';
+import NumberRangeAnswer from './NumberRangeAnswer';
+import ChoiceListAnswer from './ChoiceListAnswer';
 import _get from 'lodash/get';
-import { renderMenuSelectField } from './form/fieldRenderers';
-import mockData from '../mockData';
+import { renderMenuSelectField } from './helper/fieldRenderers';
+import mockData from '../../mockData';
 
 const stylesheet = createStyleSheet(() => ({
   root: {
@@ -16,6 +16,7 @@ const stylesheet = createStyleSheet(() => ({
     flexDirection: 'row',
     alignItems: 'center',
     padding: '16px 0',
+    flexWrap: 'wrap',
   },
   selectorContainer: {
     flex: 1,

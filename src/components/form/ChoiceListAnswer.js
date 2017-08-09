@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Button from 'material-ui/Button';
+import { FormHelperText } from 'material-ui/Form';
 import ChoiceAnswer from './ChoiceAnswer';
 
-const stylesheet = createStyleSheet(() => ({
+const stylesheet = createStyleSheet((theme) => ({
   button: {
     margin: '0 auto',
     display: 'block',
+  },
+  errorMessage: {
+    textAlign: 'center',
+    paddingTop: theme.spacing.unit,
   }
 }));
 
 class ChoiceListAnswer extends Component {
   render() {
-    const { classes, fields, choiceType, activeLanguages } = this.props;
+    const { classes, fields, choiceType, activeLanguages, meta: { dirty, error } } = this.props;
 
     return (
       <div>
@@ -24,6 +29,7 @@ class ChoiceListAnswer extends Component {
           onClick={() => fields.push({})}>
           Add Choice
           </Button>
+          <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>
           {
             fields.map((choice, index) =>
               <ChoiceAnswer

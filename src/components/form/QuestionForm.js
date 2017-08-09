@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import { Field } from 'redux-form';
 import Card, { CardContent, CardActions} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
-import mockData from '../mockData';
-import QuestionTitle from './form/QuestionTitle';
+import mockData from '../../mockData';
+import QuestionTitle from './QuestionTitle';
 import QuestionTypeContainer from './QuestionTypeContainer';
 
 const stylesheet = createStyleSheet((theme) => ({

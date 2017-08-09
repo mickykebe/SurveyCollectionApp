@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import { FormGroup } from 'material-ui/Form';
+import { FormHelperText } from 'material-ui/Form';
 import Radio from 'material-ui/Radio';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
-import { renderAlignedTextField } from './fieldRenderers';
+import { renderAlignedTextField } from './helper/fieldRenderers';
 
 const stylesheet = createStyleSheet((theme) => ({
   root: {
@@ -24,7 +24,7 @@ const stylesheet = createStyleSheet((theme) => ({
 
 class ChoiceAnswer extends Component {
   render() {
-    const { classes, choice, choiceType, activeLanguages, onRemove } = this.props;
+    const { classes, choice, choiceType, activeLanguages, onRemove, error} = this.props;
     const Control = choiceType === 'single' ? Radio : Checkbox;
     
     return (
@@ -41,11 +41,13 @@ class ChoiceAnswer extends Component {
                 name={`${choice}.text.${lang.key}`}
                 component={renderAlignedTextField}
                 label={`(${lang.name})`}
+                required={true}
                 margin="normal"
                 fullWidth={true}
                 />
             )
           }
+          <FormHelperText error>{error}</FormHelperText>
         </div>
         <div>
           <IconButton>

@@ -12,7 +12,7 @@ import Login from './Login';
 import Register from './Register';
 import PopupSnackbar from './PopupSnackbar';
 import Home from './Home';
-import SurveyForm from './SurveyForm';
+import SurveyForm from './form/SurveyForm';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 
 const stylesheet = createStyleSheet((theme) => ({

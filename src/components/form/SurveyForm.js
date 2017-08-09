@@ -4,15 +4,23 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, FieldArray } from 'redux-form';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
-import AuthContainer from './AuthContainer';
-import mockData from '../mockData';
-import { renderTextField, renderMultiChoiceField } from './form/fieldRenderers';
+import Button from 'material-ui/Button';
+import AuthContainer from '../AuthContainer';
+import mockData from '../../mockData';
+import { renderTextField, renderMultiChoiceField } from './helper/fieldRenderers';
 import QuestionListForm from './QuestionListForm';
+import surveyFormValidator from './validator/surveyForm';
 
 const stylesheet = createStyleSheet((theme) => ({
   root: {
     padding: '30px'
   },
+  submitButton: {
+    marginLeft: 'auto',
+    marginRight: 0,
+    display: 'block',
+    marginTop: '10px',
+  }
 }));
   
 
@@ -66,6 +74,7 @@ class SurveyForm extends Component {
               name="questions"
               component={QuestionListForm}
                />
+            <Button raised color="accent" className={classes.submitButton}type="submit">Submit</Button>
           </form>
         </Paper>
       </AuthContainer>
@@ -76,5 +85,9 @@ class SurveyForm extends Component {
 export default compose(
   connect(mapStateToProps), 
   withStyles(stylesheet),
-  reduxForm({form: 'surveyForm', initialValues: { languages: ['en'] }}),
+  reduxForm({
+    form: 'surveyForm', 
+    initialValues: { languages: ['en'] },
+    validate: surveyFormValidator,
+  }),
 )(SurveyForm);

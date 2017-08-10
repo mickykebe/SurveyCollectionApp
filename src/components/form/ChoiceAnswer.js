@@ -37,8 +37,8 @@ class ChoiceAnswer extends Component {
           {
             activeLanguages.map((lang) => 
               <Field
-                key={lang.key}
-                name={`${choice}.text.${lang.key}`}
+                key={lang.code}
+                name={`${choice}.text.${lang.code}`}
                 component={renderAlignedTextField}
                 label={`(${lang.name})`}
                 required={true}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { 
@@ -105,4 +106,8 @@ class App extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(stylesheet)(App)));
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+  withStyles(stylesheet)
+)(App);

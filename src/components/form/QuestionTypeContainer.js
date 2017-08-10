@@ -68,20 +68,11 @@ class QuestionTypeContainer extends Component {
               question={question} />
           }
           {
-            activeQuestionType === 'choose-one' &&
+            activeQuestionType.startsWith('choose') &&
             <FieldArray
               name={`${question}.choices`}
               component={ChoiceListAnswer}
-              choiceType="single"
-              activeLanguages={activeLanguages}
-               />
-          }
-          {
-            activeQuestionType === 'choose-any' &&
-            <FieldArray
-              name={`${question}.choices`}
-              component={ChoiceListAnswer}
-              choiceType="multiple"
+              choiceType={activeQuestionType === 'choose-one' ? "single" : "multiple"}
               activeLanguages={activeLanguages}
                />
           }

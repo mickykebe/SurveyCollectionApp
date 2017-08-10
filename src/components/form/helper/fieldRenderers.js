@@ -20,6 +20,13 @@ const renderTextFieldComponent = ({
       {...custom}
       />;
 
+export const renderHiddenInput = ({
+  input,
+}) => 
+  <input 
+    type="hidden"
+    {...input} />;
+
 export const renderTextField = (props) => 
   renderTextFieldComponent(props)(TextField);
 

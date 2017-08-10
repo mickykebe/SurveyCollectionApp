@@ -15,17 +15,17 @@ const surveys = {
 const languages = {
   "1": {
     id: 1,
-    key: "en",
+    code: "en",
     name: "English"
   },
   "2": {
     id: 2,
-    key: "am",
+    code: "am",
     name: "Amharic"
   },
   "3": {
     id: 3,
-    key: "Or",
+    code: "Or",
     name: "Oromiffa"
   }
 }

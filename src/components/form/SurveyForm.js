@@ -46,7 +46,7 @@ class SurveyForm extends Component {
 
   render() {
     const { classes, languages } = this.props;
-    const langOptions = languages.map((lang) => ({val: lang.key, label: lang.name}));
+    const langOptions = languages.map((lang) => ({val: lang.code, label: lang.name}));
 
     return (
       <AuthContainer>
@@ -74,7 +74,7 @@ class SurveyForm extends Component {
               name="questions"
               component={QuestionListForm}
                />
-            <Button raised color="accent" className={classes.submitButton}type="submit">Submit</Button>
+            <Button raised color="accent" className={classes.submitButton} type="submit">Submit</Button>
           </form>
         </Paper>
       </AuthContainer>

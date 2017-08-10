@@ -33,9 +33,9 @@ class QuestionTitle extends Component{
           {
             activeLanguages.map((ln) => 
               <Field
-                key={ln.key}
+                key={ln.code}
                 label={`(${ln.name})`}
-                name={`${question}.title.${ln.key}`}
+                name={`${question}.title.${ln.code}`}
                 component={renderTextField}
                 required={true}
                 fullWidth={true}

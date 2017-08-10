@@ -22,7 +22,7 @@ const stylesheet = createStyleSheet((theme) => ({
 const mapStateToProps = (state) => {
   const allLanguages = Object.keys(mockData.languages).map((key) => mockData.languages[key]);
   const activeLanguageKeys = (state.form && state.form.surveyForm && state.form.surveyForm.values && state.form.surveyForm.values.languages) || [];
-  const activeLanguages = allLanguages.filter((ln) => activeLanguageKeys.indexOf(ln.key) > -1);
+  const activeLanguages = allLanguages.filter((ln) => activeLanguageKeys.indexOf(ln.code) > -1);
 
   return {
     activeLanguages

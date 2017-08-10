@@ -3,6 +3,7 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import QuestionForm from './QuestionForm';
 import { FormHelperText } from 'material-ui/Form';
+import { uuidv4 } from './helper/utils';
 
 const stylesheet = createStyleSheet((theme) => ({
   button: {
@@ -26,7 +27,7 @@ class QuestionListForm extends Component {
           raised 
           className={classes.button} 
           color="accent" 
-          onClick={() => fields.push({type: 'text'})}>
+          onClick={() => fields.push({type: 'text', uuid: uuidv4()})}>
           Add Question
         </Button>
         <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>

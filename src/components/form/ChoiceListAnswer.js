@@ -3,6 +3,7 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import { FormHelperText } from 'material-ui/Form';
 import ChoiceAnswer from './ChoiceAnswer';
+import { uuidv4 } from './helper/utils'
 
 const stylesheet = createStyleSheet((theme) => ({
   button: {
@@ -26,7 +27,7 @@ class ChoiceListAnswer extends Component {
           dense
           color="accent"
           className={classes.button}
-          onClick={() => fields.push({})}>
+          onClick={() => fields.push({uuid: uuidv4()})}>
           Add Choice
           </Button>
           <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>

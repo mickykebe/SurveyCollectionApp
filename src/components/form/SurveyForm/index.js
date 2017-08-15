@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm, Field, FieldArray } from 'redux-form';
+import { reduxForm, Field, FieldArray, FormSection, formValueSelector } from 'redux-form';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
+import { getAllLanguages, getLanguagesFromCodes } from 'reducers';
 import AuthContainer from 'components/AuthContainer';
-import mockData from 'mockData';
+import { surveyFormName } from 'constantValues';
 import { renderTextField, renderMultiChoiceField } from 'components/form/helper/fieldRenderers';
 import QuestionListForm from './QuestionListForm';
+import LangTextField from './LangTextField';
 import surveyFormValidator from './validator';
 import { uuidv4 } from 'utils';
 
@@ -24,12 +26,15 @@ const stylesheet = createStyleSheet((theme) => ({
   }
 }));
   
-
+const formSelector = formValueSelector(surveyFormName);
 const mapStateToProps = (state) => {
-  const languages = Object.keys(mockData.languages).map((key) => mockData.languages[key]);
+  const langCodes = formSelector(state, 'languages') || [];
+  const formLanguages = getLanguagesFromCodes(undefined, langCodes);
+
 
   return {
-    languages: languages,
+    allLanguages: getAllLanguages(),
+    formLanguages
   };
 };
 
@@ -46,21 +51,18 @@ class SurveyForm extends Component {
   }
 
   render() {
-    const { classes, languages, values } = this.props;
-    const langOptions = languages.map((lang) => ({val: lang.code, label: lang.name}));
+    const { classes, allLanguages, formLanguages } = this.props;
+    const langOptions = allLanguages.map((lang) => ({val: lang.code, label: lang.name}));
 
-    console.log(values);
     return (
       <AuthContainer>
         <Paper className={classes.root}>
           <form onSubmit={this.onSubmit}>
-            <Field
-              name='title'
-              component={renderTextField}
-              label='Title'
-              required={true}
-              fullWidth={true}
-              margin="normal" />
+            <FormSection name="title">
+              <LangTextField
+                label="Title"
+                languages={formLanguages} />
+            </FormSection>
             <Field
               name='description'
               component={renderTextField}
@@ -88,7 +90,7 @@ export default compose(
   connect(mapStateToProps), 
   withStyles(stylesheet),
   reduxForm({
-    form: 'surveyForm', 
+    form: surveyFormName, 
     initialValues: { uuid: uuidv4(), languages: ['en'] },
     validate: surveyFormValidator,
   }),

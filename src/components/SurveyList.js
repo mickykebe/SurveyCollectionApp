@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import SurveyCard from './SurveyCard';
+import SurveyCardContainer from 'containers/SurveyCardContainer';
 import IconButton from 'material-ui/IconButton';
 import AddCircleIcon from 'material-ui-icons/AddCircle';
 import Typography from 'material-ui/Typography';
-import { REDIRECT_TO } from '../actionTypes';
-import mockData from '../mockData';
 
 const stylesheet = createStyleSheet((theme) => ({
   header: {
@@ -22,21 +19,10 @@ const stylesheet = createStyleSheet((theme) => ({
   },
 }));
 
-const mapStateToProps = (state) => ({
-  //surveys: state.SurveyList.surveys
-  surveys: Object.keys(mockData.surveys).map((id) => mockData.surveys[id]),
-  languages: Object.keys(mockData.languages).map((id) => mockData.languages[id]),
-  getLanguages: (langIds) => langIds.map((id) => mockData.languages[id]),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  redirectToNewSurvey: () => 
-    dispatch({ type: REDIRECT_TO, path: '/surveys/new' })
-});
-
 class SurveyList extends Component {
   render() {
-    const { classes, surveys, getLanguages, redirectToNewSurvey } = this.props;
+    const { classes, surveys, redirectToNewSurvey } = this.props;
+    
     return (
       <div>
         <div className={classes.header}>
@@ -48,12 +34,12 @@ class SurveyList extends Component {
           </IconButton>
         </div>
         {
-          surveys.map(({id, title, description, languages:langIds}) => 
-            <SurveyCard key={id} title={title} description={description} languages={getLanguages(langIds)} className={classes.card} />)
+          surveys.map(({id, ...rest}) => 
+            <SurveyCardContainer key={id} {...rest} className={classes.card} />)
         }
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(stylesheet)(SurveyList));
+export default withStyles(stylesheet)(SurveyList);

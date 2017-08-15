@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Field, FieldArray } from 'redux-form';
+import { Field, FieldArray, formValueSelector } from 'redux-form';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import BlankAnswer from './BlankAnswer';
 import NumberRangeAnswer from './NumberRangeAnswer';
 import ChoiceListAnswer from './ChoiceListAnswer';
-import _get from 'lodash/get';
 import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
-import mockData from 'mockData';
+import { surveyFormName } from 'constantValues';
+import { getAllQuestionTypes } from 'reducers';
 
 const stylesheet = createStyleSheet(() => ({
   root: {
@@ -27,16 +27,17 @@ const stylesheet = createStyleSheet(() => ({
   }
 }));
 
-const mapStateToProps = (state, { questionIndex }) => {
+const formSelector = formValueSelector(surveyFormName);
+const mapStateToProps = (state, { question }) => {
   return {
-    activeQuestionType: _get(state, `form.surveyForm.values.questions[${questionIndex}].type`),
-    questionTypes: Object.keys(mockData.questionTypes).map((key) => mockData.questionTypes[key]),
+    activeQuestionType: formSelector(state, `${question}.type`),
+    questionTypes: getAllQuestionTypes(),
   };
 }
 
 class QuestionTypeContainer extends Component {
   render() {
-    const { classes, question, activeLanguages, activeQuestionType, questionTypes } = this.props;
+    const { classes, question, formLanguages, activeQuestionType, questionTypes } = this.props;
     const questionTypeOptions = questionTypes.map((qt) => ({ val: qt.type, label: qt.name }));
     if(!activeQuestionType) {
       return null;
@@ -73,7 +74,7 @@ class QuestionTypeContainer extends Component {
               name={`${question}.choices`}
               component={ChoiceListAnswer}
               choiceType={activeQuestionType === 'choose-one' ? "single" : "multiple"}
-              activeLanguages={activeLanguages}
+              formLanguages={formLanguages}
                />
           }
         </div>

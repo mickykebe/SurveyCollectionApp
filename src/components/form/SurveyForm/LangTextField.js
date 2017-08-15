@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import { Field } from 'redux-form';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import { FormLabel } from 'material-ui/Form';
-import { renderTextField } from 'components/form/helper/fieldRenderers';
+import { renderAlignedTextField } from 'components/form/helper/fieldRenderers';
 
 const stylesheet = createStyleSheet((theme) => ({
   root: {
@@ -12,31 +13,38 @@ const stylesheet = createStyleSheet((theme) => ({
     flexWrap: 'wrap',
   },
   label: {
-    flex: 1,
     textAlign: 'right',
     paddingRight: '16px',
   },
   fieldsContainer: {
-    flex: 3
+    flex: 1
   }
 }));
 
 class LangTextField extends Component{
   render() {
-    const { classes, baseFieldName, label, languages } = this.props;
+    const { 
+      classes, 
+      labelClassName, 
+      inputGroupClassName, 
+      className, 
+      label, 
+      languages 
+    } = this.props;
+
     return (
-      <div className={classes.root}>
-        <FormLabel className={classes.label}>
+      <div className={classnames(classes.root, className)}>
+        <FormLabel className={classnames(classes.label, labelClassName)}>
           {label}
         </FormLabel>
-        <div className={classes.fieldsContainer}>
+        <div className={classnames(classes.fieldsContainer, inputGroupClassName)}>
           {
             languages.map((ln) => 
               <Field
                 key={ln.code}
                 label={`(${ln.name})`}
-                name={`${baseFieldName}.${ln.code}`}
-                component={renderTextField}
+                name={`${ln.code}`}
+                component={renderAlignedTextField}
                 required={true}
                 fullWidth={true}
                 margin="normal"

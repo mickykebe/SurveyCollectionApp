@@ -1,12 +1,10 @@
 import React from 'react';
 import AuthContainer from './AuthContainer';
-import SurveyList from './SurveyList';
+import SurveyListContainer from 'containers/SurveyListContainer';
 
 function Home(props) {
   return (
-    <AuthContainer>
-      <SurveyList />
-    </AuthContainer>
+    <SurveyListContainer /> //wrap in auth container
   );
 }
 

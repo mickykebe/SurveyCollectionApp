@@ -18,7 +18,7 @@ const stylesheet = createStyleSheet((theme) => ({
 
 class ChoiceListAnswer extends Component {
   render() {
-    const { classes, fields, choiceType, activeLanguages, meta: { dirty, error } } = this.props;
+    const { classes, fields, choiceType, formLanguages, meta: { dirty, error } } = this.props;
 
     return (
       <div>
@@ -37,7 +37,7 @@ class ChoiceListAnswer extends Component {
                 key={choice}
                 choice={choice}
                 choiceType={choiceType}
-                activeLanguages={activeLanguages}
+                formLanguages={formLanguages}
                 onRemove={() => fields.remove(index)} />)
           }
       </div>

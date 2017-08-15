@@ -24,7 +24,7 @@ const stylesheet = createStyleSheet((theme) => ({
 
 class ChoiceAnswer extends Component {
   render() {
-    const { classes, choice, choiceType, activeLanguages, onRemove, error} = this.props;
+    const { classes, choice, choiceType, formLanguages, onRemove, error} = this.props;
     const Control = choiceType === 'single' ? Radio : Checkbox;
     
     return (
@@ -35,7 +35,7 @@ class ChoiceAnswer extends Component {
         </div>
         <div className={classes.inputs}>
           {
-            activeLanguages.map((lang) => 
+            formLanguages.map((lang) => 
               <Field
                 key={lang.code}
                 name={`${choice}.text.${lang.code}`}

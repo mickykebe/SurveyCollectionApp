@@ -55,7 +55,22 @@ const questionTypes = {
     id: 5,
     type: "choose-any",
     name: "Choose Many"
+  },
+  "6": {
+    id: 6,
+    type: 'location',
+    name: 'Location'
+  },
+  "7": {
+    id: 7,
+    type: 'currency',
+    name: 'Currency',
+  },
+  "8": {
+    id: 8,
+    type: 'image',
+    name: 'Image',
   }
-}
+};
 
 export default { surveys, languages, questionTypes };

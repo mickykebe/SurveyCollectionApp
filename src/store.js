@@ -2,7 +2,7 @@ import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { createLogger } from 'redux-logger';
 import { promiseMiddleware, localStorageMiddleware } from './middleware';
-import reducer from './reducer';
+import reducers from './reducers';
 
 const getMiddleware = () => {
   const middlewares = [promiseMiddleware, localStorageMiddleware];
@@ -13,6 +13,6 @@ const getMiddleware = () => {
   return applyMiddleware(...middlewares);
 }
 
-const store = createStore(reducer, composeWithDevTools(getMiddleware()));
+const store = createStore(reducers, composeWithDevTools(getMiddleware()));
 
 export default store;

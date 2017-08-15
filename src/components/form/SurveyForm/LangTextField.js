@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import { Field } from 'redux-form';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import { FormLabel } from 'material-ui/Form';
-import { renderTextField } from './helper/fieldRenderers';
+import { renderAlignedTextField } from 'components/form/helper/fieldRenderers';
 
 const stylesheet = createStyleSheet((theme) => ({
   root: {
@@ -12,31 +13,38 @@ const stylesheet = createStyleSheet((theme) => ({
     flexWrap: 'wrap',
   },
   label: {
-    flex: 1,
     textAlign: 'right',
     paddingRight: '16px',
   },
   fieldsContainer: {
-    flex: 3
+    flex: 1
   }
 }));
 
-class QuestionTitle extends Component{
+class LangTextField extends Component{
   render() {
-    const { classes, question, activeLanguages } = this.props;
+    const { 
+      classes, 
+      labelClassName, 
+      inputGroupClassName, 
+      className, 
+      label, 
+      languages 
+    } = this.props;
+
     return (
-      <div className={classes.root}>
-        <FormLabel className={classes.label}>
-          Title
+      <div className={classnames(classes.root, className)}>
+        <FormLabel className={classnames(classes.label, labelClassName)}>
+          {label}
         </FormLabel>
-        <div className={classes.fieldsContainer}>
+        <div className={classnames(classes.fieldsContainer, inputGroupClassName)}>
           {
-            activeLanguages.map((ln) => 
+            languages.map((ln) => 
               <Field
                 key={ln.code}
                 label={`(${ln.name})`}
-                name={`${question}.title.${ln.code}`}
-                component={renderTextField}
+                name={`${ln.code}`}
+                component={renderAlignedTextField}
                 required={true}
                 fullWidth={true}
                 margin="normal"
@@ -50,4 +58,4 @@ class QuestionTitle extends Component{
 
 }
 
-export default withStyles(stylesheet)(QuestionTitle);
+export default withStyles(stylesheet)(LangTextField);

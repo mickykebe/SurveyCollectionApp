@@ -1,15 +1,15 @@
 import _isEmpty from 'lodash/isEmpty';
 
-const validateQuestionTitle = (question, languages) => {
+const validateTitle = (selector, languages) => {
   const errors = {};
   if(!languages || !languages.length){
-    if(!question || !question.title) {
+    if(!selector || !selector.title) {
       errors._error = 'Title is required';
     }
   }
   else {
     languages.forEach((lang) => {
-      if(!question || !question.title || !question.title[lang]) {
+      if(!selector || !selector.title || !selector.title[lang]) {
         errors[lang] = 'Required';
       }
     });
@@ -66,8 +66,9 @@ const validateChoices = (choices, languages) => {
 
 const validate = values => {
   const errors = {};
-  if(!values.title) {
-    errors.title = 'Required';
+  const titleErrors = validateTitle(values, values.languages);
+  if(!_isEmpty(titleErrors)) {
+    errors.title = titleErrors;
   }
   if(!values.languages || !values.languages.length) {
     errors.languages = 'At least one language must be selected';
@@ -82,7 +83,7 @@ const validate = values => {
       if(!question || !question.type) {
         questionErrors.type = 'Required';
       }
-      const titleErrors = validateQuestionTitle(question, values.languages);
+      const titleErrors = validateTitle(question, values.languages);
       if(!_isEmpty(titleErrors)){
         questionErrors.title = titleErrors;
       }

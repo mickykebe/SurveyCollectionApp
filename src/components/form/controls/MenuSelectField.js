@@ -5,7 +5,6 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 
 const stylesheet = createStyleSheet((theme) => ({
   root: {
-    
     margin: '0 auto',
     background: theme.palette.background.paper,
   }

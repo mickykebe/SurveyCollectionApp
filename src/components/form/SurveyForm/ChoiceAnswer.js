@@ -6,7 +6,7 @@ import Radio from 'material-ui/Radio';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
-import { renderAlignedTextField } from './helper/fieldRenderers';
+import { renderAlignedTextField } from 'components/form/helper/fieldRenderers';
 
 const stylesheet = createStyleSheet((theme) => ({
   root: {

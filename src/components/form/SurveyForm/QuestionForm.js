@@ -6,8 +6,8 @@ import Card, { CardContent, CardActions} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
-import mockData from '../../mockData';
-import QuestionTitle from './QuestionTitle';
+import mockData from 'mockData';
+import LangTextField from './LangTextField';
 import QuestionTypeContainer from './QuestionTypeContainer';
 
 const stylesheet = createStyleSheet((theme) => ({
@@ -39,9 +39,10 @@ class QuestionForm extends Component {
           <Typography type="subheading" align="center">
             {`Question #${index+1}`}
           </Typography>
-          <QuestionTitle
-            question={question}
-            activeLanguages={activeLanguages} />
+          <LangTextField
+            baseFieldName={`${question}.title`}
+            label='Title'
+            languages={activeLanguages} />
           <QuestionTypeContainer 
             question={question}
             questionIndex={index}

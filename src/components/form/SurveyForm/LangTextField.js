@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import { FormLabel } from 'material-ui/Form';
-import { renderTextField } from './helper/fieldRenderers';
+import { renderTextField } from 'components/form/helper/fieldRenderers';
 
 const stylesheet = createStyleSheet((theme) => ({
   root: {
@@ -21,21 +21,21 @@ const stylesheet = createStyleSheet((theme) => ({
   }
 }));
 
-class QuestionTitle extends Component{
+class LangTextField extends Component{
   render() {
-    const { classes, question, activeLanguages } = this.props;
+    const { classes, baseFieldName, label, languages } = this.props;
     return (
       <div className={classes.root}>
         <FormLabel className={classes.label}>
-          Title
+          {label}
         </FormLabel>
         <div className={classes.fieldsContainer}>
           {
-            activeLanguages.map((ln) => 
+            languages.map((ln) => 
               <Field
                 key={ln.code}
                 label={`(${ln.name})`}
-                name={`${question}.title.${ln.code}`}
+                name={`${baseFieldName}.${ln.code}`}
                 component={renderTextField}
                 required={true}
                 fullWidth={true}
@@ -50,4 +50,4 @@ class QuestionTitle extends Component{
 
 }
 
-export default withStyles(stylesheet)(QuestionTitle);
+export default withStyles(stylesheet)(LangTextField);

@@ -7,8 +7,8 @@ import BlankAnswer from './BlankAnswer';
 import NumberRangeAnswer from './NumberRangeAnswer';
 import ChoiceListAnswer from './ChoiceListAnswer';
 import _get from 'lodash/get';
-import { renderMenuSelectField } from './helper/fieldRenderers';
-import mockData from '../../mockData';
+import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
+import mockData from 'mockData';
 
 const stylesheet = createStyleSheet(() => ({
   root: {

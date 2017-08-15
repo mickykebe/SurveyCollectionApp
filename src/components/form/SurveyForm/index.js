@@ -5,11 +5,12 @@ import { reduxForm, Field, FieldArray } from 'redux-form';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
-import AuthContainer from '../AuthContainer';
-import mockData from '../../mockData';
-import { renderTextField, renderMultiChoiceField } from './helper/fieldRenderers';
+import AuthContainer from 'components/AuthContainer';
+import mockData from 'mockData';
+import { renderTextField, renderMultiChoiceField } from 'components/form/helper/fieldRenderers';
 import QuestionListForm from './QuestionListForm';
-import surveyFormValidator from './validator/surveyForm';
+import surveyFormValidator from './validator';
+import { uuidv4 } from 'utils';
 
 const stylesheet = createStyleSheet((theme) => ({
   root: {
@@ -45,9 +46,10 @@ class SurveyForm extends Component {
   }
 
   render() {
-    const { classes, languages } = this.props;
+    const { classes, languages, values } = this.props;
     const langOptions = languages.map((lang) => ({val: lang.code, label: lang.name}));
 
+    console.log(values);
     return (
       <AuthContainer>
         <Paper className={classes.root}>
@@ -87,7 +89,7 @@ export default compose(
   withStyles(stylesheet),
   reduxForm({
     form: 'surveyForm', 
-    initialValues: { languages: ['en'] },
+    initialValues: { uuid: uuidv4(), languages: ['en'] },
     validate: surveyFormValidator,
   }),
 )(SurveyForm);

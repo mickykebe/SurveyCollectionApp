@@ -3,7 +3,7 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import { FormHelperText } from 'material-ui/Form';
 import ChoiceAnswer from './ChoiceAnswer';
-import { uuidv4 } from './helper/utils'
+import { uuidv4 } from 'utils'
 
 const stylesheet = createStyleSheet((theme) => ({
   button: {

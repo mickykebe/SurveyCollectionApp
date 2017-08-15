@@ -1,8 +1,8 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import AlignedTextField from '../AlignedTextField';
-import MultiChoiceField from '../MultiChoiceField';
-import MenuSelectField from '../MenuSelectField';
+import AlignedTextField from 'components/form/controls/AlignedTextField';
+import MultiChoiceField from 'components/form/controls/MultiChoiceField';
+import MenuSelectField from 'components/form/controls/MenuSelectField';
 
 const renderTextFieldComponent = ({
   label, 

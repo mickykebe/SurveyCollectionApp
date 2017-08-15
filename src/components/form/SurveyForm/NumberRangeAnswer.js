@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import { Field } from 'redux-form';
 import { FormGroup } from 'material-ui/Form';
-import { renderTextField } from './helper/fieldRenderers';
+import { renderTextField } from 'components/form/helper/fieldRenderers';
 
 const stylesheet = createStyleSheet(() => ({
   gap: {

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Menu, { MenuItem } from 'material-ui/Menu';
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = (theme) => ({
   root: {
     margin: '0 auto',
     background: theme.palette.background.paper,
   }
-}))
+});
 
 class MenuSelectField extends Component {
   constructor(props) {
@@ -42,7 +43,9 @@ class MenuSelectField extends Component {
   }
 
   handleMenuItemClick(e, val) {
-    this.props.onChange(val);
+    if(this.props.onChange) {
+      this.props.onChange(val);
+    }
     this.setState({ open: false });
   }
 
@@ -81,4 +84,22 @@ class MenuSelectField extends Component {
   }
 }
 
-export default withStyles(stylesheet)(MenuSelectField);
+MenuSelectField.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      val: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]).isRequired,
+    })
+  ).isRequired,
+  onChange: PropTypes.func,
+}
+
+export default withStyles(styles)(MenuSelectField);

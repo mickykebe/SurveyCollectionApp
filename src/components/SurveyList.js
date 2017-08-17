@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import SurveyCardContainer from 'containers/SurveyCardContainer';
-import IconButton from 'material-ui/IconButton';
-import AddCircleIcon from 'material-ui-icons/AddCircle';
+import Button from 'material-ui/Button';
+import AddIcon from 'material-ui-icons/Add';
 import Typography from 'material-ui/Typography';
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = (theme) => ({
   header: {
     display: 'flex',
-    borderBottom: `1px solid ${theme.palette.common.minBlack}`,
     marginBottom: '20px',
+    alignItems: 'center',
   },
   headerText: {
     flex: '1',
+
   },
   card: {
     marginBottom: '20px'
   },
-}));
+});
 
 class SurveyList extends Component {
   render() {
@@ -29,9 +30,9 @@ class SurveyList extends Component {
           <Typography type="headline" className={classes.headerText}>
             My Surveys
           </Typography>
-          <IconButton color="accent" onClick={redirectToNewSurvey}>
-            <AddCircleIcon />
-          </IconButton>
+          <Button fab color="accent" onClick={redirectToNewSurvey}>
+            <AddIcon />
+          </Button>
         </div>
         {
           surveys.map(({id, ...rest}) => 
@@ -42,4 +43,4 @@ class SurveyList extends Component {
   }
 }
 
-export default withStyles(stylesheet)(SurveyList);
+export default withStyles(styles)(SurveyList);

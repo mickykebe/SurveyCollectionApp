@@ -7,17 +7,17 @@ import {
 } from '../actionTypes';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import AuthView from './AuthView';
 
-const stylesheet = createStyleSheet({
+const styles = {
   button: {
     marginLeft: 'auto',
     marginRight: 0,
     display: 'block',
     marginTop: '10px',
   },
-});
+};
 
 const mapStateToProps = (state) => ({
   errors: state.auth.errors,
@@ -166,4 +166,4 @@ class Register extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(stylesheet)(Register));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Register));

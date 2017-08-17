@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Field, FieldArray, formValueSelector } from 'redux-form';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import BlankAnswer from './BlankAnswer';
 import NumberRangeAnswer from './NumberRangeAnswer';
 import ChoiceListAnswer from './ChoiceListAnswer';
@@ -10,10 +10,9 @@ import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
 import { surveyFormName } from 'constantValues';
 import { getAllQuestionTypes } from 'reducers';
 
-const stylesheet = createStyleSheet(() => ({
+const styles = {
   root: {
     display: 'flex',
-    flexDirection: 'row',
     alignItems: 'center',
     padding: '16px 0',
     flexWrap: 'wrap',
@@ -25,13 +24,13 @@ const stylesheet = createStyleSheet(() => ({
   fieldsContainer: {
     flex: 3,
   }
-}));
+};
 
 const formSelector = formValueSelector(surveyFormName);
 const mapStateToProps = (state, { question }) => {
   return {
     activeQuestionType: formSelector(state, `${question}.type`),
-    questionTypes: getAllQuestionTypes(),
+    questionTypes: getAllQuestionTypes(state),
   };
 }
 
@@ -46,7 +45,7 @@ class QuestionTypeContainer extends Component {
       <div className={classes.root}>
         <div className={classes.selectorContainer}>
           <Field
-            name={`${question}.type`}
+            name="type"
             component={renderMenuSelectField}
             label='Question Type'
             options={questionTypeOptions}
@@ -65,13 +64,12 @@ class QuestionTypeContainer extends Component {
           }
           {
             activeQuestionType === 'number-range' &&
-            <NumberRangeAnswer
-              question={question} />
+            <NumberRangeAnswer />
           }
           {
             activeQuestionType.startsWith('choose') &&
             <FieldArray
-              name={`${question}.choices`}
+              name="choices"
               component={ChoiceListAnswer}
               choiceType={activeQuestionType === 'choose-one' ? "single" : "multiple"}
               formLanguages={formLanguages}
@@ -85,5 +83,5 @@ class QuestionTypeContainer extends Component {
 
 export default compose(
     connect(mapStateToProps),
-    withStyles(stylesheet)
+    withStyles(styles)
 )(QuestionTypeContainer);

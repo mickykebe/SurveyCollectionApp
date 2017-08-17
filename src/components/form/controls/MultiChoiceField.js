@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import { FormControl, FormGroup, FormLabel, FormControlLabel, FormHelperText } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 
-const stylesheet = createStyleSheet(() => ({
+const styles = {
   langRow: {
     marginTop: '16px',
   },
@@ -12,7 +12,7 @@ const stylesheet = createStyleSheet(() => ({
     alignItems: 'center',
     paddingRight: '16px',
   },
-}));
+};
 
 class MultiChoiceField extends Component {
   constructor(props) {
@@ -71,4 +71,4 @@ class MultiChoiceField extends Component {
   }
 }
 
-export default withStyles(stylesheet)(MultiChoiceField);
+export default withStyles(styles)(MultiChoiceField);

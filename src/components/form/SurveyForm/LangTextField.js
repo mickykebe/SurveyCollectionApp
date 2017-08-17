@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import { Field } from 'redux-form';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import { FormLabel } from 'material-ui/Form';
 import { renderAlignedTextField } from 'components/form/helper/fieldRenderers';
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = {
   root: {
     display: 'flex',
     flexDirection: 'row',
@@ -19,7 +19,7 @@ const stylesheet = createStyleSheet((theme) => ({
   fieldsContainer: {
     flex: 1
   }
-}));
+};
 
 class LangTextField extends Component{
   render() {
@@ -58,4 +58,4 @@ class LangTextField extends Component{
 
 }
 
-export default withStyles(stylesheet)(LangTextField);
+export default withStyles(styles)(LangTextField);

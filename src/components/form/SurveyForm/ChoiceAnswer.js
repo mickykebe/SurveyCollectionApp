@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import { FormHelperText } from 'material-ui/Form';
 import Radio from 'material-ui/Radio';
 import Checkbox from 'material-ui/Checkbox';
@@ -8,7 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
 import { renderAlignedTextField } from 'components/form/helper/fieldRenderers';
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = (theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -20,7 +20,7 @@ const stylesheet = createStyleSheet((theme) => ({
   inputs: {
     flex: 2,
   }
-}));
+});
 
 class ChoiceAnswer extends Component {
   render() {
@@ -59,4 +59,4 @@ class ChoiceAnswer extends Component {
   }
 }
 
-export default withStyles(stylesheet)(ChoiceAnswer);
+export default withStyles(styles)(ChoiceAnswer);

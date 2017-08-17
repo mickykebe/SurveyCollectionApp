@@ -36,35 +36,4 @@ const languages = {
   allIds: [1, 2, 3],
 };
 
-const questionTypes = {
-  byId: {
-    "1": {
-      id: 1,
-      type: "text",
-      name: "Text"
-    },
-    "2": {
-      id: 2,
-      type: "number",
-      name: "Number"
-    },
-    "3": {
-      id: 3,
-      type: "number-range",
-      name: "Number Range",
-    },
-    "4": {
-      id: 4,
-      type: "choose-one",
-      name: "Choose One",
-    },
-    "5": {
-      id: 5,
-      type: "choose-any",
-      name: "Choose Many"
-    },
-  },
-  allIds: [1, 2, 3, 4, 5],
-};
-
-export default { surveys, languages, questionTypes };
+export default { surveys, languages };

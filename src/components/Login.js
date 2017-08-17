@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import AuthView from './AuthView';
@@ -10,14 +10,14 @@ import {
   LOGIN_UNLOAD
 } from '../actionTypes';
 
-const stylesheet = createStyleSheet({
+const styles = {
   button: {
     marginLeft: 'auto',
     marginRight: 0,
     display: 'block',
     marginTop: '10px',
   },
-});
+};
 
 const mapStateToProps = (state) => ({
   errors: state.auth.errors,
@@ -97,4 +97,4 @@ class Login extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(stylesheet)(Login));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import { FormHelperText } from 'material-ui/Form';
 import ChoiceAnswer from './ChoiceAnswer';
 import { uuidv4 } from 'utils'
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = (theme) => ({
   button: {
     margin: '0 auto',
     display: 'block',
@@ -14,7 +14,7 @@ const stylesheet = createStyleSheet((theme) => ({
     textAlign: 'center',
     paddingTop: theme.spacing.unit,
   }
-}));
+});
 
 class ChoiceListAnswer extends Component {
   render() {
@@ -45,4 +45,4 @@ class ChoiceListAnswer extends Component {
   }
 }
 
-export default withStyles(stylesheet)(ChoiceListAnswer);
+export default withStyles(styles)(ChoiceListAnswer);

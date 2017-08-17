@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Chip from 'material-ui/Chip';
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = (theme) => ({
   row: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -20,7 +20,7 @@ const stylesheet = createStyleSheet((theme) => ({
     width: '28px',
     height: '28px'
   }
-}));
+});
 
 function SurveyCard(props) {
   const { title, description, languages, classes, className } = props;
@@ -55,4 +55,4 @@ SurveyCard.propTypes = {
   languages: PropTypes.array
 }
 
-export default withStyles(stylesheet)(SurveyCard);
+export default withStyles(styles)(SurveyCard);

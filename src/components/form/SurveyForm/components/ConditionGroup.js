@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Field } from 'redux-form';
-import Button from 'material-ui/Button';
-import MenuSelectField from 'components/form/controls/MenuSelectField';
-import AddIcon from 'material-ui-icons/Add';
-import PlaylistAddIcon from 'material-ui-icons/PlaylistAdd';
+import { Field, FieldArray, FormSection } from 'redux-form';
 import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
+import ConditionList from './ConditionList';
 import { withStyles } from 'material-ui/styles';
+import IconButton from 'material-ui/IconButton';
+import DeleteIcon from 'material-ui-icons/Delete';
+import { FormHelperText } from 'material-ui/Form';
 
 const styles = {
   root: {
@@ -15,37 +15,61 @@ const styles = {
     flexWrap: 'wrap',
   },
   operatorContainer: {
-    flex: 1,
     marginRight: '16px'
   },
   conditionsContainer: {
     flex: 3,
+  },
+  err: {
+    textAlign: 'center',
   }
 };
 
-class ConditionGroup extends Component {
-  render() {
-    const { classes, logicalOperators } = this.props;
-    const operatorOptions = logicalOperators.map(op => ({ label: op.text, val: op.code }));
-    return (
-      <div className={classes.root}>
-        <div className={classes.operatorContainer}>
-          <Field
-            name="operator"
-            component={renderMenuSelectField}
-            options={operatorOptions}
-            fullWidth={true}
-            margin="normal"
-            />
-        </div>
-        <div className={classes.conditionsContainer}>
-          <Button dense color="accent"><AddIcon /></Button>
-          <Button dense color="accent"><PlaylistAddIcon /></Button>
-        </div>
-      </div>
-    );
+function ConditionGroup({ classes, condition, logicalOperators, allQuestions, currentQuestion, onRemove}) {
+  const operatorOptions = logicalOperators.map(op => ({ label: op.text, val: op.code }));
+  if(allQuestions.length < 2) {
+    return (<FormHelperText error className={classes.err}>A minimum of two question required</FormHelperText>);
   }
+  return (
+    <div className={classes.root}>
+      <div className={classes.operatorContainer}>
+        <Field
+          name="operator"
+          component={renderMenuSelectField}
+          label="Operator"
+          options={operatorOptions}
+          fullWidth={true}
+          margin="normal"
+          rightAlign={true}
+          />
+      </div>
+      <div className={classes.conditionsContainer}>
+        <FieldArray
+          name='conditions'
+          component={ConditionList}
+          allQuestions={allQuestions}
+          currentQuestion={currentQuestion}
+          logicalOperators={logicalOperators} />
+      </div>
+      {
+        condition &&
+        <IconButton onClick={onRemove}>
+          <DeleteIcon />
+        </IconButton>
+      }
+    </div>
+  );
 }
 
-export default withStyles(styles)(ConditionGroup);
+function Wrapper(props) {
+  if(!props.condition)
+    return <ConditionGroup {...props} />;
+  return (
+    <FormSection name={props.condition}>
+      <ConditionGroup {...props} />
+    </FormSection>
+  );
+}
+
+export default withStyles(styles)(Wrapper);
 

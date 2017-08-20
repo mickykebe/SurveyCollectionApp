@@ -3,7 +3,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field, FieldArray, FormSection, formValueSelector } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
-import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
 import { getAllLanguages, getLanguagesFromCodes } from 'reducers';
 import AuthContainer from 'components/AuthContainer';
@@ -31,7 +30,6 @@ const mapStateToProps = (state) => {
   const langCodes = formSelector(state, 'languages') || [];
   const formLanguages = getLanguagesFromCodes(undefined, langCodes);
 
-
   return {
     allLanguages: getAllLanguages(),
     formLanguages
@@ -55,8 +53,7 @@ class SurveyForm extends Component {
     const langOptions = allLanguages.map((lang) => ({val: lang.code, label: lang.name}));
 
     return (
-      
-        <Paper className={classes.root}>
+        <div className={classes.root}>
           <form onSubmit={this.onSubmit}>
             <FormSection name="title">
               <LangTextField
@@ -80,8 +77,7 @@ class SurveyForm extends Component {
                />
             <Button raised color="accent" className={classes.submitButton} type="submit">Submit</Button>
           </form>
-        </Paper>
-      
+        </div>
     );
   }
 }

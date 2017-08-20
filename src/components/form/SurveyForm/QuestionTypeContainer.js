@@ -18,6 +18,8 @@ const styles = {
     flexWrap: 'wrap',
   },
   selectorContainer: {
+    display: 'flex',
+    flexDirection: 'row-reverse',
     flex: 1,
     marginRight: '16px'
   },
@@ -37,7 +39,7 @@ const mapStateToProps = (state, { question }) => {
 class QuestionTypeContainer extends Component {
   render() {
     const { classes, question, formLanguages, activeQuestionType, questionTypes } = this.props;
-    const questionTypeOptions = questionTypes.map((qt) => ({ val: qt.type, label: qt.name }));
+    const questionTypeOptions = questionTypes.map((qt) => ({ val: qt.id, label: qt.name }));
     if(!activeQuestionType) {
       return null;
     }
@@ -51,6 +53,7 @@ class QuestionTypeContainer extends Component {
             options={questionTypeOptions}
             fullWidth={true}
             margin="normal"
+            rightAlign={true}
             />
         </div>
         <div className={classes.fieldsContainer}>

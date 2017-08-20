@@ -18,6 +18,10 @@ const styles = (theme) => ({
   card: {
     marginBottom: '20px'
   },
+  addButton: {
+    width: '50px',
+    height: '50px',
+  },
 });
 
 class SurveyList extends Component {
@@ -30,7 +34,7 @@ class SurveyList extends Component {
           <Typography type="headline" className={classes.headerText}>
             My Surveys
           </Typography>
-          <Button fab color="accent" onClick={redirectToNewSurvey}>
+          <Button fab color="accent" onClick={redirectToNewSurvey} className={classes.addButton}>
             <AddIcon />
           </Button>
         </div>

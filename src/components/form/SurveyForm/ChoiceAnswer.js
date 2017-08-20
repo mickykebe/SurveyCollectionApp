@@ -50,8 +50,8 @@ class ChoiceAnswer extends Component {
           <FormHelperText error>{error}</FormHelperText>
         </div>
         <div>
-          <IconButton>
-            <DeleteIcon onClick={onRemove}/>
+          <IconButton onClick={onRemove}>
+            <DeleteIcon/>
           </IconButton>
         </div>
       </div>

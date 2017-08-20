@@ -28,8 +28,8 @@ export const getLanguagesFromCodes = (state = mockData, codes) =>
   fromLanguages.getLanguagesFromCodes(state.languages, codes);
 export const getAllQuestionTypes = (state) => 
   fromQuestionTypes.getAllQuestionTypes(state.questionTypes);
-export const getOperators = (state, type = fromOperators.OPERATOR_TYPE_ALL) =>
-  fromOperators.getOperators(state.operators, type);
+export const getOperators = (state, opCodes = fromOperators.OPERATOR_CODES_ALL) =>
+  fromOperators.getOperators(state.operators, opCodes);
 export const getQuestionTypeOperators = (state, id) => {
   const operatorCodes = fromQuestionTypes.getQuestionTypeOperators(state.questionTypes, id);
   return operatorCodes.map(code => fromOperators.getOperator(state.operators, code));

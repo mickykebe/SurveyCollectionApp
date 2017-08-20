@@ -1,5 +1,5 @@
-export const OPERATOR_TYPE_ALL = 'all';
-export const OPERATOR_TYPE_LOGICAL = 'logical';
+export const OPERATOR_CODES_ALL = 'all';
+export const OPERATOR_CODES_LOGICAL = 'logical';
 
 const operators = (state = {}, action) => {
   return {
@@ -10,7 +10,6 @@ const operators = (state = {}, action) => {
         type: 'logical',
       },
       "||": {
-        id: 2,
         code: '||',
         text: 'Or',
         type: 'logical'
@@ -46,15 +45,15 @@ const operators = (state = {}, action) => {
         type: 'relational'
       },
     },
-    [OPERATOR_TYPE_ALL]: ["&&", "||", "==", "!=", "<", ">", "<=", ">="],
-    [OPERATOR_TYPE_LOGICAL]: ["&&", "||"],
+    [OPERATOR_CODES_ALL]: ["&&", "||", "==", "!=", "<", ">", "<=", ">="],
+    [OPERATOR_CODES_LOGICAL]: ["&&", "||"],
 
   };
 }
 
 export default operators;
 
-export const getOperators = (state, type) =>
-  state[type].map(code => state.byCode[code]);
+export const getOperators = (state, opCodes) =>
+  state[opCodes].map(code => state.byCode[code]);
 export const getOperator = (state, code) =>
-  state.byId[code];
+  state.byCode[code];

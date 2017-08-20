@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import { FormSection, formValueSelector } from 'redux-form';
+import { Field, FormSection, formValueSelector } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent, CardActions} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
@@ -58,11 +58,11 @@ class QuestionForm extends Component {
   }
 
   render() {
-    const { classes, input: { name: questionName }, index, formLanguages } = this.props;
+    const { classes, input: { name: question }, index, formLanguages } = this.props;
     const { onRemove } = this.props;
     
     return (
-      <FormSection name={questionName}>
+      <FormSection name={question}>
         <Card className={classes.root}>
           <CardContent>
             <Typography type="subheading" align="center">
@@ -75,8 +75,10 @@ class QuestionForm extends Component {
                 labelClassName={classes.titleLabel}
                 inputGroupClassName={classes.inputs} />
             </FormSection>
-            <QuestionTypeContainer 
-              question={questionName}
+            <Field
+              name={question}
+              question={question}
+              component={QuestionTypeContainer}
               formLanguages={formLanguages} />
           </CardContent>
           <CardActions>
@@ -91,11 +93,11 @@ class QuestionForm extends Component {
           <Divider light />
           <Collapse in={this.state.expanded} transitionDuration="auto" unmountOnExit>
             <CardContent>
-              <Typography type="subheading" align="center">
-                Show question if:
-              </Typography>
               <FormSection name="condition">
-                <ConditionGroupContainer />
+                <Field
+                  name="condition"
+                  component={ConditionGroupContainer}
+                  question={question} />
               </FormSection>
             </CardContent>
           </Collapse>

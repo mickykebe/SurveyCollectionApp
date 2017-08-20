@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 
@@ -15,8 +16,12 @@ const styles = {
 };
 
 function AlignedTextField(props) {
-  const { classes, ...fieldProps } = props;
-  return (<TextField {...fieldProps} className={classes.root} InputClassName={classes.Input} labelClassName={classes.label} />);
+  const { classes, className: classNameProp, ...fieldProps } = props;
+  return (<TextField 
+    {...fieldProps} 
+    className={classnames(classNameProp, classes.root)} 
+    InputClassName={classes.Input} 
+    labelClassName={classes.label} />);
 }
 
 export default withStyles(styles)(AlignedTextField);

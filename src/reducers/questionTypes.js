@@ -1,47 +1,39 @@
 const types = {
-  "1": {
-    id: 1,
-    type: "text",
+  "text": {
+    id: "text",
     name: "Text",
     validOperators: ["==", "!="]
   },
-  "2": {
-    id: 2,
-    type: "number",
+  "number": {
+    id: "number",
     name: "Number",
     validOperators: ["==", "!=", "<", ">", "<=", ">="]
   },
-  "3": {
-    id: 3,
-    type: "number-range",
+  "number-range": {
+    id: "number-range",
     name: "Number Range",
     validOperators: ["==", "!=", "<", ">", "<=", ">="]
   },
-  "4": {
-    id: 4,
-    type: "choose-one",
+  "choose-one": {
+    id: "choose-one",
     name: "Choose One",
     validOperators: ["==", "!="]
   },
-  "5": {
-    id: 5,
-    type: "choose-any",
+  "choose-any": {
+    id: "choose-any",
     name: "Choose Many",
     validOperators: ["==", "!="]
   },
-  "6": {
-    id: 6,
-    type: 'location',
+  "location": {
+    id: 'location',
     name: 'Location',
   },
-  "7": {
-    id: 7,
-    type: 'currency',
+  "currency": {
+    id: 'currency',
     name: 'Currency',
   },
-  "8": {
-    id: 8,
-    type: 'image',
+  "image": {
+    id: 'image',
     name: 'Image',
   },
 }

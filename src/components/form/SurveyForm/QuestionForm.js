@@ -58,11 +58,10 @@ class QuestionForm extends Component {
   }
 
   render() {
-    const { classes, input: { name: question }, index, formLanguages } = this.props;
+    const { classes, input: { name: qName }, index, formLanguages } = this.props;
     const { onRemove } = this.props;
-    
     return (
-      <FormSection name={question}>
+      <FormSection name={qName}>
         <Card className={classes.root}>
           <CardContent>
             <Typography type="subheading" align="center">
@@ -76,8 +75,8 @@ class QuestionForm extends Component {
                 inputGroupClassName={classes.inputs} />
             </FormSection>
             <Field
-              name={question}
-              question={question}
+              name='type'
+              question={qName}
               component={QuestionTypeContainer}
               formLanguages={formLanguages} />
           </CardContent>
@@ -97,7 +96,7 @@ class QuestionForm extends Component {
                 <Field
                   name="condition"
                   component={ConditionGroupContainer}
-                  question={question} />
+                  index={index} />
               </FormSection>
             </CardContent>
           </Collapse>

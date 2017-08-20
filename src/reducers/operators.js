@@ -16,7 +16,7 @@ const operators = (state = {}, action) => {
       },
       "==": {
         code: '==',
-        text: 'Is Equal to',
+        text: 'Is equal to',
         type: 'relational'
       },
       "!=": {

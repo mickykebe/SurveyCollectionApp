@@ -38,24 +38,33 @@ class Condition extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { question: null };
+    this.state = { selectedQuuid: null };
     this.onQuestionChange = this.onQuestionChange.bind(this);
   }
 
   onQuestionChange(e, uuid) {
     this.setState({
-      question: this.props.allQuestions.find((question) => question.uuid === uuid),
+      selectedQuuid: uuid,
     });
+  }
+
+  getSelectedQuestion() {
+    const uuid = this.state.selectedQuuid;
+    return this.props.allQuestions.reduce((question, currentQuestion) => {
+      return (question.uuid === uuid || currentQuestion.uuid !== uuid) ? question : currentQuestion;
+    }, {});
   }
 
   render() {
     const { classes, allQuestions, currentQuestion, condition, onRemove } = this.props;
-    const questions = allQuestions.filter((q) => q.uuid !== currentQuestion.uuid);
     
-    const questionOptions = questions.map((q) => ({ 
-      label: (q.title && questionTitle(q.title)) || `Question #${q.index}`,
-      val: q.uuid,
-    }));
+    const questionOptions = allQuestions
+      .map((q, index) => ({ 
+        label: (q.title && questionTitle(q.title)) || `Question #${index+1}`,
+        val: q.uuid,
+      }))
+      .filter(option => option.val !== currentQuestion.uuid);
+
     return (
       <FormSection name={condition}>
         <div className={classes.root}>
@@ -69,11 +78,11 @@ class Condition extends Component {
               className={classes.selectQuestion}
               />
             { 
-              this.state.question && 
+              this.state.selectedQuuid && 
               <Field
                 name="conditionRHS"
                 component={ConditionRHSContainer}
-                question={this.state.question}
+                question={this.getSelectedQuestion()}
                  />
             }
           </div>

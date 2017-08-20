@@ -33,13 +33,14 @@ class QuestionListForm extends Component {
         </Button>
         <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>
         {
-          fields.map((question, index) => 
+          fields.map((qName, index, fields) => 
             <Field
-              key={question}
-              name={question}
+              key={qName}
               component={QuestionForm}
+              name={qName}
               index={index}
-              onRemove={() => fields.remove(index)} />)
+              onRemove={() => fields.remove(index)}
+              />)
         }
       </div>
     )

@@ -14,9 +14,9 @@ import Register from './Register';
 import PopupSnackbar from './PopupSnackbar';
 import Home from './Home';
 import SurveyForm from './form/SurveyForm';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = (theme) => ({
   '@global': {
     html: {
       boxSizing: 'border-box',
@@ -48,12 +48,12 @@ const stylesheet = createStyleSheet((theme) => ({
     },
   },
   content: {
-    maxWidth: '800px',
+    maxWidth: '1024px',
     margin: '20px auto 0',
     paddingLeft: theme.spacing.unit * 2,
     paddingRight: theme.spacing.unit * 2,
   }
-}));
+});
 
 const mapStateToProps = state => ({
   appLoaded: state.common.appLoaded,
@@ -109,5 +109,5 @@ class App extends Component {
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-  withStyles(stylesheet)
+  withStyles(styles)
 )(App);

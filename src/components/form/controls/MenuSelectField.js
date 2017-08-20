@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Menu, { MenuItem } from 'material-ui/Menu';
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = (theme) => ({
   root: {
-    margin: '0 auto',
+    width: 'fit-content',
     background: theme.palette.background.paper,
+  },
+  rightAlignLabel: {
+    textAlign: 'right',
+  },
+  rightAlignMenuItem: {
+    flexDirection: 'row-reverse',
   }
-}))
+});
 
 class MenuSelectField extends Component {
   constructor(props) {
@@ -42,22 +50,27 @@ class MenuSelectField extends Component {
   }
 
   handleMenuItemClick(e, val) {
-    this.props.onChange(val);
+    if(this.props.onChange) {
+      this.props.onChange(val);
+    }
     this.setState({ open: false });
   }
 
   render() {
-    const { classes, label, value, options } = this.props;
+    const { classes, rightAlign, label, value, options, className: classNameProp } = this.props;
     const activeOption = this.getActiveOption(value, options);
     const activeOptionIndex = this.getActiveOptionIndex(value, options);
+    const classLabel = classnames({ [classes.rightAlignLabel]: rightAlign });
+    const classMenuItem = classnames({ [classes.rightAlignMenuItem]: rightAlign });
 
     return (
-      <div className={classes.root}>
+      <div className={classnames(classes.root, classNameProp)}>
         <List>
           <ListItem
             button
             onClick={this.handleControlClick}>
             <ListItemText
+              className={classLabel}
               primary={label}
               secondary={activeOption ? activeOption.label : ''} />
           </ListItem>
@@ -71,7 +84,8 @@ class MenuSelectField extends Component {
               <MenuItem
                 key={val}
                 selected={index === activeOptionIndex}
-                onClick={e => this.handleMenuItemClick(e, val)}>
+                onClick={e => this.handleMenuItemClick(e, val)}
+                className={classMenuItem}>
                 { label }
               </MenuItem>)
           }
@@ -81,4 +95,23 @@ class MenuSelectField extends Component {
   }
 }
 
-export default withStyles(stylesheet)(MenuSelectField);
+MenuSelectField.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      val: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]).isRequired,
+    })
+  ).isRequired,
+  onChange: PropTypes.func,
+  rightAlign: PropTypes.bool
+}
+
+export default withStyles(styles)(MenuSelectField);

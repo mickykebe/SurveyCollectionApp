@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import { Field } from 'redux-form';
 import { FormGroup } from 'material-ui/Form';
 import { renderTextField } from 'components/form/helper/fieldRenderers';
 
-const stylesheet = createStyleSheet(() => ({
+const styles = {
   gap: {
     padding: '0 20px',
   }
-}));
+};
 
 class NumberRangeAnswer extends Component {
   render() {
-    const { classes, question } = this.props;
+    const { classes } = this.props;
     return (
       <FormGroup row>
         <Field
-          name={`${question}.start`}
+          name="start"
           component={renderTextField}
           label="From"
           margin="normal"
           />
         <div className={classes.gap}></div>
         <Field
-          name={`${question}.end`}
+          name="end"
           component={renderTextField}
           label="To"
           margin="normal"
@@ -33,4 +33,4 @@ class NumberRangeAnswer extends Component {
   }
 }
 
-export default withStyles(stylesheet)(NumberRangeAnswer);
+export default withStyles(styles)(NumberRangeAnswer);

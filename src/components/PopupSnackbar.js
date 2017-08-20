@@ -4,14 +4,14 @@ import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import Slide from 'material-ui/transitions/Slide';
 import CloseIcon from 'material-ui-icons/Close';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 
-const stylesheet = createStyleSheet(theme => ({
+const styles = theme => ({
   close: {
     width: theme.spacing.unit * 4,
     height: theme.spacing.unit * 4,
   },
-}));
+});
 
 class PopupSnackbar extends Component {
   static propTypes = {
@@ -62,4 +62,4 @@ class PopupSnackbar extends Component {
   }
 }
 
-export default withStyles(stylesheet)(PopupSnackbar);
+export default withStyles(styles)(PopupSnackbar);

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field, FieldArray, FormSection, formValueSelector } from 'redux-form';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
-import Paper from 'material-ui/Paper';
+import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import { getAllLanguages, getLanguagesFromCodes } from 'reducers';
 import AuthContainer from 'components/AuthContainer';
@@ -14,7 +13,7 @@ import LangTextField from './LangTextField';
 import surveyFormValidator from './validator';
 import { uuidv4 } from 'utils';
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = {
   root: {
     padding: '30px'
   },
@@ -24,13 +23,12 @@ const stylesheet = createStyleSheet((theme) => ({
     display: 'block',
     marginTop: '10px',
   }
-}));
+};
   
 const formSelector = formValueSelector(surveyFormName);
 const mapStateToProps = (state) => {
   const langCodes = formSelector(state, 'languages') || [];
   const formLanguages = getLanguagesFromCodes(undefined, langCodes);
-
 
   return {
     allLanguages: getAllLanguages(),
@@ -55,8 +53,7 @@ class SurveyForm extends Component {
     const langOptions = allLanguages.map((lang) => ({val: lang.code, label: lang.name}));
 
     return (
-      <AuthContainer>
-        <Paper className={classes.root}>
+        <div className={classes.root}>
           <form onSubmit={this.onSubmit}>
             <FormSection name="title">
               <LangTextField
@@ -80,15 +77,14 @@ class SurveyForm extends Component {
                />
             <Button raised color="accent" className={classes.submitButton} type="submit">Submit</Button>
           </form>
-        </Paper>
-      </AuthContainer>
+        </div>
     );
   }
 }
 
 export default compose(
   connect(mapStateToProps), 
-  withStyles(stylesheet),
+  withStyles(styles),
   reduxForm({
     form: surveyFormName, 
     initialValues: { uuid: uuidv4(), languages: ['en'] },

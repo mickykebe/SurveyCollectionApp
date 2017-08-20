@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 import logo from '../images/logo.png';
 
-const stylesheet = createStyleSheet({
+const styles = {
   formContainer: {
     padding: '30px'
   },
@@ -13,7 +13,7 @@ const stylesheet = createStyleSheet({
     width: "65%",
     margin: "0 auto 20px",
   }
-});
+};
 
 class AuthForm extends Component {
   render() {
@@ -31,4 +31,4 @@ class AuthForm extends Component {
   }
 }
 
-export default withStyles(stylesheet)(AuthForm);
+export default withStyles(styles)(AuthForm);

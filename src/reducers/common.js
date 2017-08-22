@@ -1,18 +1,14 @@
 import {
-  APP_LOAD,
-  REDIRECT_TO,
-  REDIRECT_DONE,
-  LOGIN,
-  LOGOUT,
-  REGISTER,
-  NETWORK_ERROR,
-  REGISTER_UNLOAD,
-  LOGIN_UNLOAD
-} from '../actionTypes';
+  ACTION_APP_LOADED,
+  ACTION_LOGIN_SUCCESS,
+  ACTION_LOGIN_FAIL,
+  ACTION_REGISTER_SUCCESS,
+  ACTION_REGISTER_FAIL,
+  ACTION_LOGOUT
+} from '../actions';
 
 const defaultState = {
   token: null,
-  viewChangeCounter: 0,
   appLoaded: false,
   currentUser: null,
   networkError: false
@@ -20,37 +16,26 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch(action.type) {
-    case APP_LOAD:
+    case ACTION_APP_LOADED:
       return {
         ...state,
         token: action.token || null,
         appLoaded: true,
-        currentUser: action.payload ? action.payload.user : null,
+        currentUser: action.response ? action.response.user : null,
       };
-    case REDIRECT_TO:
-      return { ...state, redirectTo: action.path }
-    case REDIRECT_DONE:
-      return { ...state, redirectTo: null };
-    case LOGOUT:
+    case ACTION_LOGOUT:
       return { ...state, token: null, currentUser: null };
-    case LOGIN:
-    case REGISTER:
+    case ACTION_LOGIN_SUCCESS:
+    case ACTION_REGISTER_SUCCESS:
       return {
         ...state,
-        redirectTo: action.error ? null : '/',
-        token: action.error ? null : action.payload.user.token,
-        currentUser: action.error ? null : action.payload.user
+        redirectTo: '/',
+        token: action.response.user.token,
+        currentUser: action.response.user
       }
-    case NETWORK_ERROR: {
-      return {
-        ...state,
-        networkError: action.error,
-      }
-    }
-    case LOGIN_UNLOAD:
-    case REGISTER_UNLOAD:
-      return { ...state, viewChangeCounter: state.viewChangeCounter + 1 }
     default:
       return state;
   }
 }
+
+export const getCurrentUser = (state) => state.currentUser;

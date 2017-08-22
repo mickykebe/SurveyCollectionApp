@@ -39,9 +39,7 @@ const Auth = {
         confirm_password
       }
     }).use(tokenPlugin).then(res => {
-      console.log(res);
-      const token = res.header['Authorization'].split(' ')[1];
-      return mapper.register({...res.body, token});
+      return mapper.register(res.body);
     }),
 }
 

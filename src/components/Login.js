@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import AuthView from './AuthView';
-import api from '../api';
-import {
-  LOGIN,
-  LOGIN_UNLOAD
-} from '../actionTypes';
+import { login } from '../actions';
+import PopupSnackbar from './PopupSnackbar';
+import { getAuthErrors, getCurrentUser } from 'reducers';
 
 const styles = {
   button: {
@@ -20,16 +19,14 @@ const styles = {
 };
 
 const mapStateToProps = (state) => ({
-  errors: state.auth.errors,
+  errors: getAuthErrors(state),
+  currentUser: getCurrentUser(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (username, password) => {
-    const payload = api.Auth.login(username, password);
-    dispatch({ type: LOGIN, payload });
-  },
-  onUnload: () =>
-    dispatch({ type: LOGIN_UNLOAD })
+    dispatch(login(username, password));
+  }
 });
 
 class Login extends Component {
@@ -38,10 +35,6 @@ class Login extends Component {
     this.state = {username: '', password: ''};
     this.onSubmitForm = this.onSubmitForm.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
-  }
-
-  componentWillUnmount() {
-    this.props.onUnload();
   }
 
   onFieldChange(fieldKey, e) {
@@ -57,11 +50,18 @@ class Login extends Component {
   }
 
   render() {
-    const { classes, errors } = this.props;
+    const { classes, errors, currentUser } = this.props;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    if(currentUser) {
+      console.log(from);
+      return <Redirect to={from} />;
+    }
+
     const {
       username:usernameError = false,
       password:passwordError = false,
-      non_field_errors:nonFieldErrors = false
+      non_field_errors:nonFieldErrors = false,
+      message = false,
     } = errors || {};
 
     return (
@@ -92,6 +92,9 @@ class Login extends Component {
             helperText={passwordError} />
           <Button raised className={classes.button} color="accent" type="submit">Login</Button>
         </form>
+        <PopupSnackbar 
+          show={!!message}
+          message={message} />
       </AuthView>
     );
   }

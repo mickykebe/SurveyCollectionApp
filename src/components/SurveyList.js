@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import { withStyles } from 'material-ui/styles';
 import SurveyCardContainer from 'containers/SurveyCardContainer';
 import Button from 'material-ui/Button';
@@ -26,7 +27,7 @@ const styles = (theme) => ({
 
 class SurveyList extends Component {
   render() {
-    const { classes, surveys, redirectToNewSurvey } = this.props;
+    const { classes, surveys, history } = this.props;
     
     return (
       <div>
@@ -34,7 +35,7 @@ class SurveyList extends Component {
           <Typography type="headline" className={classes.headerText}>
             My Surveys
           </Typography>
-          <Button fab color="accent" onClick={redirectToNewSurvey} className={classes.addButton}>
+          <Button fab color="accent" onClick={() => history.push('/surveys/new')} className={classes.addButton}>
             <AddIcon />
           </Button>
         </div>
@@ -47,4 +48,4 @@ class SurveyList extends Component {
   }
 }
 
-export default withStyles(styles)(SurveyList);
+export default withRouter(withStyles(styles)(SurveyList));

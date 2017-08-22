@@ -3,17 +3,14 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import { 
-  APP_LOAD, 
-  REDIRECT_DONE 
-} from '../actionTypes';
+import { getCurrentUser } from '../actions';
 import api from '../api';
 import Header from './Header';
 import Login from './Login';
 import Register from './Register';
-import PopupSnackbar from './PopupSnackbar';
 import Home from './Home';
 import SurveyForm from './form/SurveyForm';
+import PrivateRoute from './PrivateRoute';
 import { withStyles } from 'material-ui/styles';
 
 const styles = (theme) => ({
@@ -60,23 +57,14 @@ const mapStateToProps = state => ({
   token: state.common.token,
   redirectTo: state.common.redirectTo,
   currentUser: state.common.currentUser,
-  networkError: state.common.networkError
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLoad: (payload, token) =>
-    dispatch({ type: APP_LOAD, payload, token, skipTracking: true }),
-  onRedirect: () =>
-    dispatch({ type: REDIRECT_DONE })
+  onLoad: (token) =>
+    dispatch(getCurrentUser(token)),
 });
 
 class App extends Component {
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.redirectTo) {
-      this.props.history.push(nextProps.redirectTo);
-      this.props.onRedirect();
-    }
-  }
   
   componentWillMount() {
     const token = window.localStorage.getItem('jwt');
@@ -84,23 +72,25 @@ class App extends Component {
       api.setToken(token);
     }
 
-    this.props.onLoad(token ? api.Auth.current() : null, token);
+    this.props.onLoad(token);
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, appLoaded } = this.props;
+
+    if(!appLoaded) {
+      return null;
+    }
+
     return (
       <div>
         <Header currentUser={this.props.currentUser} />
         <div className={classes.content}>
-          <Route exact path="/" component={Home} />
+          <PrivateRoute exact path="/" component={Home} />
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
-          <Route path="/surveys/new" component={SurveyForm} />
+          <PrivateRoute path="/surveys/new" component={SurveyForm} />
         </div>
-        <PopupSnackbar 
-          show={this.props.networkError}
-          message='Problem occurred connecting to server' />
       </div>
     );
   }

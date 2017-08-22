@@ -5,7 +5,6 @@ import { reduxForm, Field, FieldArray, FormSection, formValueSelector } from 're
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import { getAllLanguages, getLanguagesFromCodes } from 'reducers';
-import AuthContainer from 'components/AuthContainer';
 import { surveyFormName } from 'constantValues';
 import { renderTextField, renderMultiChoiceField } from 'components/form/helper/fieldRenderers';
 import QuestionListForm from './QuestionListForm';

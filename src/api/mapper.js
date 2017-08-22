@@ -16,7 +16,6 @@ const login = (data) => ({
 const register = (data) => ({
   user: {
     id: data.uuid,
-    token: data.token,
     ...(data.user)
   }
 });

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { LOGOUT } from '../actionTypes';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import IconButton from 'material-ui/IconButton'
 import AccountCircle from 'material-ui-icons/AccountCircle';
+import { logout } from '../actions';
 
 const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch({ type: LOGOUT })
+  logout: () => dispatch(logout())
 });
 
 class LoggedInMenu extends Component {

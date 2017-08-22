@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import api from '../api';
-import {
-  REGISTER,
-  REGISTER_UNLOAD
-} from '../actionTypes';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
 import AuthView from './AuthView';
+import { register } from '../actions';
+import PopupSnackbar from './PopupSnackbar';
 
 const styles = {
   button: {
@@ -25,11 +22,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (username, first_name, last_name, email, password, confirm_password) => {
-    const payload = api.Auth.register(username, first_name, last_name, email, password, confirm_password);
-    dispatch({ type: REGISTER, payload });
+    dispatch(register(username, first_name, last_name, email, password, confirm_password));
   },
-  onUnload: () => 
-    dispatch({ type: REGISTER_UNLOAD }),
 });
 
 class Register extends Component {
@@ -45,10 +39,6 @@ class Register extends Component {
     };
     this.onSubmitForm = this.onSubmitForm.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
-  }
-
-  componentWillUnmount() {
-    this.props.onUnload();
   }
 
   onSubmitForm(e) {
@@ -88,6 +78,7 @@ class Register extends Component {
         passwordError: false,
         confirmPassError: false
       },
+      message = false,
     } = errors || {};
 
 
@@ -161,6 +152,9 @@ class Register extends Component {
             helperText={confirmPassError} />
           <Button raised className={classes.button} type="submit" color="accent">Register</Button>
         </form>
+        <PopupSnackbar 
+          show={!!message}
+          message={message} />
       </AuthView>
     );
   }

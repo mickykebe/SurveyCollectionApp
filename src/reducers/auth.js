@@ -1,40 +1,47 @@
-import {
-  ASYNC_START,
-  REGISTER,
-  LOGIN,
-  LOGIN_UNLOAD,
-  REGISTER_UNLOAD
-} from '../actionTypes';
+import { 
+  ACTION_LOGIN_REQUEST, 
+  ACTION_LOGIN_SUCCESS, 
+  ACTION_LOGIN_FAIL,
+  ACTION_REGISTER_REQUEST,
+  ACTION_REGISTER_SUCCESS,
+  ACTION_REGISTER_FAIL } from '../actions';
 
 const defaultState = {
-  inProgress: false,
+  isAuthenticating: false,
   errors: null,
 }
 
 export default (state = defaultState, action) => {
   switch(action.type) {
-    case REGISTER:
-    case LOGIN: {
+    case ACTION_LOGIN_SUCCESS:
+    case ACTION_REGISTER_SUCCESS: {
       return {
         ...state,
-        inProgress: false,
-        errors: action.error ? action.payload : null,
+        isAuthenticating: false,
+        errors: null,
       };
     }
-    case ASYNC_START: {
-      if(action.subtype === LOGIN || action.subtype === REGISTER) {
+    case ACTION_LOGIN_FAIL:
+    case ACTION_REGISTER_FAIL: {
+      return {
+        ...state,
+        isAuthenticating: false,
+        errors: action.errors,
+      };
+    }
+    case ACTION_LOGIN_REQUEST:
+    case ACTION_REGISTER_REQUEST: {
         return {
           ...state,
-          inProgress: true,
+          isAuthenticating: true,
+          errors: null,
         };
       }
       return state;
-    }
-    case LOGIN_UNLOAD:
-    case REGISTER_UNLOAD: {
-      return defaultState
-    }
     default:
       return state;
   }
 }
+
+export const getIsAuthenticating = (state) => state.isAuthenticating;
+export const getAuthErrors = (state) => state.errors;

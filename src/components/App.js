@@ -11,6 +11,8 @@ import Register from './Register';
 import Home from './Home';
 import SurveyForm from './form/SurveyForm';
 import PrivateRoute from './PrivateRoute';
+import PublicOnlyRoute from './PublicOnlyRoute';
+import PopupSnackbar from './PopupSnackbar';
 import { withStyles } from 'material-ui/styles';
 
 const styles = (theme) => ({
@@ -54,8 +56,8 @@ const styles = (theme) => ({
 
 const mapStateToProps = state => ({
   appLoaded: state.common.appLoaded,
+  error: state.common.error,
   token: state.common.token,
-  redirectTo: state.common.redirectTo,
   currentUser: state.common.currentUser,
 });
 
@@ -76,8 +78,15 @@ class App extends Component {
   }
 
   render() {
-    const { classes, appLoaded } = this.props;
-
+    const { classes, appLoaded, error } = this.props;
+    if(!appLoaded && error) {
+      return (
+        <div>
+          {error}
+        </div>
+      );
+    }
+    
     if(!appLoaded) {
       return null;
     }
@@ -87,10 +96,13 @@ class App extends Component {
         <Header currentUser={this.props.currentUser} />
         <div className={classes.content}>
           <PrivateRoute exact path="/" component={Home} />
-          <Route path="/register" component={Register} />
-          <Route path="/login" component={Login} />
+          <PublicOnlyRoute path="/register" component={Register} />
+          <PublicOnlyRoute path="/login" component={Login} />
           <PrivateRoute path="/surveys/new" component={SurveyForm} />
         </div>
+        <PopupSnackbar 
+          show={!!error}
+          message={error} />
       </div>
     );
   }

@@ -9,9 +9,8 @@ const mapStateToProps = (state) => ({
 })
 
 function PrivateRoute({ currentUser, component: Component, ...rest }) {
-  console.log('asdf');
   return <Route {...rest} render={props => (
-    currentUser ? 
+    !!currentUser ? 
       <Component {...props} /> :
       <Redirect to={{
         pathname: '/login',

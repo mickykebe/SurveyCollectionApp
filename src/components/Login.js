@@ -20,7 +20,6 @@ const styles = {
 
 const mapStateToProps = (state) => ({
   errors: getAuthErrors(state),
-  currentUser: getCurrentUser(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -50,12 +49,7 @@ class Login extends Component {
   }
 
   render() {
-    const { classes, errors, currentUser } = this.props;
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
-    if(currentUser) {
-      console.log(from);
-      return <Redirect to={from} />;
-    }
+    const { classes, errors } = this.props;
 
     const {
       username:usernameError = false,

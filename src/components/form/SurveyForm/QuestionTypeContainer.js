@@ -78,6 +78,14 @@ class QuestionTypeContainer extends Component {
               formLanguages={formLanguages}
                />
           }
+          {
+            activeQuestionType === 'location' &&
+            <BlankAnswer placeholder="Location Answer" />
+          }
+          {
+            activeQuestionType === 'image' &&
+            <BlankAnswer placeholder="Image Upload" />
+          }
         </div>
       </div>
     );

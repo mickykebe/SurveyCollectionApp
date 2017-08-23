@@ -20,7 +20,7 @@ class AuthForm extends Component {
     const { classes } = this.props;
     return (
       <Grid container justify="center">
-        <Grid item xs={12} sm={8}>
+        <Grid item xs={12} sm={7}>
           <Paper className={classes.formContainer}>
             <img src={logo} className={classes.logo} alt="logo"/>
             {this.props.children}

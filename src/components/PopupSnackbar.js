@@ -25,7 +25,10 @@ class PopupSnackbar extends Component {
     this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
   }
 
-  handleSnackbarClose() {
+  handleSnackbarClose(e, reason) {
+    if(reason === 'clickaway')
+      return;
+    
     this.setState({
       show: false,
     });
@@ -46,7 +49,8 @@ class PopupSnackbar extends Component {
         horizontal: 'left',
       }}
       open={this.state.show}
-      autoHideDuration={5000}
+      autoHideDuration={6e3}
+      onRequestClose={this.handleSnackbarClose}
       message={<span id='message-id'>{this.props.message}</span>}
       transition={<Slide direction='up' />}
       action={[

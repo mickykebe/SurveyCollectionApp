@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { getQuestionTypeOperators } from 'reducers';
 import ConditionRHS from 'components/form/SurveyForm/components/ConditionRHS';

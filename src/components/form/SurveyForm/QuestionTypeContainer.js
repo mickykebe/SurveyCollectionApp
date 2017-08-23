@@ -38,7 +38,7 @@ const mapStateToProps = (state, { question }) => {
 
 class QuestionTypeContainer extends Component {
   render() {
-    const { classes, question, formLanguages, activeQuestionType, questionTypes } = this.props;
+    const { classes, formLanguages, activeQuestionType, questionTypes } = this.props;
     const questionTypeOptions = questionTypes.map((qt) => ({ val: qt.id, label: qt.name }));
     if(!activeQuestionType) {
       return null;

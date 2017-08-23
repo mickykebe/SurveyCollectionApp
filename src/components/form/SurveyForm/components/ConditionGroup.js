@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Field, FieldArray, FormSection } from 'redux-form';
 import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
 import ConditionList from './ConditionList';

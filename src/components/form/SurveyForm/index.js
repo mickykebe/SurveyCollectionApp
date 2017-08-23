@@ -11,6 +11,10 @@ import QuestionListForm from './QuestionListForm';
 import LangTextField from './LangTextField';
 import surveyFormValidator from './validator';
 import { uuidv4 } from 'utils';
+import { surveyCreate } from '../../../actions';
+import { withRouter } from 'react-router';
+import PopupSnackbar from 'components/PopupSnackbar';
+import { getSurveyCreateErrors } from 'reducers';
 
 const styles = {
   root: {
@@ -31,9 +35,14 @@ const mapStateToProps = (state) => {
 
   return {
     allLanguages: getAllLanguages(),
-    formLanguages
+    formLanguages,
+    errors: getSurveyCreateErrors(state),
   };
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  createSurvey: (survey) => dispatch(surveyCreate(survey)),
+})
 
 class SurveyForm extends Component {
   constructor(props) {
@@ -43,17 +52,20 @@ class SurveyForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(values) {
+    console.log('In on submit');
+    this.props.createSurvey(values, () => this.props.history.push('/'));
   }
 
   render() {
-    const { classes, allLanguages, formLanguages } = this.props;
+    const { classes, allLanguages, formLanguages, handleSubmit, errors } = this.props;
     const langOptions = allLanguages.map((lang) => ({val: lang.code, label: lang.name}));
+
+    const { message = false } = errors || {};
 
     return (
         <div className={classes.root}>
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={handleSubmit(this.onSubmit)}>
             <FormSection name="title">
               <LangTextField
                 label="Title"
@@ -76,13 +88,17 @@ class SurveyForm extends Component {
                />
             <Button raised color="accent" className={classes.submitButton} type="submit">Submit</Button>
           </form>
+          <PopupSnackbar
+            show={!!message}
+            message={message} />
         </div>
     );
   }
 }
 
 export default compose(
-  connect(mapStateToProps), 
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps), 
   withStyles(styles),
   reduxForm({
     form: surveyFormName, 

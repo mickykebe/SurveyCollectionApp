@@ -28,7 +28,7 @@ class QuestionListForm extends Component {
           raised 
           className={classes.button} 
           color="accent" 
-          onClick={() => fields.push({type: 'text', condition: { operator: '&&' }, uuid: uuidv4()})}>
+          onClick={() => fields.push({type: 'text', condition: { operator: '&&', conditions: [] }, uuid: uuidv4()})}>
           Add Question
         </Button>
         <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>

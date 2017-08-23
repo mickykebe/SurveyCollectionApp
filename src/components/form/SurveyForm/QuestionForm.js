@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
 import { Field, FormSection, formValueSelector } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent, CardActions} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
-import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import FunctionIcon from 'material-ui-icons/Functions';
 import Collapse from 'material-ui/transitions/Collapse';
 import Divider from 'material-ui/Divider';

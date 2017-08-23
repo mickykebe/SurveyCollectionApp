@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Field, FormSection } from 'redux-form';
-import _get from 'lodash/get';
-import MenuSelectField from 'components/form/controls/MenuSelectField';
 import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
 import { withStyles } from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
@@ -24,7 +22,7 @@ const styles = {
 
 const questionTitle = (titleObj, code = 'en') => {
   return Object.keys(titleObj).reduce((title, key) => {
-    if(key == code) {
+    if(key === code) {
       return titleObj[key];
     }
     if(!title) {

@@ -43,7 +43,13 @@ const Auth = {
     }),
 }
 
+const Surveys = {
+  create: survey =>
+    requests.post('/surveys/', { survey })
+}
+
 export default {
   Auth,
+  Surveys,
   setToken: _token => { token = _token; }
 };

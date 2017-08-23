@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { getCurrentUser } from '../actions';
 import api from '../api';

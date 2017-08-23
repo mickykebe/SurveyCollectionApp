@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, FormSection } from 'redux-form';
+import { Field } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
 import AddIcon from 'material-ui-icons/Add';

@@ -31,6 +31,10 @@ export const getAuthErrors = (state) =>
 //Survey selectors
 export const getAllSurveys = (state = mockData) => 
   fromSurveys.getAllSurveys(state.surveys);
+export const getIsCreatingSurvey = (state) =>
+  fromSurveys.getIsCreatingSurvey(state.surveys);
+export const getSurveyCreateErrors = (state) =>
+  fromSurveys.getSurveyCreateErrors(state.surveys);
 
 //Language selectors
 export const getAllLanguages = (state = mockData) => 

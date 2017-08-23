@@ -31,13 +31,12 @@ export default (state = defaultState, action) => {
     }
     case ACTION_LOGIN_REQUEST:
     case ACTION_REGISTER_REQUEST: {
-        return {
-          ...state,
-          isAuthenticating: true,
-          errors: null,
-        };
-      }
-      return state;
+      return {
+        ...state,
+        isAuthenticating: true,
+        errors: null,
+      };
+    }
     default:
       return state;
   }

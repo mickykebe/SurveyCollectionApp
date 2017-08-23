@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
@@ -7,7 +6,7 @@ import Button from 'material-ui/Button';
 import AuthView from './AuthView';
 import { login } from '../actions';
 import PopupSnackbar from './PopupSnackbar';
-import { getAuthErrors, getCurrentUser } from 'reducers';
+import { getAuthErrors } from 'reducers';
 
 const styles = {
   button: {

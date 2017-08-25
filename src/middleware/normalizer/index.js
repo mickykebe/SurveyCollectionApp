@@ -15,7 +15,7 @@ export default store => next => action => {
     case ACTION_SURVEYS_FETCH_SUCCESS:
       return next({
         ...action,
-        response: normalize(action.response.result, schema.surveyListSchema)
+        response: normalize(action.response.results, schema.surveyListSchema)
       });
     default:
       return next(action);

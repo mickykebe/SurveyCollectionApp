@@ -29,7 +29,8 @@ class LangTextField extends Component{
       inputGroupClassName, 
       className, 
       label, 
-      languages 
+      languages,
+      required = false 
     } = this.props;
 
     return (
@@ -45,7 +46,7 @@ class LangTextField extends Component{
                 label={`(${ln.name})`}
                 name={`${ln.code}`}
                 component={renderAlignedTextField}
-                required={true}
+                required={required}
                 fullWidth={true}
                 margin="normal"
                 />

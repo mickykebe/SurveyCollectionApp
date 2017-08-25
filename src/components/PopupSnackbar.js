@@ -16,6 +16,7 @@ const styles = theme => ({
 class PopupSnackbar extends Component {
   static propTypes = {
     show: PropTypes.bool.isRequired,
+    onClose: PropTypes.func,
   }
 
   constructor(props) {
@@ -29,6 +30,9 @@ class PopupSnackbar extends Component {
     if(reason === 'clickaway')
       return;
     
+    if(this.props.onClose) {
+      this.props.onClose();
+    }
     this.setState({
       show: false,
     });

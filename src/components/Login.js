@@ -5,8 +5,9 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import AuthView from './AuthView';
 import { login } from '../actions';
-import PopupSnackbar from './PopupSnackbar';
 import { getAuthErrors } from 'reducers';
+import api from '../api';
+import { getIsAuthenticating } from '../reducers';
 
 const styles = {
   button: {
@@ -23,7 +24,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (username, password) => {
-    dispatch(login(username, password));
+    dispatch(login(api.Auth.login(username, password), getIsAuthenticating));
   }
 });
 
@@ -54,7 +55,6 @@ class Login extends Component {
       username:usernameError = false,
       password:passwordError = false,
       non_field_errors:nonFieldErrors = false,
-      message = false,
     } = errors || {};
 
     return (
@@ -85,9 +85,6 @@ class Login extends Component {
             helperText={passwordError} />
           <Button raised className={classes.button} color="accent" type="submit">Login</Button>
         </form>
-        <PopupSnackbar 
-          show={!!message}
-          message={message} />
       </AuthView>
     );
   }

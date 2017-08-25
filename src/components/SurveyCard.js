@@ -5,6 +5,7 @@ import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Chip from 'material-ui/Chip';
+import { valFromLangObj } from 'utils';
 
 const styles = (theme) => ({
   row: {
@@ -29,17 +30,17 @@ function SurveyCard(props) {
     <Card className={rootClass}>
       <CardContent className={classes.content}>
         <Typography type="title">
-          {title}
+          {valFromLangObj(title)}
         </Typography>
         <Typography component="p">
-          {description}
+          {valFromLangObj(description)}
         </Typography>
       </CardContent>
       <div className={classes.row}>
         { 
           languages.map((lang) => 
             <Chip
-              key={lang.id}
+              key={lang.code}
               label={lang.name}
               className={classes.chip} />)
         }
@@ -50,8 +51,8 @@ function SurveyCard(props) {
 
 SurveyCard.propTypes = {
   classes: PropTypes.object.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string,
+  title: PropTypes.object.isRequired,
+  description: PropTypes.object,
   languages: PropTypes.array
 }
 

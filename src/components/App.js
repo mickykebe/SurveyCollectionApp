@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
-import { getCurrentUser } from '../actions';
+import { clearPopup, getCurrentUser } from '../actions';
+import { getAppLoadError, getPopupMessage } from '../reducers';
 import api from '../api';
 import Header from './Header';
 import Login from './Login';
@@ -55,14 +56,17 @@ const styles = (theme) => ({
 
 const mapStateToProps = state => ({
   appLoaded: state.common.appLoaded,
-  error: state.common.error,
+  appLoadError: getAppLoadError(state),
   token: state.common.token,
   currentUser: state.common.currentUser,
+  popupMessage: getPopupMessage(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   onLoad: (token) =>
     dispatch(getCurrentUser(token)),
+  clearPopupMessage: () =>
+    dispatch(clearPopup()),
 });
 
 class App extends Component {
@@ -77,11 +81,11 @@ class App extends Component {
   }
 
   render() {
-    const { classes, appLoaded, error } = this.props;
-    if(!appLoaded && error) {
+    const { classes, appLoaded, appLoadError, popupMessage } = this.props;
+    if(!appLoaded && appLoadError) {
       return (
         <div>
-          {error}
+          {appLoadError}
         </div>
       );
     }
@@ -100,8 +104,9 @@ class App extends Component {
           <PrivateRoute path="/surveys/new" component={SurveyForm} />
         </div>
         <PopupSnackbar 
-          show={!!error}
-          message={error} />
+          show={!!popupMessage}
+          message={popupMessage}
+          onClose={this.props.clearPopupMessage} />
       </div>
     );
   }

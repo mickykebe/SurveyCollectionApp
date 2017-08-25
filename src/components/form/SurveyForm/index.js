@@ -13,8 +13,9 @@ import surveyFormValidator from './validator';
 import { uuidv4 } from 'utils';
 import { surveyCreate } from '../../../actions';
 import { withRouter } from 'react-router';
-import PopupSnackbar from 'components/PopupSnackbar';
-import { getSurveyCreateErrors } from 'reducers';
+import api from '../../../api';
+import { getSurveyCreateErrors, getIsCreatingSurvey } from 'reducers';
+import { showPopup } from '../../../actions';
 
 const styles = {
   root: {
@@ -31,17 +32,18 @@ const styles = {
 const formSelector = formValueSelector(surveyFormName);
 const mapStateToProps = (state) => {
   const langCodes = formSelector(state, 'languages') || [];
-  const formLanguages = getLanguagesFromCodes(undefined, langCodes);
+  const formLanguages = getLanguagesFromCodes(state, langCodes);
 
   return {
-    allLanguages: getAllLanguages(),
+    allLanguages: getAllLanguages(state),
     formLanguages,
     errors: getSurveyCreateErrors(state),
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  createSurvey: (survey) => dispatch(surveyCreate(survey)),
+  createSurvey: (survey) => dispatch(surveyCreate(api.Surveys.create(survey), getIsCreatingSurvey)),
+  displayPopup: (message) => dispatch(showPopup(message)),
 })
 
 class SurveyForm extends Component {
@@ -53,30 +55,35 @@ class SurveyForm extends Component {
   }
 
   onSubmit(values) {
-    console.log('In on submit');
-    this.props.createSurvey(values, () => this.props.history.push('/'));
+    this.props.createSurvey(values).then(() => {
+      this.props.displayPopup('Survey created successfully');
+      this.props.history.push('/')
+    });
   }
 
   render() {
     const { classes, allLanguages, formLanguages, handleSubmit, errors } = this.props;
     const langOptions = allLanguages.map((lang) => ({val: lang.code, label: lang.name}));
 
-    const { message = false } = errors || {};
-
     return (
         <div className={classes.root}>
           <form onSubmit={handleSubmit(this.onSubmit)}>
             <FormSection name="title">
-              <LangTextField
+              <Field
+                name="title"
+                component={LangTextField}
+                required={true}
                 label="Title"
+                languages={formLanguages}
+                 />
+            </FormSection>
+            <FormSection name="description">
+              <Field
+                name="description"
+                component={LangTextField}
+                label="Description"
                 languages={formLanguages} />
             </FormSection>
-            <Field
-              name='description'
-              component={renderTextField}
-              label='Description'
-              fullWidth={true}
-              margin="normal" />
             <Field
               name="languages"
               component={renderMultiChoiceField}
@@ -88,9 +95,6 @@ class SurveyForm extends Component {
                />
             <Button raised color="accent" className={classes.submitButton} type="submit">Submit</Button>
           </form>
-          <PopupSnackbar
-            show={!!message}
-            message={message} />
         </div>
     );
   }

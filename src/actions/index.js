@@ -1,7 +1,11 @@
-import { normalize } from 'normalizr';
-import * as schema from './schema';
-import { getIsAuthenticating, getIsCreatingSurvey } from 'reducers';
+import { 
+  getIsAuthenticating, 
+  getIsCreatingSurvey,
+  getIsFetchingSurveys
+ } from 'reducers';
 
+export const ACTION_POPUP_MESSAGE_SET = 'POPUP_MESSAGE_SET'; 
+export const ACTION_POPUP_MESSAGE_CLEAR = 'POPUP_MESSAGE_CLEAR';
 export const ACTION_APP_LOAD_SUCCESS = 'APP_LOAD_SUCCESS';
 export const ACTION_APP_LOAD_FAIL = 'APP_LOAD_FAIL';
 export const ACTION_LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -14,6 +18,67 @@ export const ACTION_LOGOUT = 'LOGOUT';
 export const ACTION_SURVEY_CREATE_REQUEST = 'SURVEY_CREATE_REQUEST';
 export const ACTION_SURVEY_CREATE_SUCCESS = 'SURVEY_CREATE_SUCCESS';
 export const ACTION_SURVEY_CREATE_FAIL = 'SURVEY_CREATE_FAIL';
+export const ACTION_SURVEYS_FETCH_REQUEST = 'SURVEYS_FETCH_REQUEST';
+export const ACTION_SURVEYS_FETCH_SUCCESS = 'SURVEYS_FETCH_SUCCESS';
+export const ACTION_SURVEYS_FETCH_FAIL = 'SURVEYS_FETCH_FAIL';
+
+export const apiActionCreator = (actionTypes) => (apiRequest, inProgressSelector) => (dispatch, getState) => {
+  if(inProgressSelector(getState())) {
+    return Promise.resolve();
+  }
+  dispatch({ type: actionTypes.request });
+  return apiRequest.then(
+    response => {
+      dispatch({
+        type: actionTypes.success,
+        response,
+      });
+    }, e => {
+      const error = e.response && e.response.body || null;
+      if(!error) {
+        dispatch(showPopup('Problem occurred fetching from server'));
+      }
+      dispatch({
+        type: actionTypes.fail,
+        errors: error,
+      });
+      return Promise.reject(error);
+    }
+  )
+}
+
+export const login = apiActionCreator({
+  request: ACTION_LOGIN_REQUEST,
+  success: ACTION_LOGIN_SUCCESS,
+  fail: ACTION_LOGIN_FAIL,
+});
+
+export const register = apiActionCreator({
+  request: ACTION_REGISTER_REQUEST,
+  success: ACTION_REGISTER_SUCCESS,
+  fail: ACTION_REGISTER_FAIL,
+});
+
+export const surveyCreate = apiActionCreator({
+  request: ACTION_SURVEY_CREATE_REQUEST,
+  success: ACTION_SURVEY_CREATE_SUCCESS,
+  fail: ACTION_SURVEY_CREATE_FAIL,
+});
+
+export const surveysFetch = apiActionCreator({
+  request: ACTION_SURVEYS_FETCH_REQUEST,
+  success: ACTION_SURVEYS_FETCH_SUCCESS,
+  fail: ACTION_SURVEYS_FETCH_FAIL,
+});
+
+export const showPopup = (message) => ({
+  type: ACTION_POPUP_MESSAGE_SET,
+  message,
+});
+
+export const clearPopup = () => ({
+  type: ACTION_POPUP_MESSAGE_CLEAR
+});
 
 export const getCurrentUser = (token) => 
   (dispatch, getState, api) => {
@@ -39,73 +104,6 @@ export const getCurrentUser = (token) =>
         type: ACTION_APP_LOAD_SUCCESS,
       });
     }
-  }
-
-export const login = (username, password) => (dispatch, getState, api) => {
-  if(getIsAuthenticating(getState())) {
-    return Promise.resolve();
-  }
-  dispatch({ type: ACTION_LOGIN_REQUEST });
-  return api.Auth.login(username, password).then(
-    response => {
-      dispatch({
-        type: ACTION_LOGIN_SUCCESS,
-        response,
-      });
-    },
-    e => {
-      dispatch({
-        type: ACTION_LOGIN_FAIL,
-        errors: e.response ? e.response.body : { message : 'Problem occurred connecting to server' },
-      });
-    }
-  );
-};
-
-export const register = (username, first_name, last_name, email, password, confirm_password) => 
-  (dispatch, getState, api) => {
-    if(getIsAuthenticating(getState())) {
-      return Promise.resolve();
-    }
-    dispatch({ type: ACTION_REGISTER_REQUEST });
-    return api.Auth.register(username, first_name, last_name, email, password, confirm_password).then(
-      response => {
-        dispatch({
-          type: ACTION_REGISTER_SUCCESS,
-          response,
-        });
-      },
-      e => {
-        dispatch({
-          type: ACTION_REGISTER_FAIL,
-          errors: e.response ? e.response.body : { message: 'Problem occurred connecting to server' },
-        });
-      }
-    );
- }
-
- export const surveyCreate = (survey, onSuccess) =>
-  (dispatch, getState, api) => {
-    if(getIsCreatingSurvey(getState())) {
-      return Promise.resolve();
-    }
-    dispatch({ type: ACTION_SURVEY_CREATE_REQUEST });
-    return api.Surveys.create(survey).then(
-      response => {
-        dispatch({
-          type: ACTION_SURVEY_CREATE_SUCCESS,
-          response: normalize(response, schema.surveySchema),
-        });
-        onSuccess();
-      },
-      e => {
-        console.log(e);
-        dispatch({
-          type: ACTION_SURVEY_CREATE_FAIL,
-          errors: e.response ? e.response.body : { message: 'Problem occurred connecting to server' },
-        })
-      }
-    );
   }
 
 export const logout = () => ({

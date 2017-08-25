@@ -6,7 +6,7 @@ import surveys, * as fromSurveys from './surveys';
 import languages, * as fromLanguages from './languages';
 import questionTypes, * as fromQuestionTypes from './questionTypes';
 import operators, * as fromOperators from './operators';
-import mockData from 'mockData';
+import ui, * as fromUi from './ui';
 
 export default combineReducers({
   common,
@@ -15,12 +15,15 @@ export default combineReducers({
   languages,
   questionTypes,
   operators,
+  ui,
   form: formReducer,
 });
 
 //Common selectors
 export const getCurrentUser = (state) =>
   fromCommon.getCurrentUser(state.common);
+export const getAppLoadError = (state) =>
+  fromCommon.getAppLoadError(state.common);
 
 //Auth selectors
 export const getIsAuthenticating = (state) =>
@@ -29,19 +32,23 @@ export const getAuthErrors = (state) =>
   fromAuth.getAuthErrors(state.auth);
 
 //Survey selectors
-export const getAllSurveys = (state = mockData) => 
+export const getAllSurveys = (state) => 
   fromSurveys.getAllSurveys(state.surveys);
 export const getIsCreatingSurvey = (state) =>
   fromSurveys.getIsCreatingSurvey(state.surveys);
+export const getIsFetchingSurveys = (state) =>
+  fromSurveys.getIsFetchingSurveys(state.surveys);
 export const getSurveyCreateErrors = (state) =>
   fromSurveys.getSurveyCreateErrors(state.surveys);
+export const getSurveyFetchErrors = (state) =>
+  fromSurveys.getSurveyFetchErrors(state.surveys);
 
 //Language selectors
-export const getAllLanguages = (state = mockData) => 
+export const getAllLanguages = (state) => 
   fromLanguages.getAllLanguages(state.languages);
-export const getLanguage = (state = mockData, id) => 
+export const getLanguage = (state, id) => 
   fromLanguages.getLanguage(state.languages, id);
-export const getLanguagesFromCodes = (state = mockData, codes) => 
+export const getLanguagesFromCodes = (state, codes) => 
   fromLanguages.getLanguagesFromCodes(state.languages, codes);
 
 //Question type selectors
@@ -51,6 +58,10 @@ export const getAllQuestionTypes = (state) =>
 //Operator selectors
 export const getOperators = (state, opCodes = fromOperators.OPERATOR_CODES_ALL) =>
   fromOperators.getOperators(state.operators, opCodes);
+
+//Ui selectors
+export const getPopupMessage = (state) =>
+  fromUi.getPopupMessage(state.ui);
 
 //Cross selectors
 export const getQuestionTypeOperators = (state, id) => {

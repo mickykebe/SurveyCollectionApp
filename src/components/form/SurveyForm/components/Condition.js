@@ -5,6 +5,7 @@ import { withStyles } from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ConditionRHSContainer from 'components/form/SurveyForm/containers/ConditionRHSContainer';
+import { valFromLangObj } from 'utils';
 
 const styles = {
   root: {
@@ -18,18 +19,6 @@ const styles = {
   selectQuestion: {
     flex: 1,
   }
-}
-
-const questionTitle = (titleObj, code = 'en') => {
-  return Object.keys(titleObj).reduce((title, key) => {
-    if(key === code) {
-      return titleObj[key];
-    }
-    if(!title) {
-      return titleObj[key];
-    }
-    return title;
-  }, '');
 }
 
 class Condition extends Component {
@@ -58,7 +47,7 @@ class Condition extends Component {
     
     const questionOptions = allQuestions
       .map((q, index) => ({ 
-        label: (q.title && questionTitle(q.title)) || `Question #${index+1}`,
+        label: (q.title && valFromLangObj(q.title)) || `Question #${index+1}`,
         val: q.uuid,
       }))
       .filter(option => option.val !== currentQuestion.uuid);

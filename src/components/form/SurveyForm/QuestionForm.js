@@ -37,7 +37,7 @@ const styles = (theme) => ({
 const formSelector = formValueSelector(surveyFormName);
 const mapStateToProps = (state) => {
   const langCodes = formSelector(state, 'languages');
-  const formLanguages = getLanguagesFromCodes(undefined, langCodes);
+  const formLanguages = getLanguagesFromCodes(state, langCodes);
 
   return {
     formLanguages

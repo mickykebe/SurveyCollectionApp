@@ -10,7 +10,7 @@ const defaultState = {
   token: null,
   appLoaded: false,
   currentUser: null,
-  error: null,
+  appLoadError: null,
 }
 
 export default (state = defaultState, action) => {
@@ -21,12 +21,12 @@ export default (state = defaultState, action) => {
         token: action.token || null,
         appLoaded: true,
         currentUser: action.response ? action.response.user : null,
-        error: null,
+        appLoadError: null,
       };
     case ACTION_APP_LOAD_FAIL:
       return {
         ...state,
-        error: action.error
+        appLoadError: action.error
       };
     case ACTION_LOGOUT:
       return { ...state, token: null, currentUser: null };
@@ -44,3 +44,4 @@ export default (state = defaultState, action) => {
 }
 
 export const getCurrentUser = (state) => state.currentUser;
+export const getAppLoadError = (state) => state.appLoadError;

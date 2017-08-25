@@ -44,8 +44,12 @@ const Auth = {
 }
 
 const Surveys = {
-  create: survey =>
-    requests.post('/surveys/', { survey })
+  create(survey) {
+    return requests.post('/surveys/', { ...survey });
+  },
+  mine() {
+    return requests.get('/surveys/mine/');
+  }
 }
 
 export default {

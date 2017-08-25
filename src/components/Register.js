@@ -5,7 +5,8 @@ import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
 import AuthView from './AuthView';
 import { register } from '../actions';
-import PopupSnackbar from './PopupSnackbar';
+import api from '../api';
+import { getIsAuthenticating } from '../reducers';
 
 const styles = {
   button: {
@@ -22,7 +23,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (username, first_name, last_name, email, password, confirm_password) => {
-    dispatch(register(username, first_name, last_name, email, password, confirm_password));
+    dispatch(register(
+      api.Auth.register(username, first_name, last_name, email, password, confirm_password),
+      getIsAuthenticating,
+    ));
   },
 });
 
@@ -77,8 +81,7 @@ class Register extends Component {
         emailError: false,
         passwordError: false,
         confirmPassError: false
-      },
-      message = false,
+      }
     } = errors || {};
 
 
@@ -152,9 +155,6 @@ class Register extends Component {
             helperText={confirmPassError} />
           <Button raised className={classes.button} type="submit" color="accent">Register</Button>
         </form>
-        <PopupSnackbar 
-          show={!!message}
-          message={message} />
       </AuthView>
     );
   }

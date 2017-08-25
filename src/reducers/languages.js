@@ -1,14 +1,33 @@
-const languages = (state = {}, action) => {
+const defaultState = {
+  byCode:{
+    "en": {
+      code: "en",
+      name: "English"
+    },
+    "am": {
+      code: "am",
+      name: "Amharic"
+    },
+    "or": {
+      code: "Or",
+      name: "Oromiffa"
+    }
+  },
+  allCodes: ["en", "am", "or"],
+};
+
+const languages = (state = defaultState, action) => {
   return state;
 }
 
 export default languages;
 
 export const getAllLanguages = (state) =>
-  state.allIds.map(id => state.byId[id]);
+  state.allCodes.map(code => state.byCode[code]);
 
-export const getLanguage = (state, id) => 
-  state.byId[id];
+export const getLanguage = (state, code) => 
+  state.byCode[code];
 
-export const getLanguagesFromCodes = (state, langCodes) =>
-  getAllLanguages(state).filter(lang => langCodes.indexOf(lang.code) > -1);
+export const getLanguagesFromCodes = (state, codes) => {
+  return getAllLanguages(state).filter(lang => codes.indexOf(lang.code) > -1);
+}

@@ -8,6 +8,8 @@ import {
 } from '../actions';
 import { combineReducers } from 'redux';
 
+console.log(ACTION_SURVEY_CREATE_REQUEST, ACTION_SURVEY_CREATE_SUCCESS, ACTION_SURVEY_CREATE_FAIL);
+
 const defaultState = {
   byId: {
     "1": {
@@ -55,12 +57,11 @@ const allIds = (state = [], action) => {
   }
 }
 
-const asyncStatus = (actionRequest, actionSuccess, actionFail) =>
+const asyncStatus = (actionRequest, actionSuccess, actionFail) => 
   (state = {
     inProgress: false,
     errors: null,
   }, action) => {
-    //console.log(actionRequest, actionSuccess, actionFail);
     switch(action.type) {
       case actionRequest:
         return {

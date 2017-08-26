@@ -9,6 +9,7 @@ import api from '../api';
 
 const styles = {
   progress: {
+    display: 'block',
     margin: '0 auto',
   }
 }
@@ -32,8 +33,14 @@ class SurveyListContainer extends Component {
 
   render() {
     const { classes, surveys, isFetching } = this.props;
-    if(isFetching && !surveys.length)
-      return <CircularProgress className={classes.progress} color="accent" />
+    if(isFetching && !surveys.length) {
+      return (
+        <div> 
+          <CircularProgress className={classes.progress} color="accent" />
+        </div>
+      );
+    }
+      
     return (
       <div>
         <SurveyList surveys={surveys} />
@@ -42,4 +49,4 @@ class SurveyListContainer extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SurveyListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SurveyListContainer));

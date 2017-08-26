@@ -12,7 +12,7 @@ import Home from './Home';
 import SurveyForm from './form/SurveyForm';
 import PrivateRoute from './PrivateRoute';
 import PublicOnlyRoute from './PublicOnlyRoute';
-import PopupSnackbar from './PopupSnackbar';
+import PopupSnackbar from './PopupSnackbar'; 
 import { withStyles } from 'material-ui/styles';
 
 const styles = (theme) => ({
@@ -59,14 +59,14 @@ const mapStateToProps = state => ({
   appLoadError: getAppLoadError(state),
   token: state.common.token,
   currentUser: state.common.currentUser,
-  popupMessage: getPopupMessage(state),
+  popupMessage: getPopupMessage(state),  
 });
 
 const mapDispatchToProps = dispatch => ({
   onLoad: (token) =>
     dispatch(getCurrentUser(token)),
   clearPopupMessage: () =>
-    dispatch(clearPopup()),
+    dispatch(clearPopup()),  
 });
 
 class App extends Component {

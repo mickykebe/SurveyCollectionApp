@@ -1,9 +1,3 @@
-import { 
-  getIsAuthenticating, 
-  getIsCreatingSurvey,
-  getIsFetchingSurveys
- } from 'reducers';
-
 export const ACTION_POPUP_MESSAGE_SET = 'POPUP_MESSAGE_SET'; 
 export const ACTION_POPUP_MESSAGE_CLEAR = 'POPUP_MESSAGE_CLEAR';
 export const ACTION_APP_LOAD_SUCCESS = 'APP_LOAD_SUCCESS';

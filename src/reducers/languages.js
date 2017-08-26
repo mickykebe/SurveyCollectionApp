@@ -26,7 +26,7 @@ export const getAllLanguages = (state) =>
   state.allCodes.map(code => state.byCode[code]);
 
 export const getLanguage = (state, code) => 
-  state.byCode[code];
+  state.byCode[code.toLowerCase()];
 
 export const getLanguagesFromCodes = (state, codes) => {
   return getAllLanguages(state).filter(lang => codes.indexOf(lang.code) > -1);

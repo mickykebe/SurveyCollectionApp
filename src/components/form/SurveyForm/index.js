@@ -89,10 +89,15 @@ class SurveyForm extends Component {
               component={renderMultiChoiceField}
               label="Languages"
               options={langOptions} />
-            <FieldArray 
+            <Field
+              name="groupRoot"
+              component={QuestionGroupContainer}
+              root={true}
+              />
+            {/*<FieldArray 
               name="questions"
               component={QuestionListForm}
-               />
+               />*/}
             <Button raised color="accent" className={classes.submitButton} type="submit">Submit</Button>
           </form>
         </div>

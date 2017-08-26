@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
-import Button from 'material-ui/Button';
 import { FormHelperText } from 'material-ui/Form';
+import AddIcon from 'material-ui-icons/Add';
+import PlaylistAddIcon from 'material-ui-icons/PlaylistAdd';
+import IconButton from 'material-ui/IconButton';
 import ChoiceAnswer from './ChoiceAnswer';
-import { uuidv4 } from 'utils'
+import { uuidv4 } from 'utils';
 
 const styles = (theme) => ({
-  button: {
-    margin: '0 auto',
-    display: 'block',
-  },
   errorMessage: {
     textAlign: 'center',
     paddingTop: theme.spacing.unit,
+  },
+  actions: {
+    display: 'flex',
+  },
+  flexGrow: {
+    flex: '1 1 auto'
   }
 });
 
@@ -22,24 +26,21 @@ class ChoiceListAnswer extends Component {
 
     return (
       <div>
-        <Button
-          raised
-          dense
-          color="accent"
-          className={classes.button}
-          onClick={() => fields.push({uuid: uuidv4()})}>
-          Add Choice
-          </Button>
-          <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>
-          {
-            fields.map((choice, index) =>
-              <ChoiceAnswer
-                key={choice}
-                choice={choice}
-                choiceType={choiceType}
-                formLanguages={formLanguages}
-                onRemove={() => fields.remove(index)} />)
-          }
+        <div className={classes.actions}>
+          <div className={classes.flexGrow} />
+          <IconButton onClick={() => fields.push({uuid: uuidv4()})}><AddIcon /></IconButton>
+          <IconButton><PlaylistAddIcon /></IconButton>
+        </div>
+        <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>
+        {
+          fields.map((choice, index) =>
+            <ChoiceAnswer
+              key={choice}
+              choice={choice}
+              choiceType={choiceType}
+              formLanguages={formLanguages}
+              onRemove={() => fields.remove(index)} />)
+        }
       </div>
     )
   }

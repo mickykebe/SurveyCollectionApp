@@ -8,25 +8,6 @@ import {
 } from '../actions';
 import { combineReducers } from 'redux';
 
-console.log(ACTION_SURVEY_CREATE_REQUEST, ACTION_SURVEY_CREATE_SUCCESS, ACTION_SURVEY_CREATE_FAIL);
-
-const defaultState = {
-  byId: {
-    "1": {
-      id: 1,
-      title: 'Book Survey',
-      description: 'Take a survey on books',
-      languages: ["1"]
-    },
-    "2": {
-      id: 2,
-      title: 'Economics Survey',
-      languages: ["1", "2"]
-    }
-  },
-  allIds: [1, 2],
-}
-
 const byId = (state = {}, action) => {
   switch(action.type) {
     case ACTION_SURVEY_CREATE_SUCCESS:

@@ -46,8 +46,8 @@ export const getSurveyFetchErrors = (state) =>
 //Language selectors
 export const getAllLanguages = (state) => 
   fromLanguages.getAllLanguages(state.languages);
-export const getLanguage = (state, id) => 
-  fromLanguages.getLanguage(state.languages, id);
+export const getLanguage = (state, code) => 
+  fromLanguages.getLanguage(state.languages, code);
 export const getLanguagesFromCodes = (state, codes) => 
   fromLanguages.getLanguagesFromCodes(state.languages, codes);
 

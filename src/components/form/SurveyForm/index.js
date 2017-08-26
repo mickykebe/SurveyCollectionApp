@@ -6,7 +6,7 @@ import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import { getAllLanguages, getLanguagesFromCodes } from 'reducers';
 import { surveyFormName } from 'constantValues';
-import { renderTextField, renderMultiChoiceField } from 'components/form/helper/fieldRenderers';
+import { renderMultiChoiceField } from 'components/form/helper/fieldRenderers';
 import QuestionListForm from './QuestionListForm';
 import LangTextField from './LangTextField';
 import surveyFormValidator from './validator';
@@ -62,7 +62,7 @@ class SurveyForm extends Component {
   }
 
   render() {
-    const { classes, allLanguages, formLanguages, handleSubmit, errors } = this.props;
+    const { classes, allLanguages, formLanguages, handleSubmit } = this.props;
     const langOptions = allLanguages.map((lang) => ({val: lang.code, label: lang.name}));
 
     return (

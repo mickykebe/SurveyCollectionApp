@@ -21,7 +21,7 @@ function ConditionList({ classes, fields, ...rest }) {
     <div>
       <div className={classes.actions}>
         <div className={classes.flexGrow} />
-        <IconButton onClick={() => fields.push({ type: 'relational', operator: '&&' })}><AddIcon /></IconButton>
+        <IconButton onClick={() => fields.push({ type: 'relational', operator: '==' })}><AddIcon /></IconButton>
         <IconButton onClick={() => fields.push({ type: 'logical', operator: '&&' })}><PlaylistAddIcon /></IconButton>
       </div>
       <div>

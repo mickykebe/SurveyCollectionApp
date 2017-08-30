@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { Field, FieldArray, formValueSelector } from 'redux-form';
+import { Field, FieldArray } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import BlankAnswer from './BlankAnswer';
 import NumberRangeAnswer from './NumberRangeAnswer';
 import ChoiceListAnswer from './ChoiceListAnswer';
 import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
-import { surveyFormName } from 'constantValues';
-import { getAllQuestionTypes } from 'reducers';
 
 const styles = {
   root: {
@@ -28,17 +24,9 @@ const styles = {
   }
 };
 
-const formSelector = formValueSelector(surveyFormName);
-const mapStateToProps = (state, { question }) => {
-  return {
-    activeQuestionType: formSelector(state, `${question}.type`),
-    questionTypes: getAllQuestionTypes(state),
-  };
-}
-
-class QuestionTypeContainer extends Component {
+class QuestionType extends Component {
   render() {
-    const { classes, formLanguages, activeQuestionType, questionTypes } = this.props;
+    const { classes, formLanguages, activeQuestionType, questionTypes, controllingQuestions } = this.props;
     const questionTypeOptions = questionTypes.map((qt) => ({ val: qt.id, label: qt.name }));
     if(!activeQuestionType) {
       return null;
@@ -76,6 +64,7 @@ class QuestionTypeContainer extends Component {
               component={ChoiceListAnswer}
               choiceType={activeQuestionType === 'choose-one' ? "single" : "multiple"}
               formLanguages={formLanguages}
+              controllingQuestions={controllingQuestions}
                />
           }
           {
@@ -92,7 +81,4 @@ class QuestionTypeContainer extends Component {
   }
 }
 
-export default compose(
-    connect(mapStateToProps),
-    withStyles(styles)
-)(QuestionTypeContainer);
+export default withStyles(styles)(QuestionType);

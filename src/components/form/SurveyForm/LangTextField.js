@@ -35,9 +35,12 @@ class LangTextField extends Component{
 
     return (
       <div className={classnames(classes.root, className)}>
-        <FormLabel className={classnames(classes.label, labelClassName)}>
-          {label}
-        </FormLabel>
+        { 
+          label &&
+          <FormLabel className={classnames(classes.label, labelClassName)}>
+            {label}
+          </FormLabel>
+        }
         <div className={classnames(classes.fieldsContainer, inputGroupClassName)}>
           {
             languages.map((ln) => 

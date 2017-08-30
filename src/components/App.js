@@ -9,10 +9,12 @@ import Header from './Header';
 import Login from './Login';
 import Register from './Register';
 import Home from './Home';
+import AppLoading from './AppLoading';
+import AppLoadingError from './AppLoadingError';
 import SurveyForm from './form/SurveyForm';
 import PrivateRoute from './PrivateRoute';
 import PublicOnlyRoute from './PublicOnlyRoute';
-import PopupSnackbar from './PopupSnackbar'; 
+import PopupSnackbar from './PopupSnackbar';
 import { withStyles } from 'material-ui/styles';
 
 const styles = (theme) => ({
@@ -47,11 +49,11 @@ const styles = (theme) => ({
     },
   },
   content: {
-    maxWidth: '1024px',
+    maxWidth: '1280px',
     margin: '20px auto 0',
     paddingLeft: theme.spacing.unit * 2,
     paddingRight: theme.spacing.unit * 2,
-  }
+  },
 });
 
 const mapStateToProps = state => ({
@@ -70,8 +72,13 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class App extends Component {
-  
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+
+    this.loadCurrentUser = this.loadCurrentUser.bind(this);
+  }
+
+  loadCurrentUser() {
     const token = window.localStorage.getItem('jwt');
     if(token) {
       api.setToken(token);
@@ -79,19 +86,23 @@ class App extends Component {
 
     this.props.onLoad(token);
   }
+  
+  componentWillMount() {
+    this.loadCurrentUser();
+  }
 
   render() {
     const { classes, appLoaded, appLoadError, popupMessage } = this.props;
     if(!appLoaded && appLoadError) {
       return (
-        <div>
-          {appLoadError}
-        </div>
+        <AppLoadingError retry={this.loadCurrentUser} />
       );
     }
     
-    if(!appLoaded) {
-      return null;
+    if(!appLoaded && !appLoadError) {
+      return (
+        <AppLoading />
+      );
     }
 
     return (

@@ -44,10 +44,14 @@ const operators = (state = {}, action) => {
         text: 'Is greater than or equal to',
         type: 'relational'
       },
+      "one-of": {
+        code: 'one-of',
+        text: 'Is one of',
+        type: 'relational',
+      }
     },
-    [OPERATOR_CODES_ALL]: ["&&", "||", "==", "!=", "<", ">", "<=", ">="],
+    [OPERATOR_CODES_ALL]: ["&&", "||", "==", "!=", "<", ">", "<=", ">=", "one-of"],
     [OPERATOR_CODES_LOGICAL]: ["&&", "||"],
-
   };
 }
 

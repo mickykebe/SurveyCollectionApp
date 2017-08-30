@@ -1,11 +1,9 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field, FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
-import IconButton from 'material-ui/IconButton';
-import AddIcon from 'material-ui-icons/Add';
-import PlaylistAddIcon from 'material-ui-icons/PlaylistAdd';
-import ConditionGroup from 'components/form/SurveyForm/components/ConditionGroup';
-import Condition from 'components/form/SurveyForm/components/Condition';
+import ConditionGroup from './ConditionGroup';
+import Condition from './Condition';
+import FormToolbar from './FormToolbar';
 
 const styles = {
   actions: {
@@ -13,28 +11,34 @@ const styles = {
   },
   flexGrow: {
     flex: '1 1 auto'
+  },
+  conditions: {
+    marginTop: '16px',
   }
 }
 
 function ConditionList({ classes, fields, ...rest }) {
   return (
     <div>
-      <div className={classes.actions}>
-        <div className={classes.flexGrow} />
-        <IconButton onClick={() => fields.push({ type: 'relational', operator: '==' })}><AddIcon /></IconButton>
-        <IconButton onClick={() => fields.push({ type: 'logical', operator: '&&' })}><PlaylistAddIcon /></IconButton>
-      </div>
-      <div>
+      <FormToolbar
+        title="Conditions"
+        onAddField={() => fields.push({ type: 'relational', operator: '==' })}
+        onAddForm={() => fields.push({ type: 'logical', operator: '&&' })} />
+      <div className={classes.conditions}>
         {
           fields.map((condition, index) => {
             const type = fields.get(index).type || 'relational';
-            return <Field
-              key={condition}
-              name={condition}
-              condition={condition}
-              component={ type === 'logical' ? ConditionGroup : Condition }
-              onRemove={() => fields.remove(index)}
-              {...rest} />
+            return (
+              <FormSection
+                key={condition}
+                name={condition}>
+                <Field
+                  key={condition}
+                  name={condition}
+                  component={ type === 'logical' ? ConditionGroup : Condition }
+                  onRemove={() => fields.remove(index)}
+                  {...rest} />
+              </FormSection>);
           })
         }
       </div>

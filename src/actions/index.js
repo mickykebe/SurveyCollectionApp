@@ -1,5 +1,6 @@
 export const ACTION_POPUP_MESSAGE_SET = 'POPUP_MESSAGE_SET'; 
 export const ACTION_POPUP_MESSAGE_CLEAR = 'POPUP_MESSAGE_CLEAR';
+export const ACTION_APP_LOAD_REQUEST = 'APP_LOAD_REQUEST';
 export const ACTION_APP_LOAD_SUCCESS = 'APP_LOAD_SUCCESS';
 export const ACTION_APP_LOAD_FAIL = 'APP_LOAD_FAIL';
 export const ACTION_LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -76,6 +77,7 @@ export const clearPopup = () => ({
 
 export const getCurrentUser = (token) => 
   (dispatch, getState, api) => {
+    dispatch({ type: ACTION_APP_LOAD_REQUEST });
     if(token) {
       api.Auth.current().then(
         response => {

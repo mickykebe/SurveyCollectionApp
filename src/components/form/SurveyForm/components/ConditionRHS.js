@@ -1,7 +1,9 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
-import { renderMenuSelectField, renderTextField } from 'components/form/helper/fieldRenderers';
+import Multiselect from 'react-widgets/lib/Multiselect';
+import { renderMenuSelectField, renderTextField, renderMultiSelectField } from 'components/form/helper/fieldRenderers';
+import { valFromLangObj } from 'utils';
 
 const styles = {
   root: {
@@ -17,8 +19,15 @@ const styles = {
 }
 
 function ConditionRHS(props) {
-  const { classes, operators, question } = props;
+  const { classes, operators, question, onConditionValueChange } = props;
   const opOptions = operators.map(op => ({ label: op.text, val: op.code }));
+  let valOptions = [];
+  if(question.choices) {
+    valOptions = question.choices.map((choice, index) => ({ 
+      label: (choice.text && valFromLangObj(choice.text)) || `Choice #${index+1}`,
+      val: choice.uuid,
+    }));
+  }
   return (
     <div className={classes.root}>
       <Field
@@ -29,14 +38,41 @@ function ConditionRHS(props) {
         className={classes.operator}
         />
       {
-        (question.type === 'text' ||
-        question.type === 'number' ||
-        question.type === 'number-range') &&
+        (
+          question.type === 'text' ||
+          question.type === 'number' ||
+          question.type === 'number-range'
+        ) &&
         <Field
           name="value"
           component={renderTextField}
           label="value"
           required={true}
+          className={classes.value}
+          onChange={(e, value) => onConditionValueChange(value)}
+          />
+      }
+      {
+        question.type === 'choose-one' &&
+        !!valOptions.length &&
+        <Field
+          name="value"
+          component={renderMenuSelectField}
+          label="Value"
+          options={valOptions}
+          className={classes.value}
+          onChange={(e, value) => onConditionValueChange(value)}
+          />
+      }
+      {
+        question.type === 'choose-any' &&
+        !!valOptions.length &&
+        <Field
+          name="value"
+          component={renderMultiSelectField}
+          data={valOptions}
+          valueField='val'
+          textField='label'
           className={classes.value}
           />
       }

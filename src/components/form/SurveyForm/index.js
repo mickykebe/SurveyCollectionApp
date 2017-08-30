@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm, Field, FieldArray, FormSection, formValueSelector } from 'redux-form';
+import { reduxForm, Field, FormSection, formValueSelector } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import { getAllLanguages, getLanguagesFromCodes } from 'reducers';
 import { surveyFormName } from 'constantValues';
 import { renderMultiChoiceField } from 'components/form/helper/fieldRenderers';
-import QuestionListForm from './QuestionListForm';
 import LangTextField from './LangTextField';
 import surveyFormValidator from './validator';
 import { uuidv4 } from 'utils';
@@ -16,6 +15,7 @@ import { withRouter } from 'react-router';
 import api from '../../../api';
 import { getSurveyCreateErrors, getIsCreatingSurvey } from 'reducers';
 import { showPopup } from '../../../actions';
+import QuestionGroupContainer from './containers/QuestionGroupContainer';
 
 const styles = {
   root: {
@@ -57,7 +57,7 @@ class SurveyForm extends Component {
   onSubmit(values) {
     this.props.createSurvey(values).then(() => {
       this.props.displayPopup('Survey created successfully');
-      this.props.history.push('/')
+      this.props.history.push('/');
     });
   }
 
@@ -89,15 +89,13 @@ class SurveyForm extends Component {
               component={renderMultiChoiceField}
               label="Languages"
               options={langOptions} />
-            <Field
-              name="groupRoot"
-              component={QuestionGroupContainer}
-              root={true}
-              />
-            {/*<FieldArray 
-              name="questions"
-              component={QuestionListForm}
-               />*/}
+            <FormSection name="groupRoot">
+              <Field
+                name="groupRoot"
+                component={QuestionGroupContainer}
+                root={true}
+                />
+            </FormSection>
             <Button raised color="accent" className={classes.submitButton} type="submit">Submit</Button>
           </form>
         </div>

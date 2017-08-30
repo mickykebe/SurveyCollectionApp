@@ -1,5 +1,6 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
+import Multiselect from 'react-widgets/lib/Multiselect';
 import AlignedTextField from 'components/form/controls/AlignedTextField';
 import MultiChoiceField from 'components/form/controls/MultiChoiceField';
 import MenuSelectField from 'components/form/controls/MenuSelectField';
@@ -51,4 +52,15 @@ export const renderMenuSelectField = ({
   <MenuSelectField
     {...input}
     {...meta}
+    {...custom} />;
+
+export const renderMultiSelectField = ({
+  input,
+  meta,
+  ...custom
+}) =>
+  <Multiselect
+    {...input}
+    onBlur={() => input.onBlur()}
+    value={input.value || []}
     {...custom} />;

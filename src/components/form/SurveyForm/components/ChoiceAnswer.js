@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Field } from 'redux-form';
+import { FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
-import { FormHelperText } from 'material-ui/Form';
 import Radio from 'material-ui/Radio';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
-import { renderAlignedTextField } from 'components/form/helper/fieldRenderers';
+import LangTextField from '../LangTextField';
 
 const styles = (theme) => ({
   root: {
@@ -24,7 +23,7 @@ const styles = (theme) => ({
 
 class ChoiceAnswer extends Component {
   render() {
-    const { classes, choice, choiceType, formLanguages, onRemove, error} = this.props;
+    const { classes, choiceType, formLanguages, onRemove} = this.props;
     const Control = choiceType === 'single' ? Radio : Checkbox;
     
     return (
@@ -33,22 +32,12 @@ class ChoiceAnswer extends Component {
           <Control
             disabled={true} />
         </div>
-        <div className={classes.inputs}>
-          {
-            formLanguages.map((lang) => 
-              <Field
-                key={lang.code}
-                name={`${choice}.text.${lang.code}`}
-                component={renderAlignedTextField}
-                label={`(${lang.name})`}
-                required={true}
-                margin="normal"
-                fullWidth={true}
-                />
-            )
-          }
-          <FormHelperText error>{error}</FormHelperText>
-        </div>
+        <FormSection name="text">
+          <LangTextField
+            languages={formLanguages}
+            required={true}
+            className={classes.inputs} />
+        </FormSection>
         <div>
           <IconButton onClick={onRemove}>
             <DeleteIcon/>

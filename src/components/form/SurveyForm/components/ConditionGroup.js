@@ -1,11 +1,10 @@
 import React from 'react';
-import { Field, FieldArray, FormSection } from 'redux-form';
+import { Field, FieldArray } from 'redux-form';
 import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
 import ConditionList from './ConditionList';
 import { withStyles } from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
-import { FormHelperText } from 'material-ui/Form';
 
 const styles = {
   root: {
@@ -25,10 +24,10 @@ const styles = {
   }
 };
 
-function ConditionGroup({ classes, condition, logicalOperators, allQuestions, currentQuestion, onRemove}) {
+function ConditionGroup({ classes, logicalOperators, controllingQuestions, onRemove}) {
   const operatorOptions = logicalOperators.map(op => ({ label: op.text, val: op.code }));
-  if(allQuestions.length < 2) {
-    return (<FormHelperText error className={classes.err}>A minimum of two question required</FormHelperText>);
+  if(!controllingQuestions.length) {
+    return null;
   }
   return (
     <div className={classes.root}>
@@ -47,12 +46,11 @@ function ConditionGroup({ classes, condition, logicalOperators, allQuestions, cu
         <FieldArray
           name='conditions'
           component={ConditionList}
-          allQuestions={allQuestions}
-          currentQuestion={currentQuestion}
+          controllingQuestions={controllingQuestions}
           logicalOperators={logicalOperators} />
       </div>
       {
-        condition &&
+        !!onRemove &&
         <IconButton onClick={onRemove}>
           <DeleteIcon />
         </IconButton>
@@ -61,15 +59,5 @@ function ConditionGroup({ classes, condition, logicalOperators, allQuestions, cu
   );
 }
 
-function Wrapper(props) {
-  if(!props.condition)
-    return <ConditionGroup {...props} />;
-  return (
-    <FormSection name={props.condition}>
-      <ConditionGroup {...props} />
-    </FormSection>
-  );
-}
-
-export default withStyles(styles)(Wrapper);
+export default withStyles(styles)(ConditionGroup);
 

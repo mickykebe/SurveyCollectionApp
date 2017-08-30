@@ -22,7 +22,7 @@ const types = {
   "choose-any": {
     id: "choose-any",
     name: "Choose Many",
-    validOperators: ["==", "!="]
+    validOperators: ["one-of"]
   },
   "location": {
     id: 'location',

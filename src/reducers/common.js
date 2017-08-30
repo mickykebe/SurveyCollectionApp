@@ -1,4 +1,5 @@
 import {
+  ACTION_APP_LOAD_REQUEST,
   ACTION_APP_LOAD_SUCCESS,
   ACTION_APP_LOAD_FAIL,
   ACTION_LOGIN_SUCCESS,
@@ -15,6 +16,12 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch(action.type) {
+    case ACTION_APP_LOAD_REQUEST:
+      return {
+        ...state,
+        appLoaded: false,
+        appLoadError: null,
+      };
     case ACTION_APP_LOAD_SUCCESS:
       return {
         ...state,

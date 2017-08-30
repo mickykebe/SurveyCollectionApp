@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { Field, FieldArray, FormSection } from 'redux-form';
+import { Field, FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
-import Card, { CardContent, CardActions } from 'material-ui/Card';
+import Card, { CardContent, CardActions} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
-import LangTextField from '../LangTextField';
 import IconButton from 'material-ui/IconButton';
-import FunctionIcon from 'material-ui-icons/Functions';
 import DeleteIcon from 'material-ui-icons/Delete';
+import FunctionIcon from 'material-ui-icons/Functions';
 import Collapse from 'material-ui/transitions/Collapse';
-import QuestionGroupList from './QuestionGroupList';
+import LangTextField from '../LangTextField';
+import QuestionTypeContainer from '../containers/QuestionTypeContainer';
 import ConditionGroupContainer from '../containers/ConditionGroupContainer';
 import { valFromLangObj } from 'utils';
 
@@ -28,19 +28,12 @@ const styles = (theme) => ({
   flexGrow: {
     flex: '1 1 auto',
   },
-  content: {
-    width: '95%',
-    margin: '0 auto',
-  },
-  elements: {
-    marginTop: '8px',
-  },
   overflow: {
     overflow: 'visible',
   }
 });
 
-class QuestionGroup extends Component{
+class QuestionForm extends Component {
   constructor(props) {
     super(props);
 
@@ -52,36 +45,35 @@ class QuestionGroup extends Component{
   }
 
   render() {
-    const { classes, root, index, formLanguages, group, controllingQuestions, onRemove } = this.props;
+    const { classes, question, index, formLanguages, controllingQuestions } = this.props;
+    const { onRemove } = this.props;
     return (
       <div>
-        <CardContent className={classes.content}>
+        <CardContent>
           <Typography type="subheading" align="center">
-            {`${index+1}) Group: ${valFromLangObj(group.title)}`}
+            {`${index+1}) Question: ${valFromLangObj(question.title)}`}
           </Typography>
           <FormSection name="title">
             <LangTextField
               label="Title"
               languages={formLanguages}
               labelClassName={classes.titleLabel}
-              inputGroupClassName={classes.inputs} />
+              inputGroupClassName={classes.inputs}
+              required={true} />
           </FormSection>
-          <div className={classes.elements}>
-            <FieldArray
-              name="groupElements"
-              formLanguages={formLanguages}
-              component={QuestionGroupList}
-              root={root}
-              />
-          </div>
+          <Field
+            name='type'
+            component={QuestionTypeContainer}
+            controllingQuestions={controllingQuestions}
+            formLanguages={formLanguages} />
         </CardContent>
         <CardActions>
-          { controllingQuestions.length && 
+          { controllingQuestions.length &&
             <IconButton onClick={this.handleExpandClick}>
               <FunctionIcon />
             </IconButton>
           }
-          <div className={classes.flexGrow}/>
+          <div className={classes.flexGrow} />
           <IconButton onClick={onRemove}>
             <DeleteIcon />
           </IconButton>
@@ -101,25 +93,15 @@ class QuestionGroup extends Component{
   }
 }
 
-function RootQuestionGroup({ root, formLanguages }) {
-  return <FieldArray
-    name="groupElements"
-    formLanguages={formLanguages}
-    component={QuestionGroupList}
-    root={root}
-    />
-}
-
 function CardWrapper(props) {
-  const QGComponent = props.root ? RootQuestionGroup : QuestionGroup;
   if(props.rootChild) {
     return (
       <Card className={props.classes.root}>
-        <QGComponent {...props} />
+        <QuestionForm {...props} />
       </Card>
     );
   }
-  return <QGComponent {...props} />;
+  return <QuestionForm {...props} />;
 }
 
 export default withStyles(styles)(CardWrapper);

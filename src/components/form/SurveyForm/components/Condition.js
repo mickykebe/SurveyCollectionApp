@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Field, FormSection } from 'redux-form';
+import { Field } from 'redux-form';
 import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
 import { withStyles } from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
@@ -37,47 +37,49 @@ class Condition extends Component {
 
   getSelectedQuestion() {
     const uuid = this.state.selectedQuuid;
-    return this.props.allQuestions.reduce((question, currentQuestion) => {
+    return this.props.controllingQuestions.reduce((question, currentQuestion) => {
       return (question.uuid === uuid || currentQuestion.uuid !== uuid) ? question : currentQuestion;
     }, {});
   }
 
   render() {
-    const { classes, allQuestions, currentQuestion, condition, onRemove } = this.props;
+    const { 
+      classes, 
+      controllingQuestions,
+      onConditionValueChange, 
+      onRemove } = this.props;
     
-    const questionOptions = allQuestions
+    const questionOptions = controllingQuestions
       .map((q, index) => ({ 
         label: (q.title && valFromLangObj(q.title)) || `Question #${index+1}`,
         val: q.uuid,
-      }))
-      .filter(option => option.val !== currentQuestion.uuid);
+      }));
 
     return (
-      <FormSection name={condition}>
-        <div className={classes.root}>
-          <div className={classes.conditionBox}>
+      <div className={classes.root}>
+        <div className={classes.conditionBox}>
+          <Field
+            name="question"
+            component={renderMenuSelectField}
+            label='Question'
+            options={questionOptions}
+            onChange={this.onQuestionChange}
+            className={classes.selectQuestion}
+            />
+          { 
+            this.state.selectedQuuid && 
             <Field
-              name="question"
-              component={renderMenuSelectField}
-              label='Question'
-              options={questionOptions}
-              onChange={this.onQuestionChange}
-              className={classes.selectQuestion}
-              />
-            { 
-              this.state.selectedQuuid && 
-              <Field
-                name="conditionRHS"
-                component={ConditionRHSContainer}
-                question={this.getSelectedQuestion()}
-                 />
-            }
-          </div>
-          <IconButton onClick={onRemove}>
-            <DeleteIcon />
-          </IconButton>
+              name="conditionRHS"
+              component={ConditionRHSContainer}
+              question={this.getSelectedQuestion()}
+              onConditionValueChange={onConditionValueChange}
+                />
+          }
         </div>
-      </FormSection>
+        <IconButton onClick={onRemove}>
+          <DeleteIcon />
+        </IconButton>
+      </div>
     );
   }
 }

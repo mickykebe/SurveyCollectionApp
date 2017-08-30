@@ -26,7 +26,7 @@ class ChoiceListAnswer extends Component {
       meta: { dirty, error } 
     } = this.props;
 
-    const onAddForm = onAddFormProp ? onAddFormProp : () => fields.push({ uuid: uuidv4(), schema: 'condition', operator: '==' });
+    const onAddForm = onAddFormProp ? onAddFormProp : () => fields.push({ uuid: uuidv4(), schema: 'choice_condition', operator: '==' });
 
     return (
       <div>
@@ -44,7 +44,7 @@ class ChoiceListAnswer extends Component {
               name={choice}>
                 <Field
                   name={choice}
-                  component={choiceSchema === 'condition' ? ChoiceCondition : ChoiceAnswer}
+                  component={choiceSchema === 'choice_condition' ? ChoiceCondition : ChoiceAnswer}
                   choiceType={choiceType}
                   formLanguages={formLanguages}
                   onRemove={() => fields.remove(index)}

@@ -17,12 +17,13 @@ class ChoiceCondition extends Component{
     this.state = { showChoiceToolbar: false };
   }
   render() {
-    const { classes, controllingQuestions, formLanguages, choiceType } = this.props;
+    const { classes, controllingQuestions, formLanguages, choiceType, onRemove } = this.props;
     return (
       <div>
         <Condition
           onConditionValueChange={(val) => this.setState({ showChoiceToolbar: !!val })}
-          controllingQuestions={controllingQuestions} />
+          controllingQuestions={controllingQuestions}
+          onRemove={onRemove} />
         { this.state.showChoiceToolbar &&
           <div className={classes.choices}>
             <FieldArray

@@ -16,6 +16,7 @@ import api from '../../../api';
 import { getSurveyCreateErrors, getIsCreatingSurvey } from 'reducers';
 import { showPopup } from '../../../actions';
 import QuestionGroupContainer from './containers/QuestionGroupContainer';
+import { toApiData } from './utils';
 
 const styles = {
   root: {
@@ -55,6 +56,7 @@ class SurveyForm extends Component {
   }
 
   onSubmit(values) {
+    const data = toApiData(values);
     this.props.createSurvey(values).then(() => {
       this.props.displayPopup('Survey created successfully');
       this.props.history.push('/');
@@ -109,7 +111,14 @@ export default compose(
   withStyles(styles),
   reduxForm({
     form: surveyFormName, 
-    initialValues: { uuid: uuidv4(), languages: ['en'] },
+    initialValues: { 
+      uuid: uuidv4(), 
+      languages: ['en'],
+      groupRoot: {
+        uuid: uuidv4(),
+        root: true,
+      }
+     },
     validate: surveyFormValidator,
   }),
 )(SurveyForm);

@@ -30,6 +30,7 @@ export const apiActionCreator = (actionTypes) => (apiRequest, inProgressSelector
       });
     }, e => {
       const error = (e.response && e.response.body) || null;
+      console.log(error);
       if(!error) {
         dispatch(showPopup('Problem occurred fetching from server'));
       }

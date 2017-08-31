@@ -48,6 +48,5 @@ const groupsAndQuestions = (groupRoot) => {
 export function toApiData(formData) {
   const { groupRoot, ...surveyFields } = formData;
   const { questions, groups } = groupsAndQuestions(groupRoot);
-  console.log({ ...surveyFields, questions, groups });
   return { ...surveyFields, questions, groups };
 }

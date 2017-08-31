@@ -26,8 +26,7 @@ class ChoiceListAnswer extends Component {
       meta: { dirty, error } 
     } = this.props;
 
-    const onAddForm = onAddFormProp ? onAddFormProp : () => fields.push({ uuid: uuidv4(), schema: 'choice_condition', operator: '==' });
-
+    const onAddForm = onAddFormProp || onAddFormProp === false ? onAddFormProp : () => fields.push({ uuid: uuidv4(), schema: 'choice_condition', operator: '==' });
     return (
       <div>
         <FormToolbar

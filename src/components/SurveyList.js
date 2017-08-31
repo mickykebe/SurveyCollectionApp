@@ -7,6 +7,10 @@ import AddIcon from 'material-ui-icons/Add';
 import Typography from 'material-ui/Typography';
 
 const styles = (theme) => ({
+  root: {
+    maxWidth: '1024px',
+    margin: '0 auto',
+  },
   header: {
     display: 'flex',
     marginBottom: '20px',
@@ -30,7 +34,7 @@ class SurveyList extends Component {
     const { classes, surveys, history } = this.props;
     
     return (
-      <div>
+      <div className={classes.root}>
         <div className={classes.header}>
           <Typography type="headline" className={classes.headerText}>
             My Surveys

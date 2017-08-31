@@ -15,6 +15,7 @@ import SurveyForm from './form/SurveyForm';
 import PrivateRoute from './PrivateRoute';
 import PublicOnlyRoute from './PublicOnlyRoute';
 import PopupSnackbar from './PopupSnackbar';
+import AnswerContainer from './answer/AnswerContainer';
 import { withStyles } from 'material-ui/styles';
 
 const styles = (theme) => ({
@@ -113,6 +114,7 @@ class App extends Component {
           <PublicOnlyRoute path="/register" component={Register} />
           <PublicOnlyRoute path="/login" component={Login} />
           <PrivateRoute path="/surveys/new" component={SurveyForm} />
+          <PrivateRoute path="/surveys/answers" component={AnswerContainer} />
         </div>
         <PopupSnackbar 
           show={!!popupMessage}

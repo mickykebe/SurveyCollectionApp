@@ -43,8 +43,12 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  createSurvey: (survey) => dispatch(surveyCreate(api.Surveys.create(survey), getIsCreatingSurvey)),
-  displayPopup: (message) => dispatch(showPopup(message)),
+  createSurvey(survey) {
+    return dispatch(surveyCreate(api.Surveys.create(survey), getIsCreatingSurvey));
+  },
+  displayPopup(message) {
+    dispatch(showPopup(message));
+  }
 })
 
 class SurveyForm extends Component {
@@ -57,10 +61,12 @@ class SurveyForm extends Component {
 
   onSubmit(values) {
     const data = toApiData(values);
-    this.props.createSurvey(values).then(() => {
-      this.props.displayPopup('Survey created successfully');
-      this.props.history.push('/');
-    });
+    this.props.createSurvey(data)
+      .then(() => {
+        this.props.displayPopup('Survey created successfully');
+        this.props.history.push('/');
+      })
+      .catch(e => this.props.displayPopup('Error occurred creating survey.'));
   }
 
   render() {

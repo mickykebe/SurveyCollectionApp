@@ -1,9 +1,11 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { withStyles } from 'material-ui/styles';
-import Card, { CardContent } from 'material-ui/Card';
+import Card, { CardContent, CardActions } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
 import Chip from 'material-ui/Chip';
 import { valFromLangObj } from 'utils';
 
@@ -11,7 +13,7 @@ const styles = (theme) => ({
   row: {
     display: 'flex',
     flexWrap: 'wrap',
-    padding: '8px'
+    paddingLeft: '8px',
   },
   chip: {
     margin: theme.spacing.unit,
@@ -45,6 +47,11 @@ function SurveyCard(props) {
               className={classes.chip} />)
         }
       </div>
+      <CardActions>
+        <Button dense onClick={() => props.history.push('/surveys/answers')}>
+          Show Answers
+        </Button>
+      </CardActions>
     </Card>
   );
 }
@@ -56,4 +63,4 @@ SurveyCard.propTypes = {
   languages: PropTypes.array
 }
 
-export default withStyles(styles)(SurveyCard);
+export default withRouter(withStyles(styles)(SurveyCard));

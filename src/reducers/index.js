@@ -32,8 +32,6 @@ export const getAuthErrors = (state) =>
   fromAuth.getAuthErrors(state.auth);
 
 //Survey selectors
-export const getAllSurveys = (state) => 
-  fromSurveys.getAllSurveys(state.surveys);
 export const getIsCreatingSurvey = (state) =>
   fromSurveys.getIsCreatingSurvey(state.surveys);
 export const getIsFetchingSurveys = (state) =>
@@ -68,3 +66,5 @@ export const getQuestionTypeOperators = (state, id) => {
   const operatorCodes = fromQuestionTypes.getQuestionTypeOperators(state.questionTypes, id);
   return operatorCodes.map(code => fromOperators.getOperator(state.operators, code));
 }
+export const getCurrentUserSurveys = (state) => 
+  fromSurveys.getUserSurveys(state.surveys, state.common.currentUser.id);

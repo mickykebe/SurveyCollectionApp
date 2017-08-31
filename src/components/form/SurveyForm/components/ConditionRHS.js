@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
-import Multiselect from 'react-widgets/lib/Multiselect';
 import { renderMenuSelectField, renderTextField, renderMultiSelectField } from 'components/form/helper/fieldRenderers';
 import { valFromLangObj } from 'utils';
 

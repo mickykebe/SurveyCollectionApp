@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getAllSurveys, getIsFetchingSurveys, getSurveyFetchErrors } from 'reducers';
+import { getCurrentUserSurveys, getIsFetchingSurveys, getSurveyFetchErrors } from 'reducers';
 import SurveyList from 'components/SurveyList';
 import { surveysFetch } from '../actions';
 import { CircularProgress } from 'material-ui/Progress';
@@ -15,7 +15,7 @@ const styles = {
 }
 
 const mapStateToProps = (state) => ({
-  surveys: getAllSurveys(state),
+  surveys: getCurrentUserSurveys(state),
   isFetching: getIsFetchingSurveys(state),
   errors: getSurveyFetchErrors(state),
 });

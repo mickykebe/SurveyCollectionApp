@@ -6,9 +6,15 @@ import reducers from './reducers';
 import api from './api';
 import localStorageMiddleware from './middleware/localStorage';
 import normalizerMiddleware from './middleware/normalizer';
+import userMiddleware from './middleware/user';
 
 const getMiddleware = () => {
-  const middlewares = [thunk.withExtraArgument(api), localStorageMiddleware, normalizerMiddleware];
+  const middlewares = [
+    thunk.withExtraArgument(api), 
+    localStorageMiddleware, 
+    userMiddleware,
+    normalizerMiddleware,
+  ];
 
   if(process.env.NODE_ENV === 'development') {
     middlewares.push(logger);

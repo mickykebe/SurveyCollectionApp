@@ -21,6 +21,33 @@ const byId = (state = {}, action) => {
   }
 }
 
+const ids = (state = [], action) => {
+  switch(action.type) {
+    case ACTION_SURVEY_CREATE_SUCCESS:
+      return [...state, action.response.result]
+    case ACTION_SURVEYS_FETCH_SUCCESS:
+      return [
+        ...state,
+        ...action.response.result,
+      ];
+    default:
+      return state;
+  }
+}
+
+const idsByUser = (state = {}, action) => {
+  switch(action.type) {
+    case ACTION_SURVEY_CREATE_SUCCESS:
+    case ACTION_SURVEYS_FETCH_SUCCESS:
+      return {
+        ...state,
+        [action.userId]: ids(state.userId, action),
+      };
+    default:
+      return state;
+  }
+}
+
 const allIds = (state = [], action) => {
   switch(action.type) {
     case ACTION_SURVEY_CREATE_SUCCESS:
@@ -66,13 +93,13 @@ const asyncStatus = (actionRequest, actionSuccess, actionFail) =>
 
 export default combineReducers({
   byId,
-  allIds,
+  idsByUser,
   create: asyncStatus(ACTION_SURVEY_CREATE_REQUEST, ACTION_SURVEY_CREATE_SUCCESS, ACTION_SURVEY_CREATE_FAIL),
   fetch: asyncStatus(ACTION_SURVEYS_FETCH_REQUEST, ACTION_SURVEYS_FETCH_SUCCESS, ACTION_SURVEYS_FETCH_FAIL),
 });
 
-export const getAllSurveys = (state) =>
-  state.allIds.map(id => state.byId[id]);
+export const getUserSurveys = (state, userId) =>
+  state.idsByUser[userId].map(id => state.byId[id]);
 export const getIsCreatingSurvey = (state) =>
   state.create.inProgress;
 export const getSurveyCreateErrors = (state) =>

@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
-import Button from 'material-ui/Button';
+import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
-import { fetchSurvey, surveyAnswers } from './mockData';
 import Divider from 'material-ui/Divider';
-
-
 
 const styles = {
     card: {
@@ -47,10 +43,10 @@ const styles = {
   };
   
   function QuestionAnswer(props){
-  
     const {classes} = props;
     const question = props.question;
     const answer = props.answer;
+
     return (
         <div>
           <Card className={classes.card}>
@@ -74,14 +70,6 @@ const styles = {
                  {answer} sammy
              </Typography>
             </CardContent>
-            {/*<CardActions >
-              <Button dense color="primary" className={classes.btn}>
-                Edit
-              </Button>
-              <Button dense color="primary" className={classes.btnWarning}>
-                Remove
-              </Button>
-            </CardActions>*/}
           </Card>
         
         </div>

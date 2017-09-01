@@ -4,8 +4,6 @@ import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import AccountCircleIcon from 'material-ui-icons/AccountCircle';
-import Divider from 'material-ui/Divider';
-import { surveyAnswers } from './mockData';
 
 const styles = theme => ({
   root: {
@@ -17,7 +15,6 @@ const styles = theme => ({
 
 function SurveyAnswer(props) {
   const {classes} = props;
-  const uuid = props.uuid;
   return (
     <div className={classes.root}>
       <List>

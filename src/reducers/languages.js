@@ -11,9 +11,13 @@ const defaultState = {
     "or": {
       code: "Or",
       name: "Oromiffa"
+    },
+    "tr": {
+      code: "Tr",
+      name: "Tigrigna"
     }
   },
-  allCodes: ["en", "am", "or"],
+  allCodes: ["en", "am", "or", "tr"],
 };
 
 const languages = (state = defaultState, action) => {

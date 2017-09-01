@@ -1,3 +1,12 @@
+const normalizeCondition = (condition) => {
+  if(condition.operator === 'one-of') {
+    const { value, ..._condition } = condition;
+    const _value = value.map((v) => v.val);
+    return { ..._condition, value: _value};
+  }
+  return condition;
+}
+
 const choicesAndConditions = (rawChoices) => {
   let choices = [];
   let choiceConditions = [];
@@ -8,7 +17,7 @@ const choicesAndConditions = (rawChoices) => {
     else if(element.schema === 'choice_condition') {
       const { choices: subChoices, ...condition} = element;
       condition.choices = subChoices.map(choice => choice.uuid);
-      choiceConditions.push(condition);
+      choiceConditions.push(normalizeCondition(condition));
       choices = [ ...choices, ...subChoices];
     }
   });
@@ -32,7 +41,7 @@ const groupsAndQuestions = (groupRoot) => {
     if(groupElement.schema === 'question') {
       const question = normalizeQuestion(groupElement);
       group.questions.push(groupElement.uuid);
-      questions.push({ group: group.uuid, ...groupElement });
+      questions.push({ group: group.uuid, ...question });
     }
     else if(groupElement.schema === 'group') {
       const subGroup = { parent: group.uuid, ...groupElement };

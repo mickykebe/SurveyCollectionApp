@@ -20,9 +20,6 @@ const styles = (theme) => ({
     flex: '1',
 
   },
-  card: {
-    marginBottom: '20px'
-  },
   addButton: {
     width: '50px',
     height: '50px',
@@ -44,8 +41,14 @@ class SurveyList extends Component {
           </Button>
         </div>
         {
+          !surveys.length &&
+          <Typography type="subheading">
+            No surveys created yet
+          </Typography>
+        }
+        {
           surveys.map(({uuid: id, ...rest}) => 
-            <SurveyCardContainer key={id} {...rest} className={classes.card} />)
+            <SurveyCardContainer key={id} {...rest} />)
         }
       </div>
     )

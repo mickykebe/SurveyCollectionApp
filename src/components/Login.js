@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
-import AuthView from './AuthView';
+import AuthViewContainer from '../containers/AuthViewContainer';
 import { login } from '../actions';
 import { getAuthErrors } from 'reducers';
 import api from '../api';
@@ -58,7 +58,7 @@ class Login extends Component {
     } = errors || {};
 
     return (
-      <AuthView>
+      <AuthViewContainer>
         <form onSubmit={this.onSubmitForm}>
           <TextField
             required={true}
@@ -85,7 +85,7 @@ class Login extends Component {
             helperText={passwordError} />
           <Button raised className={classes.button} color="accent" type="submit">Login</Button>
         </form>
-      </AuthView>
+      </AuthViewContainer>
     );
   }
 }

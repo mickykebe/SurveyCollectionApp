@@ -6,7 +6,7 @@ import api from '../api';
 
 export default store => next => action => {
   if(action.type === ACTION_REGISTER_SUCCESS || action.type === ACTION_LOGIN_SUCCESS) {
-    api.setToken(token);
+    api.setToken(action.response.user.token);
     next(action);
     const token = store.getState().common.token;
     window.localStorage.setItem('jwt', token);

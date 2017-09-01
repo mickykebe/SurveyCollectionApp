@@ -10,6 +10,9 @@ import Chip from 'material-ui/Chip';
 import { valFromLangObj } from 'utils';
 
 const styles = (theme) => ({
+  root: {
+    marginBottom: '20px',
+  },
   row: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -26,15 +29,14 @@ const styles = (theme) => ({
 });
 
 function SurveyCard(props) {
-  const { title, description, languages, classes, className } = props;
-  const rootClass = classnames(className);
+  const { title, description, languages, classes } = props;
   return (
-    <Card className={rootClass}>
+    <Card className={classes.root}>
       <CardContent className={classes.content}>
         <Typography type="title">
           {valFromLangObj(title)}
         </Typography>
-        <Typography component="p">
+        <Typography component="subheading">
           {valFromLangObj(description)}
         </Typography>
       </CardContent>

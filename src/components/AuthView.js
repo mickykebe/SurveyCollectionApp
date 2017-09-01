@@ -3,10 +3,11 @@ import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 import logo from '../images/logo.png';
+import { LinearProgress } from 'material-ui/Progress';
 
 const styles = {
   formContainer: {
-    padding: '30px'
+    padding: '32px'
   },
   logo: {
     display: "block",
@@ -15,15 +16,21 @@ const styles = {
   }
 };
 
-class AuthForm extends Component {
+class AuthView extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, isAuthenticating } = this.props;
     return (
       <Grid container justify="center">
-        <Grid item xs={12} sm={7}>
-          <Paper className={classes.formContainer}>
-            <img src={logo} className={classes.logo} alt="logo"/>
-            {this.props.children}
+        <Grid item xs={12} sm={7} md={5}>
+          <Paper>
+            { 
+              isAuthenticating && 
+              <LinearProgress color="accent" />
+            }
+            <div className={classes.formContainer}>
+              <img src={logo} className={classes.logo} alt="logo"/>
+              {this.props.children}
+            </div>
           </Paper>
         </Grid>
       </Grid>
@@ -31,4 +38,4 @@ class AuthForm extends Component {
   }
 }
 
-export default withStyles(styles)(AuthForm);
+export default withStyles(styles)(AuthView);

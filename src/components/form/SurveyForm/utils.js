@@ -53,9 +53,45 @@ const groupsAndQuestions = (groupRoot) => {
   return { groups, questions };
 }
 
-
+// Transforms the form data to the api schema
 export function toApiData(formData) {
   const { groupRoot, ...surveyFields } = formData;
   const { questions, groups } = groupsAndQuestions(groupRoot);
   return { ...surveyFields, questions, groups };
 }
+
+//Transforms the api data back to the survey form schema
+export function toApiSchema(apiData) {
+  const { groups, questions, ...survey } = apiData;
+  const rootGroup = getRootGroup(groups);
+  const groupRoot = buildGroup(rootGroup, groups, questions);
+  return { ...survey, groupRoot };
+}
+
+const getRootGroup = (groups) => {
+  return groups.reduce((rootGroup, currentGroup) => {
+    if(!!rootGroup) {
+      return rootGroup;
+    }
+    if(currentGroup.root) {
+      return currentGroup;
+    }
+    return null;
+  }, null);
+}
+
+const buildFormGroup = (rootGroup, groups, questions) => {
+  const { questions: questionIds, ...group } = rootGroup;
+  const subGroups = groups
+    .filter(group => group.parent === rootGroup.uuid)
+    .map(group => buildFormGroup(group, groups, questions));
+  const subQuestions = questions
+    .filter(question => question.group === rootGroup.uuid)
+    .map(question => buildFormQuestion(question));
+  const groupElements = [...subGroups, ...subQuestions];
+  return { ...group, groupElements };
+}
+
+/* const buildFormQuestion = (question) => {
+
+} */

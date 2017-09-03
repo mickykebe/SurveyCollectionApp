@@ -64,7 +64,7 @@ export function toApiData(formData) {
 export function toApiSchema(apiData) {
   const { groups, questions, ...survey } = apiData;
   const rootGroup = getRootGroup(groups);
-  const groupRoot = buildGroup(rootGroup, groups, questions);
+  const groupRoot = buildFormGroup(rootGroup, groups, questions);
   return { ...survey, groupRoot };
 }
 
@@ -89,9 +89,32 @@ const buildFormGroup = (rootGroup, groups, questions) => {
     .filter(question => question.group === rootGroup.uuid)
     .map(question => buildFormQuestion(question));
   const groupElements = [...subGroups, ...subQuestions];
-  return { ...group, groupElements };
+  return { ...group, schema: 'group', groupElements };
 }
 
-/* const buildFormQuestion = (question) => {
+const buildFormQuestion = (question) => {
+  const buildChoiceCondition = (choiceCondition, choices) => {
+    const { choices: choiceIds, ..._choiceCondition } = choiceCondition;
+    const _choices = choices
+      .filter(choice => !!choiceIds.findIndex((choiceId) => choiceId === choice.uuid))
+      .map(choice => ({ ...choice, schema: 'choice'}));
+    return { ..._choiceCondition, choices: _choices, schema: 'choice_condition' };
+  }
 
-} */
+  const choicesWithoutConditions = (choiceConditions, choices) => {
+    return choices.filter(
+      choice => choiceConditions.reduce((found, condition) => {
+        if(found) {
+          return true;
+        }
+        const choiceIds = condition.choices || [];
+        return !!choiceIds.findIndex(id => id === choice.uuid);
+      }, false)
+    ).map(choice => ({...choice, schema: 'choice'}));
+  }
+
+  const { choice_conditions = [], choices = [], ..._question } = question;
+  const choiceConditionElems = choice_conditions.map((choiceCondition => buildChoiceCondition(choiceCondition, choices)));
+  const choiceElems = choicesWithoutConditions(choice_conditions, choices);
+  return { ..._question, choices: [...choiceElems, ...choiceConditionElems ], schema: 'question'};
+}

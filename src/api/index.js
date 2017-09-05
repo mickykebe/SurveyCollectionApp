@@ -19,8 +19,8 @@ const requests = {
     superagent.get(`${BASE_URL}${path}`).use(tokenPlugin).then(responseBody),
   post: (path, body) =>
     superagent.post(`${BASE_URL}${path}`, body).use(tokenPlugin).then(responseBody),
-  postResponse: (path, body) =>
-    superagent.post(`${BASE_URL}${path}`, body).use(tokenPlugin),
+  put: (path, body) =>
+    superagent.put(`${BASE_URL}${path}`, body).use(tokenPlugin).then(responseBody),
 }
 
 const Auth = {
@@ -44,11 +44,17 @@ const Auth = {
 }
 
 const Surveys = {
+  mine() {
+    return requests.get('/surveys/mine/');
+  },
+  get(id) {
+    return requests.get(`/surveys/${id}/`);
+  },
   create(survey) {
     return requests.post('/surveys/', { ...survey });
   },
-  mine() {
-    return requests.get('/surveys/mine/');
+  update(survey) {
+    return requests.put(`/surveys/${survey.uuid}/`, { ...survey });
   }
 }
 

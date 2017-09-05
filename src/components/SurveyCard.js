@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent, CardActions } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
+import IconButton from 'material-ui/IconButton';
 import Chip from 'material-ui/Chip';
+import CreateIcon from 'material-ui-icons/Create';
 import { valFromLangObj } from 'utils';
 
 const styles = (theme) => ({
@@ -28,7 +29,7 @@ const styles = (theme) => ({
 });
 
 function SurveyCard(props) {
-  const { title, description, languages, classes } = props;
+  const { id, title, description, languages, classes, history } = props;
   return (
     <Card className={classes.root}>
       <CardContent className={classes.content}>
@@ -49,9 +50,9 @@ function SurveyCard(props) {
         }
       </div>
       <CardActions>
-        <Button dense onClick={() => props.history.push('/surveys/answers')}>
-          Show Answers
-        </Button>
+        <IconButton onClick={() => history.push(`/surveys/edit/${id}`)}>
+          <CreateIcon />
+        </IconButton>
       </CardActions>
     </Card>
   );

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
-import { surveyFormName } from 'constantValues';
+import { surveyFormName } from '../constants';
 import { getAllQuestionTypes } from 'reducers';
 import QuestionType from '../components/QuestionType';
 

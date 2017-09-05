@@ -61,8 +61,8 @@ export function toApiData(formData) {
 }
 
 //Transforms the api data back to the survey form schema
-export function toApiSchema(apiData) {
-  const { groups, questions, ...survey } = apiData;
+export function toFormSchema(surveyData) {
+  const { groups, questions, ...survey } = surveyData;
   const rootGroup = getRootGroup(groups);
   const groupRoot = buildFormGroup(rootGroup, groups, questions);
   return { ...survey, groupRoot };
@@ -103,7 +103,7 @@ const buildFormQuestion = (question) => {
 
   const choicesWithoutConditions = (choiceConditions, choices) => {
     return choices.filter(
-      choice => choiceConditions.reduce((found, condition) => {
+      choice => !choiceConditions.reduce((found, condition) => {
         if(found) {
           return true;
         }

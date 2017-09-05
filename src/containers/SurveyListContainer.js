@@ -1,42 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCurrentUserSurveys, getIsFetchingSurveys, getSurveyFetchErrors } from 'reducers';
+import { getCurrentUserSurveys, getIsFetchingSurveyFeed, getSurveyFeedFetchErrors } from '../reducers';
 import SurveyList from 'components/SurveyList';
-import { surveysFetch } from '../actions';
-import { CircularProgress } from 'material-ui/Progress';
-import { withStyles } from 'material-ui/styles';
+import { surveyFeedFetch } from '../actions';
+import AppCircularProgress from '../components/AppCircularProgress';
 import api from '../api';
-
-const styles = {
-  progress: {
-    display: 'block',
-    margin: '0 auto',
-  }
-}
 
 const mapStateToProps = (state) => ({
   surveys: getCurrentUserSurveys(state),
-  isFetching: getIsFetchingSurveys(state),
-  errors: getSurveyFetchErrors(state),
+  isFetching: getIsFetchingSurveyFeed(state),
+  errors: getSurveyFeedFetchErrors(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchSurveys() {
-    dispatch(surveysFetch(api.Surveys.mine(), getIsFetchingSurveys));
+  fetchSurveyFeed() {
+    dispatch(surveyFeedFetch(api.Surveys.mine(), getIsFetchingSurveyFeed));
   }
 });
 
 class SurveyListContainer extends Component {
   componentDidMount() {
-    this.props.fetchSurveys();
+    this.props.fetchSurveyFeed();
   }
 
   render() {
-    const { classes, surveys, isFetching } = this.props;
+    const { surveys, isFetching } = this.props;
     if(isFetching && !surveys.length) {
       return (
         <div> 
-          <CircularProgress className={classes.progress} color="accent" />
+         <AppCircularProgress />
         </div>
       );
     }
@@ -49,4 +41,4 @@ class SurveyListContainer extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SurveyListContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(SurveyListContainer);

@@ -1,9 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { withRouter } from 'react-router';
-import { clearPopup, getCurrentUser } from '../actions';
-import { getAppLoadError, getPopupMessage } from '../reducers';
 import api from '../api';
 import Header from './Header';
 import Login from './Login';
@@ -11,11 +6,12 @@ import Register from './Register';
 import Home from './Home';
 import AppLoading from './AppLoading';
 import AppLoadingError from './AppLoadingError';
-import SurveyForm from './form/SurveyForm';
 import PrivateRoute from './PrivateRoute';
 import PublicOnlyRoute from './PublicOnlyRoute';
 import PopupSnackbar from './PopupSnackbar';
 import AnswerContainer from './answer/AnswerContainer';
+import SurveyCreate from '../containers/SurveyCreate';
+import SurveyEdit from '../containers/SurveyEdit';
 import { withStyles } from 'material-ui/styles';
 
 const styles = (theme) => ({
@@ -57,21 +53,6 @@ const styles = (theme) => ({
   },
 });
 
-const mapStateToProps = state => ({
-  appLoaded: state.common.appLoaded,
-  appLoadError: getAppLoadError(state),
-  token: state.common.token,
-  currentUser: state.common.currentUser,
-  popupMessage: getPopupMessage(state),  
-});
-
-const mapDispatchToProps = dispatch => ({
-  onLoad: (token) =>
-    dispatch(getCurrentUser(token)),
-  clearPopupMessage: () =>
-    dispatch(clearPopup()),  
-});
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -81,10 +62,10 @@ class App extends Component {
 
   loadCurrentUser() {
     const token = window.localStorage.getItem('jwt');
+
     if(token) {
       api.setToken(token);
     }
-
     this.props.onLoad(token);
   }
   
@@ -113,10 +94,11 @@ class App extends Component {
           <PrivateRoute exact path="/" component={Home} />
           <PublicOnlyRoute path="/register" component={Register} />
           <PublicOnlyRoute path="/login" component={Login} />
-          <PrivateRoute path="/surveys/new" component={SurveyForm} />
+          <PrivateRoute path="/surveys/new" component={SurveyCreate} />
+          <PrivateRoute path="/surveys/edit/:surveyId" component={SurveyEdit} />
           <PrivateRoute path="/surveys/answers" component={AnswerContainer} />
         </div>
-        <PopupSnackbar 
+        <PopupSnackbar SurveyCreate
           show={!!popupMessage}
           message={popupMessage}
           onClose={this.props.clearPopupMessage} />
@@ -125,8 +107,4 @@ class App extends Component {
   }
 }
 
-export default compose(
-  withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
-  withStyles(styles)
-)(App);
+export default withStyles(styles)(App);

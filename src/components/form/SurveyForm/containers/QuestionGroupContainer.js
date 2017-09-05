@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
-import { surveyFormName } from 'constantValues';
+import { surveyFormName } from '../constants';
 import QuestionGroup from '../components/QuestionGroup';
 import { getLanguagesFromCodes } from 'reducers';
 

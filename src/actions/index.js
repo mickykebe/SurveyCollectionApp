@@ -13,9 +13,15 @@ export const ACTION_LOGOUT = 'LOGOUT';
 export const ACTION_SURVEY_CREATE_REQUEST = 'SURVEY_CREATE_REQUEST';
 export const ACTION_SURVEY_CREATE_SUCCESS = 'SURVEY_CREATE_SUCCESS';
 export const ACTION_SURVEY_CREATE_FAIL = 'SURVEY_CREATE_FAIL';
-export const ACTION_SURVEYS_FETCH_REQUEST = 'SURVEYS_FETCH_REQUEST';
-export const ACTION_SURVEYS_FETCH_SUCCESS = 'SURVEYS_FETCH_SUCCESS';
-export const ACTION_SURVEYS_FETCH_FAIL = 'SURVEYS_FETCH_FAIL';
+export const ACTION_SURVEY_FEED_FETCH_REQUEST = 'SURVEY_FEED_FETCH_REQUEST';
+export const ACTION_SURVEY_FEED_FETCH_SUCCESS = 'SURVEY_FEED_FETCH_SUCCESS';
+export const ACTION_SURVEY_FEED_FETCH_FAIL = 'SURVEY_FEED_FETCH_FAIL';
+export const ACTION_SURVEY_FETCH_REQUEST = 'SURVEY_FETCH_REQUEST';
+export const ACTION_SURVEY_FETCH_SUCCESS = 'SURVEY_FETCH_SUCCESS';
+export const ACTION_SURVEY_FETCH_FAIL = 'SURVEY_FETCH_FAIL';
+export const ACTION_SURVEY_UPDATE_REQUEST = 'SURVEY_UPDATE_REQUEST';
+export const ACTION_SURVEY_UPDATE_SUCCESS = 'SURVEY_UPDATE_SUCCESS';
+export const ACTION_SURVEY_UPDATE_FAIL = 'SURVEY_UPDATE_FAIL';
 
 export const apiActionCreator = (actionTypes, auth = false) => (apiRequest, inProgressSelector) => (dispatch, getState) => {
   if(inProgressSelector(getState())) {
@@ -62,10 +68,22 @@ export const surveyCreate = apiActionCreator({
   fail: ACTION_SURVEY_CREATE_FAIL,
 }, true);
 
-export const surveysFetch = apiActionCreator({
-  request: ACTION_SURVEYS_FETCH_REQUEST,
-  success: ACTION_SURVEYS_FETCH_SUCCESS,
-  fail: ACTION_SURVEYS_FETCH_FAIL,
+export const surveyUpdate = apiActionCreator({
+  request: ACTION_SURVEY_UPDATE_REQUEST,
+  success: ACTION_SURVEY_UPDATE_SUCCESS,
+  fail: ACTION_SURVEY_UPDATE_FAIL,
+}, true);
+
+export const surveyFeedFetch = apiActionCreator({
+  request: ACTION_SURVEY_FEED_FETCH_REQUEST,
+  success: ACTION_SURVEY_FEED_FETCH_SUCCESS,
+  fail: ACTION_SURVEY_FEED_FETCH_FAIL,
+}, true);
+
+export const surveyFetch = apiActionCreator({
+  request: ACTION_SURVEY_FETCH_REQUEST,
+  success: ACTION_SURVEY_FETCH_SUCCESS,
+  fail: ACTION_SURVEY_FETCH_FAIL,
 }, true);
 
 export const showPopup = (message) => ({

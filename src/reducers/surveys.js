@@ -2,16 +2,22 @@ import {
   ACTION_SURVEY_CREATE_REQUEST,
   ACTION_SURVEY_CREATE_FAIL,
   ACTION_SURVEY_CREATE_SUCCESS,
-  ACTION_SURVEYS_FETCH_REQUEST,
-  ACTION_SURVEYS_FETCH_SUCCESS,
-  ACTION_SURVEYS_FETCH_FAIL,
+  ACTION_SURVEY_FEED_FETCH_REQUEST,
+  ACTION_SURVEY_FEED_FETCH_SUCCESS,
+  ACTION_SURVEY_FEED_FETCH_FAIL,
+  ACTION_SURVEY_FETCH_REQUEST,
+  ACTION_SURVEY_FETCH_SUCCESS,
+  ACTION_SURVEY_FETCH_FAIL,
+  ACTION_SURVEY_UPDATE_REQUEST,
+  ACTION_SURVEY_UPDATE_SUCCESS,
+  ACTION_SURVEY_UPDATE_FAIL
 } from '../actions';
 import { combineReducers } from 'redux';
 
 const byId = (state = {}, action) => {
   switch(action.type) {
     case ACTION_SURVEY_CREATE_SUCCESS:
-    case ACTION_SURVEYS_FETCH_SUCCESS:
+    case ACTION_SURVEY_FEED_FETCH_SUCCESS:
       return {
         ...state,
         ...action.response.entities.surveys,
@@ -25,7 +31,7 @@ const ids = (state = [], action) => {
   switch(action.type) {
     case ACTION_SURVEY_CREATE_SUCCESS:
       return [...state, action.response.result]
-    case ACTION_SURVEYS_FETCH_SUCCESS:
+    case ACTION_SURVEY_FEED_FETCH_SUCCESS:
       return [
         ...state,
         ...action.response.result,
@@ -38,7 +44,7 @@ const ids = (state = [], action) => {
 const idsByUser = (state = {}, action) => {
   switch(action.type) {
     case ACTION_SURVEY_CREATE_SUCCESS:
-    case ACTION_SURVEYS_FETCH_SUCCESS:
+    case ACTION_SURVEY_FEED_FETCH_SUCCESS:
       return {
         ...state,
         [action.userId]: ids(state.userId, action),
@@ -78,9 +84,14 @@ export default combineReducers({
   byId,
   idsByUser,
   create: asyncStatus(ACTION_SURVEY_CREATE_REQUEST, ACTION_SURVEY_CREATE_SUCCESS, ACTION_SURVEY_CREATE_FAIL),
-  fetch: asyncStatus(ACTION_SURVEYS_FETCH_REQUEST, ACTION_SURVEYS_FETCH_SUCCESS, ACTION_SURVEYS_FETCH_FAIL),
+  fetchFeed: asyncStatus(ACTION_SURVEY_FEED_FETCH_REQUEST, ACTION_SURVEY_FEED_FETCH_SUCCESS, ACTION_SURVEY_FEED_FETCH_FAIL),
+  fetch: asyncStatus(ACTION_SURVEY_FETCH_REQUEST, ACTION_SURVEY_FETCH_SUCCESS, ACTION_SURVEY_FETCH_FAIL),
+  update: asyncStatus(ACTION_SURVEY_UPDATE_REQUEST, ACTION_SURVEY_UPDATE_SUCCESS, ACTION_SURVEY_UPDATE_FAIL),
 });
 
+export const getSurvey = (state, id) => {
+  return state.byId[id];
+}
 export const getUserSurveys = (state, userId) => {
   const ids = state.idsByUser[userId] || [];
   return ids.map(id => state.byId[id]);
@@ -89,7 +100,13 @@ export const getIsCreatingSurvey = (state) =>
   state.create.inProgress;
 export const getSurveyCreateErrors = (state) =>
   state.create.errors;
-export const getIsFetchingSurveys = (state) =>
+export const getIsFetchingSurveyFeed = (state) =>
+  state.fetchFeed.inProgress;
+export const getSurveyFeedFetchErrors = (state) => 
+  state.fetchFeed.errors;
+export const getIsFetchingSurvey = (state) =>
   state.fetch.inProgress;
-export const getSurveyFetchErrors = (state) => 
-  state.fetch.errors;
+export const getSurveyFetchErrors = (state) =>
+  state.fetch.error;
+export const getIsUpdatingSurvey = (state) =>
+  state.update.inProgress;

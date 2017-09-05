@@ -6,7 +6,7 @@ import indigo from 'material-ui/colors/indigo';
 import blueGrey from 'material-ui/colors/blueGrey';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import App from './components/App';
+import AppContainer from './containers/AppContainer';
 import store from './store';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -21,7 +21,7 @@ ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
       <Router>
-        <App />
+        <AppContainer />
       </Router>
     </Provider>
   </MuiThemeProvider>

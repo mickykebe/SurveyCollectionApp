@@ -3,7 +3,7 @@ import { Field, FieldArray, FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent, CardActions } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
-import LangTextField from '../LangTextField';
+import LangTextField from './LangTextField';
 import IconButton from 'material-ui/IconButton';
 import FunctionIcon from 'material-ui-icons/Functions';
 import DeleteIcon from 'material-ui-icons/Delete';

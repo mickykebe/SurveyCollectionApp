@@ -1,5 +1,5 @@
 import React from 'react';
-import { CircularProgress } from 'material-ui/Progress';
+import AppCircularProgress from './AppCircularProgress';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 
@@ -11,10 +11,6 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  progress: {
-    display: 'block',
-    margin: '0 auto',
-  },
   loadingText: {
     color: theme.palette.common.lightBlack,
     padding: '32px',
@@ -25,7 +21,7 @@ function LoadingApp(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <CircularProgress className={classes.progress} color="accent" />
+      <AppCircularProgress />
       <Typography className={classes.loadingText} type="body2" align="center">
         App loading...
       </Typography>

@@ -7,7 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
 import FunctionIcon from 'material-ui-icons/Functions';
 import Collapse from 'material-ui/transitions/Collapse';
-import LangTextField from '../LangTextField';
+import LangTextField from './LangTextField';
 import QuestionTypeContainer from '../containers/QuestionTypeContainer';
 import ConditionGroupContainer from '../containers/ConditionGroupContainer';
 import { valFromLangObj } from 'utils';

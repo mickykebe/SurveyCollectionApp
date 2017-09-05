@@ -48,7 +48,7 @@ class SurveyList extends Component {
         }
         {
           surveys.map(({uuid: id, ...rest}) => 
-            <SurveyCardContainer key={id} {...rest} />)
+            <SurveyCardContainer key={id} id={id} {...rest} />)
         }
       </div>
     )

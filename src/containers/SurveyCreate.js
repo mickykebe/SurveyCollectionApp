@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { surveyCreate, showPopup } from '../actions';
 import api from '../api';
@@ -20,8 +20,16 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-function SurveyCreate({ inProgress, createSurvey, displayPopup, history}) {
-  const create = (data) => {
+class SurveyCreate extends Component{
+  constructor(props) {
+    super(props);
+
+    this.create = this.create.bind(this);
+  }
+
+  create(data) {
+    const { createSurvey, displayPopup, history } = this.props;
+
     createSurvey(data)
       .then(() => {
         displayPopup('Survey created successfully');
@@ -29,11 +37,15 @@ function SurveyCreate({ inProgress, createSurvey, displayPopup, history}) {
       })
       .catch(e => displayPopup('Error occurred creating survey'));
   }
-  return (
-    <SurveyForm
-      onSubmit={create}
-      submittingForm={inProgress} />
-  );
+
+  render() {
+
+    return (
+      <SurveyForm
+        onSubmit={this.create}
+        submittingForm={this.props.inProgress} />
+    );
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SurveyCreate);

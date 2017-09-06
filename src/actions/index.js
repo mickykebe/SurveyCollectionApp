@@ -36,10 +36,7 @@ export const apiActionCreator = (actionTypes, auth = false) => (apiRequest, inPr
         response,
       });
     }, e => {
-      const error = (e.response && e.response.body) || null;
-      if(!error) {
-        dispatch(showPopup('Problem occurred connecting to server'));
-      }
+      const error = (e.response && e.response.body) || true;
       dispatch({
         type: actionTypes.fail,
         errors: error,

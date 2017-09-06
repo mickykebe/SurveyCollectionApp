@@ -8,7 +8,7 @@ import Typography from 'material-ui/Typography';
 
 const styles = (theme) => ({
   root: {
-    maxWidth: '1024px',
+    maxWidth: '800px',
     margin: '0 auto',
   },
   header: {
@@ -28,7 +28,8 @@ const styles = (theme) => ({
 
 class SurveyList extends Component {
   render() {
-    const { classes, surveys, history } = this.props;
+    const { classes, surveys, errors, history } = this.props;
+    console.log(surveys.length, errors);
     
     return (
       <div className={classes.root}>

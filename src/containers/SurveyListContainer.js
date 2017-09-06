@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getCurrentUserSurveys, getIsFetchingSurveyFeed, getSurveyFeedFetchErrors } from '../reducers';
 import SurveyList from 'components/SurveyList';
-import { surveyFeedFetch } from '../actions';
+import { surveyFeedFetch, showPopup } from '../actions';
 import AppCircularProgress from '../components/AppCircularProgress';
+import PopupSnackbar from '../components/PopupSnackbar';
 import api from '../api';
 
 const mapStateToProps = (state) => ({
@@ -14,7 +15,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchSurveyFeed() {
-    dispatch(surveyFeedFetch(api.Surveys.mine(), getIsFetchingSurveyFeed));
+    return dispatch(surveyFeedFetch(api.Surveys.mine(), getIsFetchingSurveyFeed));
+  },
+  displayPopup(message) {
+    dispatch(showPopup(message));
   }
 });
 
@@ -24,19 +28,27 @@ class SurveyListContainer extends Component {
   }
 
   render() {
-    const { surveys, isFetching } = this.props;
+    const { surveys, isFetching, errors } = this.props;
     if(isFetching && !surveys.length) {
       return (
-        <div> 
-         <AppCircularProgress />
-        </div>
+        <AppCircularProgress />
       );
+    }
+
+    if(!isFetching && !!errors) {
+      return (
+        <div>  
+          <PopupSnackbar
+            show={!!errors}
+            message="Problem occurred fetching surveys"
+            retryAction={this.fetchFeed}
+            />
+        </div>
+      )
     }
       
     return (
-      <div>
-        <SurveyList surveys={surveys} />
-      </div>
+      <SurveyList surveys={surveys} />
     );
   }
 }

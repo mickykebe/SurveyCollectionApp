@@ -18,6 +18,7 @@ const byId = (state = {}, action) => {
   switch(action.type) {
     case ACTION_SURVEY_CREATE_SUCCESS:
     case ACTION_SURVEY_FEED_FETCH_SUCCESS:
+    case ACTION_SURVEY_FETCH_SUCCESS:
       return {
         ...state,
         ...action.response.entities.surveys,

@@ -165,7 +165,6 @@ export const getSurveyFormData = (state, surveyId) => {
   const groups = groupIds.map((id) => fromGroups.getGroup(state.groups, id));
   const questions = questionIds.map(id => fromQuestions.getQuestion(state.questions, id));
   const rootGroup = rootGrp(groups);
-  console.log(rootGroup);
   const groupRoot = buildGroup(rootGroup, groups, questions);
   return { ..._survey, groupRoot };
 }

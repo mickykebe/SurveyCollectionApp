@@ -1,25 +1,20 @@
-import { reduxForm } from 'redux-form';
-import { surveyFormName } from './constants';
-import validator from './validator';
+import React from 'react';
 import SurveyFormContainer from './containers/SurveyFormContainer'
 import { uuidv4 } from '../../../utils';
 
-const defaultInitValues = {
-  uuid: uuidv4(),
-  languages: ['en'],
-  groupRoot: {
+function SurveyFormWrapper({ initialValues: initValuesProp }) {
+  const initialValues = initValuesProp || {
     uuid: uuidv4(),
-    root: true,
-  }
-};
+    languages: ['en'],
+    groupRoot: {
+      uuid: uuidv4(),
+      root: true,
+    }
+  };
 
-export const create = (initValues = defaultInitValues) => {
-  const config = {
-    form: surveyFormName,
-    initialValues: initValues,
-    validate: validator,
-  }
-  return reduxForm(config)(SurveyFormContainer);
+  return (
+    <SurveyFormContainer initialValues={initialValues} />
+  )
 }
 
-export default create();
+export default SurveyFormWrapper;

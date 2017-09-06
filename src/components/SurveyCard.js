@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
@@ -6,7 +6,15 @@ import Card, { CardContent, CardActions } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import Chip from 'material-ui/Chip';
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
+import Button from 'material-ui/Button';
 import CreateIcon from 'material-ui-icons/Create';
+import DeleteIcon from 'material-ui-icons/Delete';
 import { valFromLangObj } from 'utils';
 
 const styles = (theme) => ({
@@ -20,42 +28,75 @@ const styles = (theme) => ({
   },
   chip: {
     margin: theme.spacing.unit,
-    height: '20px'
   },
-  avatar: {
-    width: '28px',
-    height: '28px'
+  flexGrow: {
+    flex: 1,
   }
 });
 
-function SurveyCard(props) {
-  const { id, title, description, languages, classes, history } = props;
-  return (
-    <Card className={classes.root}>
-      <CardContent className={classes.content}>
-        <Typography type="title">
-          {valFromLangObj(title)}
-        </Typography>
-        <Typography component="subheading">
-          {valFromLangObj(description)}
-        </Typography>
-      </CardContent>
-      <div className={classes.row}>
-        { 
-          languages.map((lang) => 
-            <Chip
-              key={lang.code}
-              label={lang.name}
-              className={classes.chip} />)
-        }
-      </div>
-      <CardActions>
-        <IconButton onClick={() => history.push(`/surveys/edit/${id}`)}>
-          <CreateIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
-  );
+class SurveyCard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { deleteDialogOpen: false };
+    this.deleteDialogClose = this.deleteDialogClose.bind(this);
+  }
+
+  deleteDialogClose() {
+    this.setState({
+      deleteDialogOpen: false,
+    });
+  }
+
+  render() {
+    const { id, title, description, languages, classes, history } = this.props;
+    return (
+      <Card className={classes.root}>
+        <CardContent className={classes.content}>
+          <Typography type="headline">
+            {valFromLangObj(title)}
+          </Typography>
+          <Typography component="p">
+            {valFromLangObj(description)}
+          </Typography>
+        </CardContent>
+        <div className={classes.row}>
+          { 
+            languages.map((lang) => 
+              <Chip
+                key={lang.code}
+                label={lang.name}
+                className={classes.chip} />)
+          }
+        </div>
+        <CardActions>
+          <div className={classes.flexGrow} />
+          <IconButton onClick={() => history.push(`/surveys/edit/${id}`)}>
+            <CreateIcon />
+          </IconButton>
+          <IconButton onClick={() => this.setState({ deleteDialogOpen: true })}>
+            <DeleteIcon />
+          </IconButton>
+        </CardActions>
+        <Dialog open={this.state.deleteDialogOpen} onRequestClose={this.deleteDialogClose}>
+          <DialogTitle>Confirm</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Are you sure you want to remove this survey?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button>
+              Yes
+            </Button>
+            <Button onClick={this.deleteDialogClose}>
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Card>
+    );
+  }
 }
 
 SurveyCard.propTypes = {

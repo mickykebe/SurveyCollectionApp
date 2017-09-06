@@ -5,12 +5,16 @@ import IconButton from 'material-ui/IconButton';
 import Slide from 'material-ui/transitions/Slide';
 import CloseIcon from 'material-ui-icons/Close';
 import { withStyles } from 'material-ui/styles';
+import Button from 'material-ui/Button';
 
 const styles = theme => ({
   close: {
     width: theme.spacing.unit * 4,
     height: theme.spacing.unit * 4,
   },
+  popupActions: {
+    display: 'flex',
+  }
 });
 
 class PopupSnackbar extends Component {
@@ -24,6 +28,12 @@ class PopupSnackbar extends Component {
 
     this.state = { show: false };
     this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
+  }
+
+  componentWillMount() {
+    this.setState({
+      show: this.props.show
+    });
   }
 
   handleSnackbarClose(e, reason) {
@@ -46,7 +56,7 @@ class PopupSnackbar extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, retryAction } = this.props;
     return <Snackbar
       anchorOrigin={{
         vertical: 'bottom',
@@ -57,16 +67,24 @@ class PopupSnackbar extends Component {
       onRequestClose={this.handleSnackbarClose}
       message={<span id='message-id'>{this.props.message}</span>}
       transition={<Slide direction='up' />}
-      action={[
-        <IconButton
-          key='close'
-          aria-label='Close'
-          color='inherit'
-          className={classes.close}
-          onClick={this.handleSnackbarClose}>
-          <CloseIcon />
-        </IconButton>
-      ]} />
+      action={
+        <div className={classes.popupActions}>
+          {
+          !!retryAction &&
+            <Button key="retry" color="accent" dense onClick={retryAction}>
+              RETRY
+            </Button>
+          }
+          <IconButton
+            key='close'
+            aria-label='Close'
+            color='inherit'
+            className={classes.close}
+            onClick={this.handleSnackbarClose}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+      } />
   }
 }
 

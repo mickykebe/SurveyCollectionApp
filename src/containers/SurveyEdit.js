@@ -7,7 +7,7 @@ import {
 } from '../reducers';
 import { surveyFetch, surveyUpdate, showPopup } from '../actions';
 import api from '../api';
-import { create as createSurveyForm } from '../components/form/SurveyForm';
+import SurveyForm from '../components/form/SurveyForm';
 import AppCircularProgress from '../components/AppCircularProgress';
 
 const mapStateToProps = (state, ownProps) => ({
@@ -32,7 +32,6 @@ class SurveyEdit extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { SurveyFormComponent: null };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -47,24 +46,11 @@ class SurveyEdit extends Component {
   }
 
   componentDidMount() {
-    const { fetchSurvey, surveyFormData, match, displayPopup } = this.props;
+    const { fetchSurvey, match, displayPopup } = this.props;
     const { surveyId } = match.params;
 
-    if(!!surveyFormData) {
-      this.setState({
-        SurveyFormComponent: createSurveyForm(surveyFormData),
-      });
-    }
     fetchSurvey(surveyId)
       .catch(e => displayPopup('Error occurred fetching survey'));
-  }
-
-  componentWillRecieveProps(nextProps) {
-    if(nextProps.surveyFormData !== this.props.surveyFormData) {
-      this.setState({
-        SurveyFormComponent: createSurveyForm(nextProps.surveyFormData),
-      });
-    }
   }
 
   render() {
@@ -76,15 +62,12 @@ class SurveyEdit extends Component {
         </div>
       );
     }
-    const { SurveyFormComponent } = this.state;
     return (
       <div>
-        {
-          SurveyFormComponent &&
-          <SurveyFormComponent
-            onSubmit={this.handleSubmit}
-            submittingForm={isUpdating} />
-        }
+        <SurveyForm
+          initialValues={surveyFormData}
+          onSubmit={this.handleSubmit}
+          submittingForm={isUpdating} />
       </div>
     );
   }

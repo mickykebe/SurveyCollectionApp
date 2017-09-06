@@ -98,7 +98,7 @@ class App extends Component {
           <PrivateRoute path="/surveys/edit/:surveyId" component={SurveyEdit} />
           <PrivateRoute path="/surveys/answers" component={AnswerContainer} />
         </div>
-        <PopupSnackbar SurveyCreate
+        <PopupSnackbar
           show={!!popupMessage}
           message={popupMessage}
           onClose={this.props.clearPopupMessage} />

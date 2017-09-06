@@ -54,6 +54,10 @@ export const getSurveyFetchErrors = (state) =>
   fromSurveys.getSurveyFetchErrors(state.surveys);
 export const getIsUpdatingSurvey = (state) =>
   fromSurveys.getIsUpdatingSurvey(state.surveys);
+export const getIsDeletingSurvey = (state) =>
+  fromSurveys.getIsDeletingSurvey(state.surveys);
+export const getSurveyDeleteErrors = (state) =>
+  fromSurveys.getSurveyDeleteErrors(state.surveys);
 
 //Question selectors
 export const getQuestion = (state, id) =>

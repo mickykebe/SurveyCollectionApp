@@ -15,6 +15,7 @@ import Dialog, {
 import Button from 'material-ui/Button';
 import CreateIcon from 'material-ui-icons/Create';
 import DeleteIcon from 'material-ui-icons/Delete';
+import PopupSnackbar from './PopupSnackbar';
 import { valFromLangObj } from 'utils';
 
 const styles = (theme) => ({
@@ -39,7 +40,14 @@ class SurveyCard extends Component {
     super(props);
 
     this.state = { deleteDialogOpen: false };
+    this.deleteSurvey = this.deleteSurvey.bind(this);
     this.deleteDialogClose = this.deleteDialogClose.bind(this);
+  }
+
+  deleteSurvey() {
+    const { id, onDeleteSurvey } = this.props;
+    onDeleteSurvey(id);
+    this.deleteDialogClose();
   }
 
   deleteDialogClose() {
@@ -49,7 +57,7 @@ class SurveyCard extends Component {
   }
 
   render() {
-    const { id, title, description, languages, classes, history } = this.props;
+    const { id, title, description, languages, classes, history, errors, onDeleteSurvey, isDeletingSurvey } = this.props;
     return (
       <Card className={classes.root}>
         <CardContent className={classes.content}>
@@ -86,7 +94,7 @@ class SurveyCard extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button>
+            <Button onClick={this.deleteSurvey}>
               Yes
             </Button>
             <Button onClick={this.deleteDialogClose}>
@@ -94,6 +102,10 @@ class SurveyCard extends Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <PopupSnackbar
+          show={!!errors && !isDeletingSurvey}
+          message="Problem occurred deleting survey"
+          retryAction={this.deleteSurvey} />
       </Card>
     );
   }

@@ -29,7 +29,6 @@ const styles = (theme) => ({
 class SurveyList extends Component {
   render() {
     const { classes, surveys, errors, history } = this.props;
-    console.log(surveys.length, errors);
     
     return (
       <div className={classes.root}>
@@ -44,7 +43,7 @@ class SurveyList extends Component {
         {
           !surveys.length &&
           <Typography type="subheading">
-            No surveys created yet
+            Surveys unavailable
           </Typography>
         }
         {

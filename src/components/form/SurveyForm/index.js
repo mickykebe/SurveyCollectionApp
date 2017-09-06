@@ -2,7 +2,7 @@ import React from 'react';
 import SurveyFormContainer from './containers/SurveyFormContainer'
 import { uuidv4 } from '../../../utils';
 
-function SurveyFormWrapper({ initialValues: initValuesProp }) {
+function SurveyFormWrapper({ initialValues: initValuesProp, ...props }) {
   const initialValues = initValuesProp || {
     uuid: uuidv4(),
     languages: ['en'],
@@ -13,7 +13,7 @@ function SurveyFormWrapper({ initialValues: initValuesProp }) {
   };
 
   return (
-    <SurveyFormContainer initialValues={initialValues} />
+    <SurveyFormContainer initialValues={initialValues} {...props} />
   )
 }
 

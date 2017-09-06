@@ -34,21 +34,16 @@ class SurveyListContainer extends Component {
         <AppCircularProgress />
       );
     }
-
-    if(!isFetching && !!errors) {
-      return (
-        <div>  
-          <PopupSnackbar
-            show={!!errors}
-            message="Problem occurred fetching surveys"
-            retryAction={this.fetchFeed}
-            />
-        </div>
-      )
-    }
       
     return (
-      <SurveyList surveys={surveys} />
+      <div>
+        <SurveyList surveys={surveys} />
+        <PopupSnackbar
+          show={!isFetching && !!errors}
+          message="Problem occurred fetching surveys"
+          retryAction={this.fetchFeed}
+          />
+      </div>
     );
   }
 }

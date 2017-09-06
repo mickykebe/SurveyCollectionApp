@@ -22,30 +22,42 @@ export const ACTION_SURVEY_FETCH_FAIL = 'SURVEY_FETCH_FAIL';
 export const ACTION_SURVEY_UPDATE_REQUEST = 'SURVEY_UPDATE_REQUEST';
 export const ACTION_SURVEY_UPDATE_SUCCESS = 'SURVEY_UPDATE_SUCCESS';
 export const ACTION_SURVEY_UPDATE_FAIL = 'SURVEY_UPDATE_FAIL';
+export const ACTION_SURVEY_DELETE_REQUEST = 'SURVEY_DELETE_REQUEST';
+export const ACTION_SURVEY_DELETE_SUCCESS = 'SURVEY_DELETE_SUCCESS';
+export const ACTION_SURVEY_DELETE_FAIL = 'SURVEY_DELETE_FAIL';
 
-export const apiActionCreator = (actionTypes, auth = false) => (apiRequest, inProgressSelector) => (dispatch, getState) => {
-  if(inProgressSelector(getState())) {
-    return Promise.resolve();
-  }
-  dispatch({ type: actionTypes.request, auth });
-  return apiRequest.then(
-    response => {
-      dispatch({
-        type: actionTypes.success,
-        auth,
-        response,
-      });
-    }, e => {
-      const error = (e.response && e.response.body) || true;
-      dispatch({
-        type: actionTypes.fail,
-        errors: error,
-        auth
-      });
-      return Promise.reject(error);
-    }
-  )
-}
+export const apiActionCreator = 
+  (actionTypes, auth = false) => 
+    (apiRequest, inProgressSelector, payload = {}) => 
+      (dispatch, getState) => {
+        if(inProgressSelector(getState())) {
+          return Promise.resolve();
+        }
+        dispatch({ 
+          type: actionTypes.request, 
+          auth,
+          ...payload 
+        });
+        return apiRequest.then(
+          response => {
+            dispatch({
+              type: actionTypes.success,
+              auth,
+              response,
+              ...payload,
+            });
+          }, e => {
+            const error = (e.response && e.response.body) || true;
+            dispatch({
+              type: actionTypes.fail,
+              errors: error,
+              auth,
+              ...payload
+            });
+            return Promise.reject(error);
+          }
+        )
+      }
 
 export const login = apiActionCreator({
   request: ACTION_LOGIN_REQUEST,
@@ -81,6 +93,12 @@ export const surveyFetch = apiActionCreator({
   request: ACTION_SURVEY_FETCH_REQUEST,
   success: ACTION_SURVEY_FETCH_SUCCESS,
   fail: ACTION_SURVEY_FETCH_FAIL,
+}, true);
+
+export const surveyDelete = apiActionCreator({
+  request: ACTION_SURVEY_DELETE_REQUEST,
+  success: ACTION_SURVEY_DELETE_SUCCESS,
+  fail: ACTION_SURVEY_DELETE_FAIL,
 }, true);
 
 export const showPopup = (message) => ({

@@ -21,6 +21,8 @@ const requests = {
     superagent.post(`${BASE_URL}${path}`, body).use(tokenPlugin).then(responseBody),
   put: (path, body) =>
     superagent.put(`${BASE_URL}${path}`, body).use(tokenPlugin).then(responseBody),
+  del: (path) =>
+    superagent.del(`${BASE_URL}${path}`).use(tokenPlugin).then(responseBody)
 }
 
 const Auth = {
@@ -55,6 +57,9 @@ const Surveys = {
   },
   update(survey) {
     return requests.put(`/surveys/${survey.uuid}/`, { ...survey });
+  },
+  delete(id) {
+    return requests.del(`/surveys/${id}/`);
   }
 }
 

@@ -10,7 +10,10 @@ import {
   ACTION_SURVEY_FETCH_FAIL,
   ACTION_SURVEY_UPDATE_REQUEST,
   ACTION_SURVEY_UPDATE_SUCCESS,
-  ACTION_SURVEY_UPDATE_FAIL
+  ACTION_SURVEY_UPDATE_FAIL,
+  ACTION_SURVEY_DELETE_REQUEST,
+  ACTION_SURVEY_DELETE_SUCCESS,
+  ACTION_SURVEY_DELETE_FAIL,
 } from '../actions';
 import { combineReducers } from 'redux';
 
@@ -37,6 +40,10 @@ const ids = (state = [], action) => {
         ...state,
         ...action.response.result,
       ];
+    case ACTION_SURVEY_DELETE_SUCCESS:
+      console.log(state);
+      console.log(state.filter(id => id !== action.id));
+      return state.filter(id => id !== action.id);
     default:
       return state;
   }
@@ -46,9 +53,10 @@ const idsByUser = (state = {}, action) => {
   switch(action.type) {
     case ACTION_SURVEY_CREATE_SUCCESS:
     case ACTION_SURVEY_FEED_FETCH_SUCCESS:
+    case ACTION_SURVEY_DELETE_SUCCESS:
       return {
         ...state,
-        [action.userId]: ids(state.userId, action),
+        [action.userId]: ids(state[action.userId], action),
       };
     default:
       return state;
@@ -88,6 +96,7 @@ export default combineReducers({
   fetchFeed: asyncStatus(ACTION_SURVEY_FEED_FETCH_REQUEST, ACTION_SURVEY_FEED_FETCH_SUCCESS, ACTION_SURVEY_FEED_FETCH_FAIL),
   fetch: asyncStatus(ACTION_SURVEY_FETCH_REQUEST, ACTION_SURVEY_FETCH_SUCCESS, ACTION_SURVEY_FETCH_FAIL),
   update: asyncStatus(ACTION_SURVEY_UPDATE_REQUEST, ACTION_SURVEY_UPDATE_SUCCESS, ACTION_SURVEY_UPDATE_FAIL),
+  delete: asyncStatus(ACTION_SURVEY_DELETE_REQUEST, ACTION_SURVEY_DELETE_SUCCESS, ACTION_SURVEY_DELETE_FAIL),
 });
 
 export const getSurvey = (state, id) => {
@@ -108,6 +117,10 @@ export const getSurveyFeedFetchErrors = (state) =>
 export const getIsFetchingSurvey = (state) =>
   state.fetch.inProgress;
 export const getSurveyFetchErrors = (state) =>
-  state.fetch.error;
+  state.fetch.errors;
 export const getIsUpdatingSurvey = (state) =>
   state.update.inProgress;
+export const getIsDeletingSurvey = (state) =>
+  state.delete.inProgress;
+export const getSurveyDeleteErrors = (state) =>
+  state.delete.errors;

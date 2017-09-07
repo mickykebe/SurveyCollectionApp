@@ -28,7 +28,7 @@ const styles = (theme) => ({
 
 class SurveyList extends Component {
   render() {
-    const { classes, surveys, errors, history } = this.props;
+    const { classes, surveys, history } = this.props;
     
     return (
       <div className={classes.root}>

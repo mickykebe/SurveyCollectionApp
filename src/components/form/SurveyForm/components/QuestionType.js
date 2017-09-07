@@ -75,6 +75,10 @@ class QuestionType extends Component {
             activeQuestionType === 'image' &&
             <BlankAnswer placeholder="Image Upload" />
           }
+          {
+            activeQuestionType === 'currency' &&
+            <BlankAnswer placeholder="Currency" />
+          }
         </div>
       </div>
     );

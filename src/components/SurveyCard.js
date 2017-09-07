@@ -57,7 +57,7 @@ class SurveyCard extends Component {
   }
 
   render() {
-    const { id, title, description, languages, classes, history, errors, onDeleteSurvey, isDeletingSurvey } = this.props;
+    const { id, title, description, languages, classes, history, errors, isDeletingSurvey } = this.props;
     return (
       <Card className={classes.root}>
         <CardContent className={classes.content}>

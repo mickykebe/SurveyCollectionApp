@@ -17,6 +17,21 @@ const validateTitle = (selector, languages) => {
   return errors;
 }
 
+const langInputErrors = (value, languages) => {
+  const errors = {};
+  if(!value || !languages || !languages.length) {
+    errors._error = 'Required field';
+  }
+  else {
+    languages.forEach(lang => {
+      if(!value[lang]) {
+        errors[lang] = 'Required';
+      }
+    });
+  }
+  return errors;
+}
+
 const validateQuestionNumRange = (question) => {
   const errors = {};
   if(question && question.type === 'number-range') {

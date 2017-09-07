@@ -34,15 +34,13 @@ const byId = (state = {}, action) => {
 const ids = (state = [], action) => {
   switch(action.type) {
     case ACTION_SURVEY_CREATE_SUCCESS:
-      return [...state, action.response.result]
+      return [action.response.result, ...state]
     case ACTION_SURVEY_FEED_FETCH_SUCCESS:
       return [
         ...state,
         ...action.response.result,
       ];
     case ACTION_SURVEY_DELETE_SUCCESS:
-      console.log(state);
-      console.log(state.filter(id => id !== action.id));
       return state.filter(id => id !== action.id);
     default:
       return state;

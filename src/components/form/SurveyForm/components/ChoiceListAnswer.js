@@ -31,7 +31,7 @@ class ChoiceListAnswer extends Component {
       <div>
         <FormToolbar
           title="Choices"
-          onAddField={() => fields.push({uuid: uuidv4(), schema: 'choice' })}
+          onAddField={() => fields.push({uuid: uuidv4(), schema: 'choice', index: 1 })}
           onAddForm={controllingQuestions.length && onAddForm}/>
         <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>
         {

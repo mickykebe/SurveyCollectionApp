@@ -27,18 +27,21 @@ function QuestionGroupList(props) {
       <FormToolbar 
         title="Questions"
         onAddField={() => fields.push({ 
-          uuid: uuidv4(), 
+          uuid: uuidv4(),
           schema: 'question', 
+          index: fields.length+1,
           type: 'text',
           condition: { operator: '&&', conditions: [] }
         })}
         onAddForm={() => fields.push({ 
           uuid: uuidv4(), 
           schema: 'group',
+          index: fields.length+1,
           condition: { operator: '&&', conditions: [] },
           groupElements: [{ 
             uuid: uuidv4(), 
             schema: 'question', 
+            index: 1,
             type: 'text',
             condition: { operator: '&&', conditions: [] }
           }] 

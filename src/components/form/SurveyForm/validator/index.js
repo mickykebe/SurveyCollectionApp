@@ -1,38 +1,21 @@
 import _isEmpty from 'lodash/isEmpty';
 
-const validateTitle = (selector, languages) => {
-  const errors = {};
-  if(!languages || !languages.length){
-    if(!selector || !selector.title) {
-      errors._error = 'Title is required';
-    }
-  }
-  else {
-    languages.forEach((lang) => {
-      if(!selector || !selector.title || !selector.title[lang]) {
-        errors[lang] = 'Required';
-      }
-    });
-  }
-  return errors;
-}
-
 const langInputErrors = (value, languages) => {
-  const errors = {};
-  if(!value || !languages || !languages.length) {
-    errors._error = 'Required field';
+  if(!languages || !languages.length) {
+    return 'Required';
   }
   else {
+    const errors = {};
     languages.forEach(lang => {
-      if(!value[lang]) {
+      if(!value || !value[lang]) {
         errors[lang] = 'Required';
       }
     });
+    return errors;
   }
-  return errors;
 }
 
-const validateQuestionNumRange = (question) => {
+const numRangeErrors = (question) => {
   const errors = {};
   if(question && question.type === 'number-range') {
     if(!question.end) {
@@ -58,20 +41,18 @@ const validateQuestionNumRange = (question) => {
   return errors;
 }
 
-const validateChoices = (choices, languages) => {
+const choiceErrors = (choices, languages) => {
   const errors = [];
-  choices.forEach((choice, index) => {
+  choices.forEach((choice, i) => {
     if(!languages || !languages.length) {
-      if(!choice || !choice.text) {
-        errors[index] = { _error: 'At least one language required' };
-      }
+      errors[i] = { _error: 'At least one language required' };
     }
     else {
       const choiceErrors = { text: {} };
       languages.forEach((lang) => {
         if(!choice || !choice.text || !choice.text[lang]) {
           choiceErrors.text[lang] = 'Required';
-          errors[index] = choiceErrors;
+          errors[i] = choiceErrors;
         }
       });
     }
@@ -79,51 +60,74 @@ const validateChoices = (choices, languages) => {
   return errors;
 }
 
+const questionErrors = (value, languages) => {
+  const errors = {};
+  if(!value.type) {
+    errors.type = 'Required';
+  }
+  const titleErrors = langInputErrors(value.title, languages);
+  if(!_isEmpty(titleErrors)) {
+    errors.title = titleErrors;
+  }
+  const rangeErrors = numRangeErrors(value);
+  Object.assign(errors, rangeErrors);
+
+  if(value.type === 'choose-one' || value.type === 'choose-any') {
+    if(!value.choices || !value.choices.length) {
+      errors.choices = { _error: 'At least one choice must be added' };
+    }
+    else {
+      const choiceListErrors = choiceErrors(value.choices, languages);
+      if(choiceListErrors.length)
+        errors.choices = choiceListErrors;
+    }
+  }
+  return errors;
+}
+
+const groupErrors = (value, languages) => {
+  if(!value || !value.groupElements || !value.groupElements.length) {
+    return { _error: "Group must have at least one question" }
+  }
+  const errors = {};
+  const groupElemErrors = [];
+  value.groupElements.forEach((elem, i) => {
+    if(!elem || !elem.schema || (elem.schema !== 'group' && elem.schema !== 'question')) {
+      groupElemErrors[i] = { _error: 'Invalid group Element' };
+    }
+    else {
+      const errors = {};
+      if(elem.schema === 'group') {
+        Object.assign(errors, groupErrors(elem, languages));
+      }
+      else {
+        Object.assign(errors, questionErrors(elem, languages));
+      }
+      if(!_isEmpty(errors)) {
+        groupElemErrors[i] = errors;
+      }
+    }
+  });
+  if(groupElemErrors.length){
+    errors.groupElements = groupElemErrors;
+  }
+  return errors;
+}
+
 const validate = values => {
   const errors = {};
-  const titleErrors = validateTitle(values, values.languages);
+  const titleErrors = langInputErrors(values.title, values.languages);
   if(!_isEmpty(titleErrors)) {
     errors.title = titleErrors;
   }
   if(!values.languages || !values.languages.length) {
     errors.languages = 'At least one language must be selected';
   }
-  if(!values.questions || !values.questions.length) {
-    errors.questions = { _error: 'At least one question must be added'};
+  const groupRootErrors = groupErrors(values.groupRoot, values.languages);
+  if(!_isEmpty(groupRootErrors)) {
+    errors.groupRoot = groupRootErrors;
   }
-  else {
-    const questionListErrors = [];
-    values.questions.forEach((question, qIndex) => {
-      let questionErrors = {};
-      if(!question || !question.type) {
-        questionErrors.type = 'Required';
-      }
-      const titleErrors = validateTitle(question, values.languages);
-      if(!_isEmpty(titleErrors)){
-        questionErrors.title = titleErrors;
-      }
-      const numRangeErrors = validateQuestionNumRange(question);
-      questionErrors = { ...questionErrors, ...numRangeErrors};
-
-      if(question && (question.type === 'choose-one' || question.type === 'choose-any')) {
-        if(!question.choices || !question.choices.length) {
-          questionErrors.choices = { _error: 'At least one choice must be added' };
-        }
-        else {
-          const choiceListErrors = validateChoices(question.choices, values.languages);
-          if(choiceListErrors.length)
-            questionErrors.choices = choiceListErrors;
-        }
-      }
-
-      if(!_isEmpty(questionErrors)) {
-        questionListErrors[qIndex] = questionErrors;
-      }
-    });
-    if(questionListErrors.length) {
-      errors.questions = questionListErrors;
-    }
-  }
+  console.log(errors);
   return errors;
 }
 

@@ -36,10 +36,7 @@ const ids = (state = [], action) => {
     case ACTION_SURVEY_CREATE_SUCCESS:
       return [action.response.result, ...state]
     case ACTION_SURVEY_FEED_FETCH_SUCCESS:
-      return [
-        ...state,
-        ...action.response.result,
-      ];
+      return action.response.result;
     case ACTION_SURVEY_DELETE_SUCCESS:
       return state.filter(id => id !== action.id);
     default:

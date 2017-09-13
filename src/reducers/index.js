@@ -139,7 +139,7 @@ export const getSurveyFormData = (state, surveyId) => {
   const buildGroup = (rootGroup, groups, questions) => {
     const { questions: questionIds = [], ...group } = rootGroup;
     const subGroups = groups
-      .filter(group => group.parent === group.uuid)
+      .filter(g => g.parent === group.uuid)
       .map(group => buildGroup(group, groups, questions));
     const subQuestions = questions
       .filter(question => question.group === group.uuid)

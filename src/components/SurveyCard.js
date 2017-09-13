@@ -15,6 +15,7 @@ import Dialog, {
 import Button from 'material-ui/Button';
 import CreateIcon from 'material-ui-icons/Create';
 import DeleteIcon from 'material-ui-icons/Delete';
+import ResponseIcon from 'material-ui-icons/AssignmentInd';
 import PopupSnackbar from './PopupSnackbar';
 import { valFromLangObj } from 'utils';
 
@@ -79,6 +80,9 @@ class SurveyCard extends Component {
         </div>
         <CardActions>
           <div className={classes.flexGrow} />
+          <IconButton onClick={() => history.push(`/surveys/responses/${id}`)}>
+            <ResponseIcon />
+          </IconButton>
           <IconButton onClick={() => history.push(`/surveys/edit/${id}`)}>
             <CreateIcon />
           </IconButton>

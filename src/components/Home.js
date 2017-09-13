@@ -1,9 +1,9 @@
 import React from 'react';
-import SurveyListContainer from 'containers/SurveyListContainer';
+import SurveyTableContainer from '../containers/SurveyTableContainer';
 
 function Home(props) {
   return (
-    <SurveyListContainer />
+    <SurveyTableContainer />
   );
 }
 

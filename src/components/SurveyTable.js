@@ -18,7 +18,6 @@ import PopupSnackbar from './PopupSnackbar';
 import Loading from './Loading';
 import HomeSurveyRowContainer from '../containers/HomeSurveyRowContainer';
 import { withStyles } from 'material-ui/styles';
-import { valFromLangObj } from 'utils';
 
 const toolbarStyles = theme => ({
   root: {
@@ -32,7 +31,7 @@ const toolbarStyles = theme => ({
   }
 });
 
-function TableToolbar({classes, onAddClick}) {
+let TableToolbar = ({classes, onAddClick}) => {
   return (
     <Toolbar className={classes.root}>
       <Typography type="title">
@@ -136,10 +135,10 @@ class SurveyTable extends Component {
               { 
                 !surveys.length &&
                 <TableRow>
-                  <TableCell>
+                  <TableCell colSpan={this.colData.length}>
                     {
                       !!fetchErrors &&
-                      <Typography type="subheading">
+                      <Typography type="subheading" align="center">
                         Problem occurred fetching surveys.
                       </Typography>
                     }

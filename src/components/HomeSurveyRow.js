@@ -9,21 +9,19 @@ import { valFromLangObj } from 'utils';
 
 function HomeSurveyRow({ id, title, description, languages, history, onDeleteSurvey }) {
   const languagesStr = languages.slice(1).reduce((langText, lang, i) => {
-    const text = `${langText}, ${lang.name}`;
-    return text;
+    return `${langText}, ${lang.name}`;
   }, languages[0].name);
-  console.log(languagesStr);
   return (
     <TableRow
       hover>
       <TableCell>{valFromLangObj(title)}</TableCell>
-      <TableCell>{valFromLangObj(description)}</TableCell>
+      <TableCell>{`${valFromLangObj(description).substr(0, 20)}...`}</TableCell>
       <TableCell>
         <span>
           {languagesStr}
         </span>
       </TableCell>
-      <TableCell>
+      <TableCell disablePadding={true}>
         <IconButton onClick={() => history.push(`/surveys/responses/${id}`)}>
           <ResponseIcon />
         </IconButton>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import { Field } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
-import { FormLabel, FormHelperText } from 'material-ui/Form';
+import { FormLabel } from 'material-ui/Form';
 import { renderAlignedTextField } from 'components/form/helper/fieldRenderers';
 
 const styles = {

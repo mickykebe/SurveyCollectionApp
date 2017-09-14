@@ -123,6 +123,11 @@ export const getCurrentUser = (token) =>
           });
         },
         e => {
+          if(e && e.response && e.response.body && e.response.body.detail === 'Signature has expired.') {
+            dispatch({
+              type: ACTION_APP_LOAD_SUCCESS,
+            });
+          }
           dispatch({
             type: ACTION_APP_LOAD_FAIL,
             error: 'Problem occurred connecting to server. Refresh and try again',

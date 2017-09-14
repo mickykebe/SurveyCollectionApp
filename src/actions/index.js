@@ -25,6 +25,9 @@ export const ACTION_SURVEY_UPDATE_FAIL = 'SURVEY_UPDATE_FAIL';
 export const ACTION_SURVEY_DELETE_REQUEST = 'SURVEY_DELETE_REQUEST';
 export const ACTION_SURVEY_DELETE_SUCCESS = 'SURVEY_DELETE_SUCCESS';
 export const ACTION_SURVEY_DELETE_FAIL = 'SURVEY_DELETE_FAIL';
+export const ACTION_RESPONSES_FETCH_REQUEST = 'RESPONSES_FETCH_REQUEST';
+export const ACTION_RESPONSES_FETCH_SUCCESS = 'RESPONSES_FETCH_SUCCESS';
+export const ACTION_RESPONSES_FETCH_FAIL = 'RESPONSES_FETCH_FAIL';
 
 export const apiActionCreator = 
   (actionTypes, auth = false) => 
@@ -101,6 +104,12 @@ export const surveyDelete = apiActionCreator({
   fail: ACTION_SURVEY_DELETE_FAIL,
 }, true);
 
+export const responsesFetch = apiActionCreator({
+  request: ACTION_RESPONSES_FETCH_REQUEST,
+  success: ACTION_RESPONSES_FETCH_SUCCESS,
+  fail: ACTION_RESPONSES_FETCH_FAIL,
+}, true);
+
 export const showPopup = (message) => ({
   type: ACTION_POPUP_MESSAGE_SET,
   message,
@@ -123,6 +132,11 @@ export const getCurrentUser = (token) =>
           });
         },
         e => {
+          if(e && e.response && e.response.body && e.response.body.detail === 'Signature has expired.') {
+            dispatch({
+              type: ACTION_APP_LOAD_SUCCESS,
+            });
+          }
           dispatch({
             type: ACTION_APP_LOAD_FAIL,
             error: 'Problem occurred connecting to server. Refresh and try again',

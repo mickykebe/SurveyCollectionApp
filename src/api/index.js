@@ -63,6 +63,12 @@ const Surveys = {
   }
 }
 
+const SurveyResponses = {
+  all(id) {
+    return requests.get(`/surveys/${id}/filled-surveys/`);
+  }
+}
+
 export default {
   Auth,
   Surveys,

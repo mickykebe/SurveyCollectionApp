@@ -12,6 +12,7 @@ import PopupSnackbar from './PopupSnackbar';
 import AnswerContainer from './answer/AnswerContainer';
 import SurveyCreate from '../containers/SurveyCreate';
 import SurveyEdit from '../containers/SurveyEdit';
+import ResponseListContainer from '../containers/ResponseListContainer';
 import { withStyles } from 'material-ui/styles';
 
 const styles = (theme) => ({
@@ -97,6 +98,7 @@ class App extends Component {
           <PrivateRoute path="/surveys/new" component={SurveyCreate} />
           <PrivateRoute path="/surveys/edit/:surveyId" component={SurveyEdit} />
           <PrivateRoute path="/surveys/answers" component={AnswerContainer} />
+          <PrivateRoute path="/surveys/responses/:surveyId" component={ResponseListContainer} />
         </div>
         <PopupSnackbar
           show={!!popupMessage}

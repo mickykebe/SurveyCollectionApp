@@ -1,7 +1,7 @@
 import { 
   ACTION_REGISTER_SUCCESS, 
   ACTION_LOGIN_SUCCESS,
-  ACTION_LOGOUT } from '../actions';
+  ACTION_LOGOUT } from '../actions/types';
 import api from '../api';
 
 export default store => next => action => {

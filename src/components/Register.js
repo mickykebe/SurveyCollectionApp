@@ -6,7 +6,7 @@ import { withStyles } from 'material-ui/styles';
 import AuthViewContainer from '../containers/AuthViewContainer';
 import { register } from '../actions';
 import api from '../api';
-import { getIsAuthenticating } from '../reducers';
+import { getIsAuthenticating, getAuthErrors } from '../reducers';
 
 const styles = {
   button: {
@@ -18,14 +18,14 @@ const styles = {
 };
 
 const mapStateToProps = (state) => ({
-  errors: state.auth.errors,
+  isAuthenticating: getIsAuthenticating(state),
+  errors: getAuthErrors(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (username, first_name, last_name, email, password, confirm_password) => {
     dispatch(register(
       api.Auth.register(username, first_name, last_name, email, password, confirm_password),
-      getIsAuthenticating,
     ));
   },
 });
@@ -47,6 +47,8 @@ class Register extends Component {
 
   onSubmitForm(e) {
     e.preventDefault();
+    if(this.props.isAuthenticating)
+      return;
     const { 
       username,
       first_name,

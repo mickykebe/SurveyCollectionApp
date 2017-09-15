@@ -2,7 +2,7 @@ import {
   ACTION_SURVEY_CREATE_SUCCESS,
   ACTION_SURVEY_FEED_FETCH_SUCCESS,
   ACTION_SURVEY_FETCH_SUCCESS
-} from '../actions';
+} from '../actions/types';
 import { combineReducers } from 'redux';
 
 const byId = (state = {}, action) => {

@@ -13,7 +13,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   createSurvey(survey) {
-    return dispatch(surveyCreate(api.Surveys.create(survey), getIsCreatingSurvey));
+    return dispatch(surveyCreate(api.Surveys.create(survey)));
   },
   displayPopup(message) {
     dispatch(showPopup(message));
@@ -28,18 +28,19 @@ class SurveyCreate extends Component{
   }
 
   create(data) {
-    const { createSurvey, displayPopup, history } = this.props;
+    const { inProgress, createSurvey, displayPopup, history } = this.props;
 
-    createSurvey(data)
-      .then(() => {
-        displayPopup('Survey created successfully');
-        history.push('/');
-      })
-      .catch(e => displayPopup('Error occurred creating survey'));
+    if(!inProgress) {
+      createSurvey(data)
+        .then(() => {
+          displayPopup('Survey created successfully');
+          history.push('/');
+        })
+        .catch(e => displayPopup('Error occurred creating survey'));
+    }
   }
 
   render() {
-
     return (
       <SurveyForm
         onSubmit={this.create}

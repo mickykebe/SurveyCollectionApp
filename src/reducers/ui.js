@@ -1,7 +1,7 @@
 import { 
   ACTION_POPUP_MESSAGE_SET,
   ACTION_POPUP_MESSAGE_CLEAR 
-} from '../actions';
+} from '../actions/types';
 
 export default (state = {
   popupMessage: null,

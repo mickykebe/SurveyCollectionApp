@@ -4,7 +4,7 @@ import {
   ACTION_LOGIN_FAIL,
   ACTION_REGISTER_REQUEST,
   ACTION_REGISTER_SUCCESS,
-  ACTION_REGISTER_FAIL } from '../actions';
+  ACTION_REGISTER_FAIL } from '../actions/types';
 
 const defaultState = {
   isAuthenticating: false,

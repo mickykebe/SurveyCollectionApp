@@ -10,18 +10,21 @@ import api from '../api';
 import SurveyForm from '../components/form/SurveyForm';
 import AppCircularProgress from '../components/AppCircularProgress';
 
-const mapStateToProps = (state, ownProps) => ({
-  surveyFormData: getSurveyFormData(state, ownProps.match.params.surveyId),
-  isFetching: getIsFetchingSurvey(state),
-  isUpdating: getIsUpdatingSurvey(state),
-});
+const mapStateToProps = (state, ownProps) => {
+  const id = ownProps.match.params.surveyId;
+  return {
+    surveyFormData: getSurveyFormData(state, id),
+    isFetching: getIsFetchingSurvey(state, id),
+    isUpdating: getIsUpdatingSurvey(state, id),
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   fetchSurvey(id) {
-    return dispatch(surveyFetch(api.Surveys.get(id), getIsFetchingSurvey));
+    return dispatch(surveyFetch(api.Surveys.get(id), { id }));
   },
   updateSurvey(survey) {
-    return dispatch(surveyUpdate(api.Surveys.update(survey), getIsUpdatingSurvey))
+    return dispatch(surveyUpdate(api.Surveys.update(survey), { id: survey.uuid }));
   },
   displayPopup(message) {
     dispatch(showPopup(message));
@@ -36,21 +39,25 @@ class SurveyEdit extends Component {
   }
 
   handleSubmit(data) {
-    const { history, updateSurvey, displayPopup } = this.props;
-    updateSurvey(data)
-      .then(() => {
-        displayPopup('Survey updated successfully');
-        history.push('/');
-      })
-      .catch(e => displayPopup('Error occurred updating survey'));
+    const { history, updateSurvey, displayPopup, isUpdating } = this.props;
+    if(!isUpdating) {
+      updateSurvey(data)
+        .then(() => {
+          displayPopup('Survey updated successfully');
+          history.push('/');
+        })
+        .catch(e => displayPopup('Error occurred updating survey'));
+    }
   }
 
   componentDidMount() {
-    const { fetchSurvey, match, displayPopup } = this.props;
+    const { fetchSurvey, match, displayPopup, isFetching } = this.props;
     const { surveyId } = match.params;
 
-    fetchSurvey(surveyId)
+    if(!isFetching) {
+      fetchSurvey(surveyId)
       .catch(e => displayPopup('Error occurred fetching survey'));
+    }
   }
 
   render() {

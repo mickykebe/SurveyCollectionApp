@@ -3,6 +3,7 @@ import { reducer as formReducer} from 'redux-form';
 import auth, * as fromAuth from './auth';
 import common, * as fromCommon from './common';
 import surveys, * as fromSurveys from './surveys';
+import responses, * as fromResponses from './responses';
 import questions, * as fromQuestions from './questions';
 import groups, * as fromGroups from './groups';
 import choices, * as fromChoices from './choices';
@@ -16,6 +17,7 @@ export default combineReducers({
   common,
   auth,
   surveys,
+  responses,
   questions,
   groups,
   choices,
@@ -40,6 +42,8 @@ export const getAuthErrors = (state) =>
   fromAuth.getAuthErrors(state.auth);
 
 //Survey selectors
+export const getSurvey = (state, id) =>
+  fromSurveys.getSurvey(state.surveys, id);
 export const getIsCreatingSurvey = (state) =>
   fromSurveys.getIsCreatingSurvey(state.surveys);
 export const getSurveyCreateErrors = (state) =>
@@ -48,16 +52,24 @@ export const getIsFetchingSurveyFeed = (state) =>
   fromSurveys.getIsFetchingSurveyFeed(state.surveys);
 export const getSurveyFeedFetchErrors = (state) =>
   fromSurveys.getSurveyFeedFetchErrors(state.surveys);
-export const getIsFetchingSurvey = (state) =>
-  fromSurveys.getIsFetchingSurvey(state.surveys);
-export const getSurveyFetchErrors = (state) =>
-  fromSurveys.getSurveyFetchErrors(state.surveys);
-export const getIsUpdatingSurvey = (state) =>
-  fromSurveys.getIsUpdatingSurvey(state.surveys);
-export const getIsDeletingSurvey = (state) =>
-  fromSurveys.getIsDeletingSurvey(state.surveys);
-export const getSurveyDeleteErrors = (state) =>
-  fromSurveys.getSurveyDeleteErrors(state.surveys);
+export const getIsFetchingSurvey = (state, id) =>
+  fromSurveys.getIsFetchingSurvey(state.surveys, id);
+export const getSurveyFetchErrors = (state, id) =>
+  fromSurveys.getSurveyFetchErrors(state.surveys, id);
+export const getIsUpdatingSurvey = (state, id) =>
+  fromSurveys.getIsUpdatingSurvey(state.surveys, id);
+export const getIsDeletingSurvey = (state, id) =>
+  fromSurveys.getIsDeletingSurvey(state.surveys, id);
+export const getSurveyDeleteErrors = (state, id) =>
+  fromSurveys.getSurveyDeleteErrors(state.surveys, id);
+
+//Response selectors
+export const getSurveyResponse = (state, id) =>
+  fromResponses.getSurveyResponse(state.responses, id);
+export const getIsFetchingSurveyResponses = (state, surveyId) =>
+  fromResponses.getIsFetchingSurveyResponses(state.responses, surveyId);
+export const getSurveyResponsesFetchErrors = (state, surveyId) =>
+  fromResponses.getSurveyResponsesFetchErrors(state.responses, surveyId);
 
 //Question selectors
 export const getQuestion = (state, id) =>
@@ -103,6 +115,11 @@ export const getQuestionTypeOperators = (state, id) => {
 export const getCurrentUserSurveys = (state) => 
   fromSurveys.getUserSurveys(state.surveys, state.common.currentUser.id);
 
+export const getSurveyResponses = (state, id) => {
+  const responseIds = fromSurveys.getSurveyResponseIds(state.surveys, id);
+  return responseIds.map(resId => fromResponses.getSurveyResponse(state.responses, resId));
+}
+
 export const getSurveyFormData = (state, surveyId) => {
   const buildChoiceCondition = (choiceCondition, choices) => {
     const { choices: choiceIds = [], ..._choiceCondition } = choiceCondition;
@@ -144,7 +161,8 @@ export const getSurveyFormData = (state, surveyId) => {
     const subQuestions = questions
       .filter(question => question.group === group.uuid)
       .map(question => buildQuestion(question));
-    const groupElements = [...subGroups, ...subQuestions];
+    const unsorted = [...subGroups, ...subQuestions];
+    const groupElements = unsorted.slice().sort((e1, e2) => e1.index - e2.index);
     return { ...group, schema: 'group', groupElements };
   }
 

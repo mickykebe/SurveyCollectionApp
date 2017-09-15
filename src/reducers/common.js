@@ -5,7 +5,7 @@ import {
   ACTION_LOGIN_SUCCESS,
   ACTION_REGISTER_SUCCESS,
   ACTION_LOGOUT
-} from '../actions';
+} from '../actions/types';
 
 const defaultState = {
   token: null,

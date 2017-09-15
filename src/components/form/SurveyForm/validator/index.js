@@ -127,7 +127,6 @@ const validate = values => {
   if(!_isEmpty(groupRootErrors)) {
     errors.groupRoot = groupRootErrors;
   }
-  console.log(errors);
   return errors;
 }
 

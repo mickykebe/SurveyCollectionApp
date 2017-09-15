@@ -14,8 +14,11 @@ import {
   ACTION_SURVEY_DELETE_REQUEST,
   ACTION_SURVEY_DELETE_SUCCESS,
   ACTION_SURVEY_DELETE_FAIL,
-} from '../actions';
+  ACTION_RESPONSES_FETCH_SUCCESS,
+} from '../actions/types';
 import { combineReducers } from 'redux';
+import asyncStatus from './hor/asyncStatus';
+import { keyWrapState } from './hor/utils';
 
 const byId = (state = {}, action) => {
   switch(action.type) {
@@ -58,40 +61,37 @@ const idsByUser = (state = {}, action) => {
   }
 }
 
-const asyncStatus = (actionRequest, actionSuccess, actionFail) => 
-  (state = {
-    inProgress: false,
-    errors: null,
-  }, action) => {
-    switch(action.type) {
-      case actionRequest:
-        return {
-          inProgress: true,
-          errors: null
-        };
-      case actionSuccess:
-        return {
-          inProgress: false,
-          errors: null,
-        };
-      case actionFail:
-        return {
-          inProgress: false,
-          errors: action.errors
-        }
-      default:
-        return state;
+const responsesById = (state = {}, action) => {
+  switch(action.type) {
+    case ACTION_RESPONSES_FETCH_SUCCESS: {
+      return {
+        ...state,
+        [action.survey]: action.response.result,
+      };
     }
+    default:
+      return state;
   }
+}
 
 export default combineReducers({
   byId,
   idsByUser,
+  responsesById,
   create: asyncStatus(ACTION_SURVEY_CREATE_REQUEST, ACTION_SURVEY_CREATE_SUCCESS, ACTION_SURVEY_CREATE_FAIL),
   fetchFeed: asyncStatus(ACTION_SURVEY_FEED_FETCH_REQUEST, ACTION_SURVEY_FEED_FETCH_SUCCESS, ACTION_SURVEY_FEED_FETCH_FAIL),
-  fetch: asyncStatus(ACTION_SURVEY_FETCH_REQUEST, ACTION_SURVEY_FETCH_SUCCESS, ACTION_SURVEY_FETCH_FAIL),
-  update: asyncStatus(ACTION_SURVEY_UPDATE_REQUEST, ACTION_SURVEY_UPDATE_SUCCESS, ACTION_SURVEY_UPDATE_FAIL),
-  delete: asyncStatus(ACTION_SURVEY_DELETE_REQUEST, ACTION_SURVEY_DELETE_SUCCESS, ACTION_SURVEY_DELETE_FAIL),
+  fetch: keyWrapState(
+      [ACTION_SURVEY_FETCH_REQUEST, ACTION_SURVEY_FETCH_SUCCESS, ACTION_SURVEY_FETCH_FAIL],
+      action => action.id,
+    )(asyncStatus),
+  update: keyWrapState(
+      [ACTION_SURVEY_UPDATE_REQUEST, ACTION_SURVEY_UPDATE_SUCCESS, ACTION_SURVEY_UPDATE_FAIL],
+      action => action.id,
+    )(asyncStatus),
+  delete: keyWrapState(
+      [ACTION_SURVEY_DELETE_REQUEST, ACTION_SURVEY_DELETE_SUCCESS, ACTION_SURVEY_DELETE_FAIL],
+      action => action.id,
+    )(asyncStatus),
 });
 
 export const getSurvey = (state, id) => {
@@ -101,6 +101,9 @@ export const getUserSurveys = (state, userId) => {
   const ids = state.idsByUser[userId] || [];
   return ids.map(id => state.byId[id]);
 }
+export const getSurveyResponseIds = (state, id) => {
+  return state.responsesById[id] || [];
+}
 export const getIsCreatingSurvey = (state) =>
   state.create.inProgress;
 export const getSurveyCreateErrors = (state) =>
@@ -109,13 +112,13 @@ export const getIsFetchingSurveyFeed = (state) =>
   state.fetchFeed.inProgress;
 export const getSurveyFeedFetchErrors = (state) => 
   state.fetchFeed.errors;
-export const getIsFetchingSurvey = (state) =>
-  state.fetch.inProgress;
-export const getSurveyFetchErrors = (state) =>
-  state.fetch.errors;
-export const getIsUpdatingSurvey = (state) =>
-  state.update.inProgress;
-export const getIsDeletingSurvey = (state) =>
-  state.delete.inProgress;
-export const getSurveyDeleteErrors = (state) =>
-  state.delete.errors;
+export const getIsFetchingSurvey = (state, id) =>
+  !!(state.fetch[id] && state.fetch[id].inProgress);
+export const getSurveyFetchErrors = (state, id) =>
+  (state.fetch[id] && state.fetch[id].errors) || null;
+export const getIsUpdatingSurvey = (state, id) =>
+  !!(state.update[id] && state.update[id].inProgress);
+export const getIsDeletingSurvey = (state, id) =>
+  !!(state.delete[id] && state.delete[id].inProgress);
+export const getSurveyDeleteErrors = (state, id) =>
+  (state.delete[id] && state.delete[id].errors) || null;

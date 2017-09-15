@@ -1,23 +1,18 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
+import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
-import { valFromObject } from 'utils';
+import { valFromLangObj } from 'utils';
+import SurveyHeaderContainer from '../containers/SurveyHeaderContainer';
 
 const styles = theme => ({
 
 });
 
-function SurveyResponse({ survey }) {
+function ResponseList({ id, responses, fetchingResponses, responsesFetchError }) {
   return (
     <div>
-      <Paper>
-        <Typography type="headline">
-          {survey.title}
-        </Typography>
-        <Typography type="subheading">
-          {survey.description}
-        </Typography>
-      </Paper>
+      <SurveyHeaderContainer id={id} />
     </div>
   )
 }

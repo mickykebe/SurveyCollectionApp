@@ -76,7 +76,7 @@ class SurveyTable extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { deleteDialogOpen: false, surveyToDelete: null };
+    this.state = { deleteDialogOpen: false, surveyToDelete: null, isDeletingSurvey: false, deleteErrors: null };
     this.onDeleteSurvey = this.onDeleteSurvey.bind(this);
     this.deleteSurvey = this.deleteSurvey.bind(this);
     this.deleteDialogClose = this.deleteDialogClose.bind(this);
@@ -103,7 +103,13 @@ class SurveyTable extends Component {
   deleteSurvey() {
     const id = this.state.surveyToDelete;
     if(id !== null) {
-      this.props.deleteSurvey(id);
+      this.setState({
+        isDeletingSurvey: true,
+      });
+      
+      this.props.deleteSurvey(id)
+        .then(() => this.setState({ isDeletingSurvey: false, surveyToDelete: null }))
+        .catch(() => this.setState({ isDeletingSurvey: false, deleteErrors: true}));
     }
     this.deleteDialogClose();
   }
@@ -115,15 +121,8 @@ class SurveyTable extends Component {
   }
 
   render() {
-    const { 
-      classes, 
-      surveys, 
-      history, 
-      deleteErrors, 
-      isDeletingSurvey, 
-      isFetching, 
-      fetchErrors 
-    } = this.props;
+    const { classes, surveys, history, isFetching, fetchErrors } = this.props;
+    const { isDeletingSurvey, deleteErrors } = this.state;
 
     return (
       <div>

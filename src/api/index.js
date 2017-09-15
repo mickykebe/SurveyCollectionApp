@@ -72,5 +72,6 @@ const SurveyResponses = {
 export default {
   Auth,
   Surveys,
+  SurveyResponses,
   setToken: _token => { token = _token; }
 };

@@ -5,9 +5,8 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import AuthViewContainer from '../containers/AuthViewContainer';
 import { login } from '../actions';
-import { getAuthErrors } from 'reducers';
 import api from '../api';
-import { getIsAuthenticating } from '../reducers';
+import { getIsAuthenticating, getAuthErrors } from '../reducers';
 
 const styles = {
   button: {
@@ -19,12 +18,13 @@ const styles = {
 };
 
 const mapStateToProps = (state) => ({
+  isAuthenticating: getIsAuthenticating(state),
   errors: getAuthErrors(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (username, password) => {
-    dispatch(login(api.Auth.login(username, password), getIsAuthenticating));
+    dispatch(login(api.Auth.login(username, password)));
   }
 });
 
@@ -44,6 +44,9 @@ class Login extends Component {
 
   onSubmitForm(e) {
     e.preventDefault();
+    if(this.props.isAuthenticating) {
+      return;
+    }
     const { username, password } = this.state;
     this.props.onSubmit(username, password);
   }

@@ -135,11 +135,7 @@ export const getCurrentUser = (token) =>
         e => {
           if(e && e.response && e.response.body && e.response.body.detail === 'Signature has expired.') {
             dispatch({
-<<<<<<< HEAD
-              type: ACTION_APP_LOAD_SUCCESS,
-=======
               type: actionTypes.ACTION_APP_LOAD_SUCCESS,
->>>>>>> responses
             });
           }
           dispatch({

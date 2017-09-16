@@ -84,7 +84,8 @@ class ResponsePageContainer extends Component {
           survey={survey}
           responses={responses} 
           fetchingSurvey={isFetchingSurvey}
-          fetchingResponses={fetchingResponses} />
+          fetchingResponses={fetchingResponses}
+          responseCount={responses.length} />
         <PopupSnackbar
           show={!isFetchingSurvey && !!surveyFetchErrors}
           message="Problem occurred fetching survey"

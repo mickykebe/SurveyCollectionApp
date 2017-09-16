@@ -23,7 +23,8 @@ export default store => next => action => {
     case ACTION_RESPONSES_FETCH_SUCCESS:
       return next({
         ...action,
-        response: normalize(action.response.results, schema.responseListSchema)
+        response: normalize(action.response.results, schema.responseListSchema),
+        count: action.response.count,
       });
     default:
       return next(action);

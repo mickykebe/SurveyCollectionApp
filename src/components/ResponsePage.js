@@ -17,6 +17,12 @@ const styles = theme => ({
   responseListContainer: {
     position: 'relative',
     marginTop: theme.spacing.unit * 2,
+  },
+  grow: {
+    flex: 1,
+  },
+  emptyResponses: {
+    minHeight: '50px'
   }
 });
 
@@ -25,10 +31,24 @@ class ResponsePage extends Component {
     super(props);
 
     this.state = { curIndex: 0 };
+    this.onPrevPageClick = this.onPrevPageClick.bind(this);
+    this.onNextPageClick = this.onNextPageClick.bind(this);
+  }
+
+  onPrevPageClick() {
+    this.setState({
+      curIndex: this.state.curIndex - 1,
+    });
+  }
+
+  onNextPageClick() {
+    this.setState({
+      curIndex: this.state.curIndex + 1,
+    })
   }
 
   render() {
-    const { classes, id, survey, responses, fetchingSurvey, fetchingResponses } = this.props;
+    const { classes, id, survey, responses, responseCount, fetchingSurvey, fetchingResponses } = this.props;
     const currentAnswers = responses[this.state.curIndex] && responses[this.state.curIndex].answers;
     return (
       <div className={classes.root}>
@@ -40,13 +60,31 @@ class ResponsePage extends Component {
             <Typography type="title">
               Responses
             </Typography>
-          </Toolbar>
-          <PagerLayout>
-            {
-              currentAnswers &&
-              <AnswerList answers={currentAnswers} />
+            <div className={classes.grow} />
+            { 
+              !!responses.length &&
+              <Typography type="body1">
+                {`${this.state.curIndex + 1}/${responses.length}`}
+              </Typography>
             }
-          </PagerLayout>
+          </Toolbar>
+          {
+            !!responses.length && 
+            <PagerLayout
+              onPrev={responses[this.state.curIndex-1] && this.onPrevPageClick}
+              onNext={responses[this.state.curIndex+1] && this.onNextPageClick}>
+              {
+                currentAnswers &&
+                <AnswerList answers={currentAnswers} />
+              }
+            </PagerLayout>
+          }
+          {
+            !responses.length &&
+            <Typography type="subheading" align="center" className={classes.emptyResponses}>
+              No responses have been filled out yet.
+            </Typography>
+          }
           {
             fetchingResponses && <Loading />
           }

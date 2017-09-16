@@ -26,7 +26,7 @@ export default combineReducers({
 });
 
 export const getSurveyResponse = (state, id) =>
-  state[id];
+  state.byId[id];
 export const getIsFetchingSurveyResponses = (state, surveyId) =>
   !!(state.responsesStatus[surveyId] && state.responsesStatus[surveyId].inProgress);
 export const getSurveyResponsesFetchErrors = (state, surveyId) =>

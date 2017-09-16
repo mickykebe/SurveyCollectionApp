@@ -3,27 +3,20 @@ import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import Loading from './Loading';
-import PopupSnackbar from './PopupSnackbar';
 import { valFromLangObj } from '../utils';
 
-const contentStyles = theme => ({
-  
-})
-
-let Content = ({ classes, id, title, description }) => {
+const Content = ({ id, title, description }) => {
   return (
-    <div className={classes.root}>
-      <Typography type="headline" component="h1" color="secondary" align="center">
+    <div>
+      <Typography type="headline" component="h1" align="center">
         { valFromLangObj(title) }
       </Typography>
-      <Typography type="subheading">
+      <Typography type="subheading" color="secondary" align="center">
         { valFromLangObj(description) }
       </Typography>
     </div>
   );
 }
-
-Content = withStyles(contentStyles)(Content);
 
 const styles = theme => ({
   root: {
@@ -41,13 +34,6 @@ function SurveyHeader({ classes, inProgress, error, onRetry, survey }) {
         }
         {
           inProgress && <Loading />
-        }
-        {
-          error && 
-          <PopupSnackbar
-            show={!inProgress && !!error}
-            message="Problem occurred fetching survey"
-            retryAction={onRetry} />
         }
       </Paper>
     </div>

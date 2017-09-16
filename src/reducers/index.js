@@ -80,8 +80,12 @@ export const getGroup = (state, id) =>
   fromGroups.getGroup(state.groups, id);
 
 //Choice selectors
-export const getChoices = (state, id) =>
-  fromChoices.getChoice(state.choices, id);
+export const getChoice = (state, id) => {
+  console.log(state.choices, id);
+  console.log(state.choices.byId[id]);
+  console.log(fromChoices.getChoice(state.choices, id));
+  return fromChoices.getChoice(state.choices, id);
+}
 
 //Choice condition selectors
 export const getChoiceConditions = (state, id) =>
@@ -118,6 +122,11 @@ export const getCurrentUserSurveys = (state) =>
 export const getSurveyResponses = (state, id) => {
   const responseIds = fromSurveys.getSurveyResponseIds(state.surveys, id);
   return responseIds.map(resId => fromResponses.getSurveyResponse(state.responses, resId));
+}
+
+export const getQuestionChoices = (state, qId) => {
+  const choiceIds = fromQuestions.getQuestion(state.questions, qId);
+  return choiceIds.map(cId => fromChoices.getChoice(state.choices, cId));
 }
 
 export const getSurveyFormData = (state, surveyId) => {

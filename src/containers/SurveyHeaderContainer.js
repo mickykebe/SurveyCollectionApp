@@ -4,6 +4,7 @@ import { getSurvey, getIsFetchingSurvey, getSurveyFetchErrors }  from '../reduce
 import { surveyFetch } from '../actions';
 import api from '../api';
 import SurveyHeader from '../components/SurveyHeader';
+import PopupSnackbar from '../components/PopupSnackbar';
 
 const mapStateToProps = (state, { id }) => ({
   survey: getSurvey(state, id),
@@ -39,7 +40,11 @@ class SurveyHeaderContainer extends Component {
     const { isFetching, fetchErrors, ...rest } = this.props;
     return (
       <div>
-        <SurveyHeader inProgress={isFetching} error={fetchErrors} onRetry={this.fetchSurvey} {...rest} />
+        <SurveyHeader inProgress={isFetching} {...rest} />
+        <PopupSnackbar
+          show={!isFetching && !!fetchErrors}
+          message="Problem occurred fetching survey"
+          retryAction={this.fetchSurvey} />
       </div>
     );
   }

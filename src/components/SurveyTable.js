@@ -186,7 +186,7 @@ class SurveyTable extends Component {
           <PopupSnackbar
             show={!isFetching && !!fetchErrors}
             message="Problem occurred fetching surveys"
-            retryAction={this.fetchFeed}
+            retryAction={this.props.fetchSurveyFeed}
             />
           {
             (isDeletingSurvey || isFetching) &&

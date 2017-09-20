@@ -9,6 +9,8 @@ import {
   getSurveyResponses,
   getIsFetchingSurveyResponses,
   getSurveyResponsesFetchErrors,
+  getSurveyResponsesCount,
+  getSurveyResponsesNext,
  } from '../reducers';
 import { responsesFetch, surveyFetch } from '../actions';
 import api from '../api';
@@ -25,17 +27,23 @@ const mapStateToProps = (state, { match }) => {
     responses: getSurveyResponses(state, id),
     fetchingResponses: getIsFetchingSurveyResponses(state, id),
     responsesFetchError: getSurveyResponsesFetchErrors(state, id),
+    responsesCount: getSurveyResponsesCount(state, id),
+    responsesNext: getSurveyResponsesNext(state, id),
   }
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchResponses(id) {
-    return dispatch(responsesFetch(api.SurveyResponses.all(id), { survey: id }));
+const mergeProps = (stateProps, { dispatch }, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  fetchResponses() {
+    return dispatch(responsesFetch(
+      api.SurveyResponses.all(stateProps.id, stateProps.responsesNext),
+      { survey: stateProps.id }));
   },
-  fetchSurvey(id) {
-    return dispatch(surveyFetch(api.Surveys.get(id), { id }));
+  fetchSurvey() {
+    return dispatch(surveyFetch(api.Surveys.get(stateProps.id), { id: stateProps.id }));
   }
-});
+})
 
 class ResponsePageContainer extends Component {
   constructor(props) {
@@ -46,20 +54,20 @@ class ResponsePageContainer extends Component {
   }
 
   fetch() {
-    const { id, survey, isFetchingSurvey, fetchSurvey } = this.props;
+    const { survey, isFetchingSurvey, fetchSurvey } = this.props;
     if(survey) {
-      this.fetchResponses(id);
+      this.fetchResponses();
     }
     else if(!isFetchingSurvey) {
-      fetchSurvey(id)
+      fetchSurvey()
         .then(() => this.fetchResponses());
     }
   }
   
   fetchResponses() {
-    const { id, fetchingResponses, fetchResponses } = this.props;
+    const { fetchingResponses, fetchResponses } = this.props;
     if(!fetchingResponses){
-      fetchResponses(id);
+      fetchResponses();
     }
   }
 
@@ -75,7 +83,9 @@ class ResponsePageContainer extends Component {
       fetchingResponses, 
       responsesFetchError,
       isFetchingSurvey,
-      surveyFetchErrors
+      surveyFetchErrors,
+      responsesCount,
+      responsesNext
      } = this.props;
     return (
       <div>
@@ -85,7 +95,9 @@ class ResponsePageContainer extends Component {
           responses={responses} 
           fetchingSurvey={isFetchingSurvey}
           fetchingResponses={fetchingResponses}
-          responseCount={responses.length} />
+          responsesCount={responsesCount}
+          hasMore={!!responsesNext}
+          onFetchMore={this.fetchResponses} />
         <PopupSnackbar
           show={!isFetchingSurvey && !!surveyFetchErrors}
           message="Problem occurred fetching survey"
@@ -101,5 +113,5 @@ class ResponsePageContainer extends Component {
 
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, null, mergeProps)
 )(ResponsePageContainer);

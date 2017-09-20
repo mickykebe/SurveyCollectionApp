@@ -45,6 +45,9 @@ const styles = (theme) => ({
     input: {
       boxShadow: 'none',
     },
+    table: {
+      borderCollapse: 'collapse',
+    }
   },
   content: {
     maxWidth: '1280px',

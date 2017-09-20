@@ -24,7 +24,6 @@ export default store => next => action => {
       return next({
         ...action,
         response: normalize(action.response.results, schema.responseListSchema),
-        count: action.response.count,
       });
     default:
       return next(action);

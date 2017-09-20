@@ -20,30 +20,30 @@ const styles = theme => ({
   }
 });
 
-function PagerLayout({ classes, onPrev, onNext, children }) {
+function PagerLayout({ classes, hasPrev, hasNext, onPrev, onNext, children }) {
   return (
     <div className={classes.root}>
       {
-        !!onPrev &&
+        hasPrev &&
         <Button className={classes.directionButton} onClick={onPrev}>
           <LeftArrowIcon />
         </Button>
       }
       {
-        !onPrev &&
+        !hasPrev &&
         <div className={classes.buttonPlaceholder} />
       }
       <div className={classes.content}>
         {children}
       </div>
       {
-        !!onNext &&
+        hasNext &&
         <Button className={classes.directionButton} onClick={onNext}>
           <RightArrowIcon />
         </Button>
       }
       {
-        !onNext &&
+        !hasNext &&
         <div className={classes.buttonPlaceholder} />
       }
     </div>

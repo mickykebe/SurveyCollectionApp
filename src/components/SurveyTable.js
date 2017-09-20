@@ -69,6 +69,13 @@ const styles = theme => ({
     position: 'relative',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+  },
+  tableFooter: {
+    padding: theme.spacing.unit * 2,
+  },
+  loadMoreBtn: {
+    display: 'block',
+    margin: '0 auto',
   }
 });
 
@@ -121,7 +128,7 @@ class SurveyTable extends Component {
   }
 
   render() {
-    const { classes, surveys, history, isFetching, fetchErrors } = this.props;
+    const { classes, surveys, history, isFetching, fetchErrors, next } = this.props;
     const { isDeletingSurvey, deleteErrors } = this.state;
 
     return (
@@ -163,6 +170,14 @@ class SurveyTable extends Component {
               }
             </TableBody>
           </Table>
+          {
+            !isFetching && !!next &&
+            <div className={classes.tableFooter}>
+              <Button className={classes.loadMoreBtn} raised color="accent" onClick={this.props.fetchSurveyFeed}>
+                Load More
+              </Button>
+            </div>
+          }
           <Dialog open={this.state.deleteDialogOpen} onRequestClose={this.deleteDialogClose}>
             <DialogTitle>Confirm</DialogTitle>
             <DialogContent>

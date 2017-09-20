@@ -3,7 +3,6 @@ import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
-import { valFromLangObj } from 'utils';
 import Loading from './Loading';
 import PagerLayout from './PagerLayout';
 import SurveyHeader from './SurveyHeader';
@@ -31,25 +30,31 @@ class ResponsePage extends Component {
     super(props);
 
     this.state = { curIndex: 0 };
-    this.onPrevPageClick = this.onPrevPageClick.bind(this);
-    this.onNextPageClick = this.onNextPageClick.bind(this);
+    this.nextResponse = this.nextResponse.bind(this);
   }
 
-  onPrevPageClick() {
+  nextResponse() {
+    if(this.state.curIndex + 1 >= this.props.responses.length) {
+      this.props.onFetchMore();
+    }
     this.setState({
-      curIndex: this.state.curIndex - 1,
+      curIndex: this.state.curIndex + 1,
     });
   }
 
-  onNextPageClick() {
-    this.setState({
-      curIndex: this.state.curIndex + 1,
-    })
-  }
-
   render() {
-    const { classes, id, survey, responses, responseCount, fetchingSurvey, fetchingResponses } = this.props;
-    const currentAnswers = responses[this.state.curIndex] && responses[this.state.curIndex].answers;
+    const { 
+      classes,
+      survey, 
+      responses, 
+      responsesCount, 
+      fetchingSurvey, 
+      fetchingResponses,
+      hasMore
+     } = this.props;
+    const { curIndex } = this.state;
+    const currentAnswers = responses[curIndex] && responses[curIndex].answers;
+
     return (
       <div className={classes.root}>
         <SurveyHeader
@@ -64,15 +69,17 @@ class ResponsePage extends Component {
             { 
               !!responses.length &&
               <Typography type="body1">
-                {`${this.state.curIndex + 1}/${responses.length}`}
+                {`${this.state.curIndex + 1}/${responsesCount}`}
               </Typography>
             }
           </Toolbar>
           {
             !!responses.length && 
             <PagerLayout
-              onPrev={responses[this.state.curIndex-1] && this.onPrevPageClick}
-              onNext={responses[this.state.curIndex+1] && this.onNextPageClick}>
+              hasPrev={curIndex > 0}
+              hasNext={curIndex+1 < responses.length || hasMore}
+              onPrev={() => this.setState({ curIndex: curIndex - 1 })}
+              onNext={this.nextResponse}>
               {
                 currentAnswers &&
                 <AnswerList answers={currentAnswers} />
@@ -82,7 +89,7 @@ class ResponsePage extends Component {
           {
             !responses.length &&
             <Typography type="subheading" align="center" className={classes.emptyResponses}>
-              No responses have been filled out yet.
+              No responses available.
             </Typography>
           }
           {

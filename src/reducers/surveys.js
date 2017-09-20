@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+import union from 'lodash/union';
 import { 
   ACTION_SURVEY_CREATE_REQUEST,
   ACTION_SURVEY_CREATE_FAIL,
@@ -16,9 +18,9 @@ import {
   ACTION_SURVEY_DELETE_FAIL,
   ACTION_RESPONSES_FETCH_SUCCESS,
 } from '../actions/types';
-import { combineReducers } from 'redux';
 import asyncStatus from './hor/asyncStatus';
-import { keyWrapState } from './hor/utils';
+import pagination from './hor/pagination';
+import { createKeyWrappedReducer } from './hor/utils';
 
 const byId = (state = {}, action) => {
   switch(action.type) {
@@ -39,7 +41,7 @@ const ids = (state = [], action) => {
     case ACTION_SURVEY_CREATE_SUCCESS:
       return [action.response.result, ...state]
     case ACTION_SURVEY_FEED_FETCH_SUCCESS:
-      return action.response.result;
+      return union(state, action.response.result);
     case ACTION_SURVEY_DELETE_SUCCESS:
       return state.filter(id => id !== action.id);
     default:
@@ -66,7 +68,7 @@ const responsesById = (state = {}, action) => {
     case ACTION_RESPONSES_FETCH_SUCCESS: {
       return {
         ...state,
-        [action.survey]: action.response.result,
+        [action.survey]: union(state[action.survey], action.response.result),
       };
     }
     default:
@@ -74,24 +76,26 @@ const responsesById = (state = {}, action) => {
   }
 }
 
+const feed = combineReducers({
+  status: asyncStatus(ACTION_SURVEY_FEED_FETCH_REQUEST, ACTION_SURVEY_FEED_FETCH_SUCCESS, ACTION_SURVEY_FEED_FETCH_FAIL),
+  pagination: pagination(ACTION_SURVEY_FEED_FETCH_SUCCESS),
+});
+
 export default combineReducers({
   byId,
   idsByUser,
   responsesById,
+  feed,
   create: asyncStatus(ACTION_SURVEY_CREATE_REQUEST, ACTION_SURVEY_CREATE_SUCCESS, ACTION_SURVEY_CREATE_FAIL),
-  fetchFeed: asyncStatus(ACTION_SURVEY_FEED_FETCH_REQUEST, ACTION_SURVEY_FEED_FETCH_SUCCESS, ACTION_SURVEY_FEED_FETCH_FAIL),
-  fetch: keyWrapState(
-      [ACTION_SURVEY_FETCH_REQUEST, ACTION_SURVEY_FETCH_SUCCESS, ACTION_SURVEY_FETCH_FAIL],
+  fetch: createKeyWrappedReducer(
       action => action.id,
-    )(asyncStatus),
-  update: keyWrapState(
-      [ACTION_SURVEY_UPDATE_REQUEST, ACTION_SURVEY_UPDATE_SUCCESS, ACTION_SURVEY_UPDATE_FAIL],
+    )(asyncStatus(ACTION_SURVEY_FETCH_REQUEST, ACTION_SURVEY_FETCH_SUCCESS, ACTION_SURVEY_FETCH_FAIL)),
+  update: createKeyWrappedReducer(
       action => action.id,
-    )(asyncStatus),
-  delete: keyWrapState(
-      [ACTION_SURVEY_DELETE_REQUEST, ACTION_SURVEY_DELETE_SUCCESS, ACTION_SURVEY_DELETE_FAIL],
+    )(asyncStatus(ACTION_SURVEY_UPDATE_REQUEST, ACTION_SURVEY_UPDATE_SUCCESS, ACTION_SURVEY_UPDATE_FAIL)),
+  delete: createKeyWrappedReducer(
       action => action.id,
-    )(asyncStatus),
+    )(asyncStatus(ACTION_SURVEY_DELETE_REQUEST, ACTION_SURVEY_DELETE_SUCCESS, ACTION_SURVEY_DELETE_FAIL)),
 });
 
 export const getSurvey = (state, id) => {
@@ -104,14 +108,18 @@ export const getUserSurveys = (state, userId) => {
 export const getSurveyResponseIds = (state, id) => {
   return state.responsesById[id] || [];
 }
+export const getIsFetchingSurveyFeed = (state) =>
+  state.feed.status.inProgress;
+export const getSurveyFeedFetchErrors = (state) => 
+  state.feed.status.errors;
+export const getSurveyFeedCount = (state) =>
+  state.feed.pagination.count;
+export const getSurveyFeedNext = (state) =>
+  state.feed.pagination.next;
 export const getIsCreatingSurvey = (state) =>
   state.create.inProgress;
 export const getSurveyCreateErrors = (state) =>
   state.create.errors;
-export const getIsFetchingSurveyFeed = (state) =>
-  state.fetchFeed.inProgress;
-export const getSurveyFeedFetchErrors = (state) => 
-  state.fetchFeed.errors;
 export const getIsFetchingSurvey = (state, id) =>
   !!(state.fetch[id] && state.fetch[id].inProgress);
 export const getSurveyFetchErrors = (state, id) =>

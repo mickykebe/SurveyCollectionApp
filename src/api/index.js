@@ -46,8 +46,9 @@ const Auth = {
 }
 
 const Surveys = {
-  mine() {
-    return requests.get('/surveys/mine/');
+  mine(offset = 0) {
+    return requests.get(`/surveys/mine/?offset=${offset}`)
+      .then(data => mapper.surveyFeed(data));
   },
   get(id) {
     return requests.get(`/surveys/${id}/`);
@@ -64,8 +65,9 @@ const Surveys = {
 }
 
 const SurveyResponses = {
-  all(id) {
-    return requests.get(`/surveys/${id}/filled-surveys/`);
+  all(id, offset = 0) {
+    return requests.get(`/surveys/${id}/filled-surveys/?offset=${offset}`)
+      .then(data => mapper.surveyResponses(data));
   }
 }
 

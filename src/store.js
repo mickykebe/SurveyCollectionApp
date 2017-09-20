@@ -6,6 +6,7 @@ import reducers from './reducers';
 import api from './api';
 import localStorageMiddleware from './middleware/localStorage';
 import normalizerMiddleware from './middleware/normalizer';
+import paginationMiddleware from './middleware/pagination';
 import userMiddleware from './middleware/user';
 
 const getMiddleware = () => {
@@ -13,6 +14,7 @@ const getMiddleware = () => {
     thunk.withExtraArgument(api), 
     localStorageMiddleware, 
     userMiddleware,
+    paginationMiddleware,
     normalizerMiddleware,
   ];
 

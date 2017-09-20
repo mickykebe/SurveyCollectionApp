@@ -52,6 +52,10 @@ export const getIsFetchingSurveyFeed = (state) =>
   fromSurveys.getIsFetchingSurveyFeed(state.surveys);
 export const getSurveyFeedFetchErrors = (state) =>
   fromSurveys.getSurveyFeedFetchErrors(state.surveys);
+export const getSurveyFeedCount = (state) =>
+  fromSurveys.getSurveyFeedCount(state.surveys);
+export const getSurveyFeedNext = (state) =>
+  fromSurveys.getSurveyFeedNext(state.surveys);
 export const getIsFetchingSurvey = (state, id) =>
   fromSurveys.getIsFetchingSurvey(state.surveys, id);
 export const getSurveyFetchErrors = (state, id) =>
@@ -70,6 +74,10 @@ export const getIsFetchingSurveyResponses = (state, surveyId) =>
   fromResponses.getIsFetchingSurveyResponses(state.responses, surveyId);
 export const getSurveyResponsesFetchErrors = (state, surveyId) =>
   fromResponses.getSurveyResponsesFetchErrors(state.responses, surveyId);
+export const getSurveyResponsesCount = (state, surveyId) =>
+  fromResponses.getSurveyResponsesCount(state.responses, surveyId);
+export const getSurveyResponsesNext = (state, surveyId) =>
+  fromResponses.getSurveyResponsesNext(state.responses, surveyId);
 
 //Question selectors
 export const getQuestion = (state, id) =>

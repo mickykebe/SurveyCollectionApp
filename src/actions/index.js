@@ -1,5 +1,4 @@
 import * as actionTypes from './types';
-import { getIsFetchingSurveyResponses } from '../reducers';
 
 export const apiActionCreator = 
   (actionTypes, auth = false) => 
@@ -78,38 +77,6 @@ export const responsesFetch = apiActionCreator({
   success: actionTypes.ACTION_RESPONSES_FETCH_SUCCESS,
   fail: actionTypes.ACTION_RESPONSES_FETCH_FAIL,
 }, true);
-
-/* export const responsesFetch = (surveyId) =>
-  (dispatch, getState, api) => {
-    if(getIsFetchingSurveyResponses(surveyId)){
-      Promise.resolve();
-    }
-    dispatch({
-      type: actionTypes.ACTION_RESPONSES_FETCH_REQUEST,
-      auth: true,
-    });
-    return Promise.all([api.Surveys.get(surveyId), api.SurveyResponses.all(surveyId)])
-      .then(([surveyRes, responsesRes]) => {
-        dispatch({
-          type: actionTypes.ACTION_SURVEY_FETCH_SUCCESS,
-          auth: true,
-          response: surveyRes
-        });
-        dispatch({
-          type: actionTypes.ACTION_RESPONSES_FETCH_SUCCESS,
-          auth: true,
-          response: responsesRes
-        });
-      })
-      .catch(e => {
-        dispatch({
-          type: actionTypes.ACTION_RESPONSES_FETCH_FAIL,
-          errors: true,
-          auth: true,
-        });
-        return Promise.reject(e);
-      });
-  } */
 
 export const showPopup = (message) => ({
   type: actionTypes.ACTION_POPUP_MESSAGE_SET,

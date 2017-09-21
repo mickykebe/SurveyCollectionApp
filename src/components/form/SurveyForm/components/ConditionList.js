@@ -3,7 +3,7 @@ import { Field, FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import ConditionGroup from './ConditionGroup';
 import Condition from './Condition';
-import FormToolbar from './FormToolbar';
+import FormSectionToolbar from './FormSectionToolbar';
 
 const styles = {
   actions: {
@@ -20,7 +20,7 @@ const styles = {
 function ConditionList({ classes, fields, ...rest }) {
   return (
     <div>
-      <FormToolbar
+      <FormSectionToolbar 
         title="Conditions"
         onAddField={() => fields.push({ type: 'relational', operator: '==' })}
         onAddForm={() => fields.push({ type: 'logical', operator: '&&' })} />

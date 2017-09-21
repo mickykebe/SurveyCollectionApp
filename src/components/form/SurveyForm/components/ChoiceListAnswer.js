@@ -5,7 +5,7 @@ import { FormHelperText } from 'material-ui/Form';
 import ChoiceAnswer from './ChoiceAnswer';
 import ChoiceCondition from './ChoiceCondition';
 import { uuidv4 } from 'utils';
-import FormToolbar from './FormToolbar';
+import FormSectionToolbar from './FormSectionToolbar';
 
 const styles = (theme) => ({
   errorMessage: {
@@ -29,7 +29,7 @@ class ChoiceListAnswer extends Component {
     const onAddForm = onAddFormProp || onAddFormProp === false ? onAddFormProp : () => fields.push({ uuid: uuidv4(), schema: 'choice_condition', operator: '==' });
     return (
       <div>
-        <FormToolbar
+        <FormSectionToolbar
           title="Choices"
           onAddField={() => fields.push({uuid: uuidv4(), schema: 'choice', index: 1 })}
           onAddForm={controllingQuestions.length && onAddForm}/>

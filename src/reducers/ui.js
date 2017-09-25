@@ -1,6 +1,6 @@
 import { 
   ACTION_POPUP_MESSAGE_SET,
-  ACTION_POPUP_MESSAGE_CLEAR 
+  ACTION_POPUP_MESSAGE_CLEAR
 } from '../actions/types';
 
 export default (state = {

@@ -8,10 +8,19 @@ const mapStateToProps = (state) => ({
   currentUser: getCurrentUser(state),
 })
 
-function PrivateRoute({ currentUser, component: Component, ...rest }) {
+function PrivateRoute({ currentUser, component: Component, render, ...rest }) {
+  const renderComponent = (props) => {
+    if(Component)
+      return <Component {...props} />
+    if(render){
+      console.log(props);
+      return render(props);
+    }
+  }
+
   return <Route {...rest} render={props => (
     !!currentUser ? 
-      <Component {...props} /> :
+      renderComponent(props) :
       <Redirect to={{
         pathname: '/login',
         state: { from: props.location }

@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import LoggedInMenu from './LoggedInMenu';
-import LoggedOutMenu from './LoggedOutMenu';
+
 
 const styles = {
   root: {
@@ -16,7 +12,7 @@ const styles = {
   }
 };
 
-function Header(props) {
+function AppHeader(props) {
   const { classes, currentUser } = props;
   return (
     <div className={classes.root}>
@@ -34,8 +30,8 @@ function Header(props) {
   )
 };
 
-Header.propTypes = {
+AppHeader.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)(AppHeader);

@@ -21,7 +21,7 @@ class AuthView extends Component {
     const { classes, isAuthenticating } = this.props;
     return (
       <Grid container justify="center">
-        <Grid item xs={12} sm={7} md={5}>
+        <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
           <Paper>
             { 
               isAuthenticating && 

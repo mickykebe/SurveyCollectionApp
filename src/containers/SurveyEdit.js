@@ -10,14 +10,11 @@ import api from '../api';
 import SurveyForm from '../components/form/SurveyForm';
 import AppCircularProgress from '../components/AppCircularProgress';
 
-const mapStateToProps = (state, ownProps) => {
-  const id = ownProps.match.params.surveyId;
-  return {
-    surveyFormData: getSurveyFormData(state, id),
-    isFetching: getIsFetchingSurvey(state, id),
-    isUpdating: getIsUpdatingSurvey(state, id),
-  };
-};
+const mapStateToProps = (state, { id }) => ({
+  surveyFormData: getSurveyFormData(state, id),
+  isFetching: getIsFetchingSurvey(state, id),
+  isUpdating: getIsUpdatingSurvey(state, id),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   fetchSurvey(id) {
@@ -51,11 +48,10 @@ class SurveyEdit extends Component {
   }
 
   componentDidMount() {
-    const { fetchSurvey, match, displayPopup, isFetching } = this.props;
-    const { surveyId } = match.params;
+    const { id, fetchSurvey, displayPopup, isFetching } = this.props;
 
     if(!isFetching) {
-      fetchSurvey(surveyId)
+      fetchSurvey(id)
       .catch(e => displayPopup('Error occurred fetching survey'));
     }
   }

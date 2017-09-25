@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
   appLoadError: getAppLoadError(state),
   token: state.common.token,
   currentUser: state.common.currentUser,
-  popupMessage: getPopupMessage(state),  
+  popupMessage: getPopupMessage(state),
 });
 
 const mapDispatchToProps = dispatch => ({

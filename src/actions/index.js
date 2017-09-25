@@ -18,7 +18,7 @@ export const apiActionCreator =
               ...payload,
             });
           }, e => {
-            const error = (e.response && e.response.body) || true;
+            const error = (e.response && e.response.body) || { network_error: 'Problem connecting to server' };
             dispatch({
               type: actionTypes.fail,
               errors: error,

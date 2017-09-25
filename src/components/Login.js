@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
+import PopupSnackbar from './PopupSnackbar';
 import AuthViewContainer from '../containers/AuthViewContainer';
 import { login } from '../actions';
 import api from '../api';
@@ -58,6 +59,7 @@ class Login extends Component {
       username:usernameError = false,
       password:passwordError = false,
       non_field_errors:nonFieldErrors = false,
+      network_error:networkError = false,
     } = errors || {};
 
     return (
@@ -88,6 +90,9 @@ class Login extends Component {
             helperText={passwordError} />
           <Button raised className={classes.button} color="accent" type="submit">Login</Button>
         </form>
+        <PopupSnackbar
+          show={!!networkError}
+          message={networkError} />
       </AuthViewContainer>
     );
   }

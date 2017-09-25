@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
+import PopupSnackbar from './PopupSnackbar';
 import AuthViewContainer from '../containers/AuthViewContainer';
 import { register } from '../actions';
 import api from '../api';
@@ -83,7 +84,8 @@ class Register extends Component {
         emailError: false,
         passwordError: false,
         confirmPassError: false
-      }
+      },
+      network_error:networkError = false,
     } = errors || {};
 
 
@@ -157,6 +159,9 @@ class Register extends Component {
             helperText={confirmPassError} />
           <Button raised className={classes.button} type="submit" color="accent">Register</Button>
         </form>
+        <PopupSnackbar
+          show={!!networkError}
+          message={networkError} />
       </AuthViewContainer>
     );
   }

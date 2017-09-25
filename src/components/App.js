@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import api from '../api';
-import Header from './Header';
+import AppFrame from './AppFrame';
 import Login from './Login';
 import Register from './Register';
 import Home from './Home';
@@ -9,7 +9,6 @@ import AppLoadingError from './AppLoadingError';
 import PrivateRoute from './PrivateRoute';
 import PublicOnlyRoute from './PublicOnlyRoute';
 import PopupSnackbar from './PopupSnackbar';
-import AnswerContainer from './answer/AnswerContainer';
 import SurveyCreate from '../containers/SurveyCreate';
 import SurveyEdit from '../containers/SurveyEdit';
 import ResponsePageContainer from '../containers/ResponsePageContainer';
@@ -49,12 +48,6 @@ const styles = (theme) => ({
       borderCollapse: 'collapse',
     }
   },
-  content: {
-    maxWidth: '1280px',
-    margin: '20px auto 0',
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2,
-  },
 });
 
 class App extends Component {
@@ -78,7 +71,15 @@ class App extends Component {
   }
 
   render() {
-    const { classes, appLoaded, appLoadError, popupMessage } = this.props;
+    const { 
+      classes, 
+      appLoaded, 
+      appLoadError, 
+      currentUser,
+      popupMessage,
+      clearPopupMessage
+     } = this.props;
+
     if(!appLoaded && appLoadError) {
       return (
         <AppLoadingError retry={this.loadCurrentUser} />
@@ -93,20 +94,32 @@ class App extends Component {
 
     return (
       <div>
-        <Header currentUser={this.props.currentUser} />
-        <div className={classes.content}>
-          <PrivateRoute exact path="/" component={Home} />
-          <PublicOnlyRoute path="/register" component={Register} />
-          <PublicOnlyRoute path="/login" component={Login} />
-          <PrivateRoute path="/surveys/new" component={SurveyCreate} />
-          <PrivateRoute path="/surveys/edit/:surveyId" component={SurveyEdit} />
-          <PrivateRoute path="/surveys/answers" component={AnswerContainer} />
-          <PrivateRoute path="/surveys/responses/:surveyId" component={ResponsePageContainer} />
-        </div>
+        <PublicOnlyRoute 
+          path="/register" 
+          render={(props) => <AppFrame currentUser={currentUser} disableDrawer={true}><Register /></AppFrame> }
+          />
+        <PublicOnlyRoute 
+          path="/login" 
+          render={(props) => <AppFrame currentUser={currentUser} disableDrawer={true}><Login /></AppFrame> } 
+          />
+        <PrivateRoute
+          exact
+          path="/"
+          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="My Surveys"><Home /></AppFrame>}
+          />
+        <PrivateRoute 
+          path="/surveys/new" 
+          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Create survey"><SurveyCreate /></AppFrame> } />
+        <PrivateRoute 
+          path="/surveys/edit/:surveyId" 
+          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Edit survey"><SurveyEdit id={props.match.params.surveyId} /></AppFrame> } />
+        <PrivateRoute 
+          path="/surveys/responses/:surveyId" 
+          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Survey responses"><ResponsePageContainer id={props.match.params.surveyId}/></AppFrame> } />
         <PopupSnackbar
           show={!!popupMessage}
           message={popupMessage}
-          onClose={this.props.clearPopupMessage} />
+          onClose={clearPopupMessage} />
       </div>
     );
   }

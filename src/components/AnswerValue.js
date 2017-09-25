@@ -25,7 +25,7 @@ function AnswerCurrency({ value }) {
 function AnswerImage({ value }) {
   const BASE_URL = 'http://collect.ahadootec.info/media/';
   return (
-    <img src={`${BASE_URL}${value}`} />
+    <img src={`${BASE_URL}${value}`} alt="Answer" />
   );
 }
 
@@ -41,10 +41,10 @@ function AnswerValue({ question, value }) {
       return <AnswerMap lat={value[0]} lng={value[1]} />
     case 'image':
       return <AnswerImage imgFile={value} />
-    /* case 'choose-one':
+    case 'choose-one':
       return <AnswerChooseOneContainer value={value} />
     case 'choose-any':
-      return <AnswerChooseManyContainer values={value} /> */
+      return <AnswerChooseManyContainer values={value} />
     default:
       return (
         <Typography type="body1">

@@ -17,20 +17,17 @@ import api from '../api';
 import ResponsePage from '../components/ResponsePage';
 import PopupSnackbar from '../components/PopupSnackbar';
 
-const mapStateToProps = (state, { match }) => {
-  const id = match.params.surveyId;
-  return {
-    id,
-    survey: getSurvey(state, id),
-    isFetchingSurvey: getIsFetchingSurvey(state, id),
-    surveyFetchErrors: getSurveyFetchErrors(state, id),
-    responses: getSurveyResponses(state, id),
-    fetchingResponses: getIsFetchingSurveyResponses(state, id),
-    responsesFetchError: getSurveyResponsesFetchErrors(state, id),
-    responsesCount: getSurveyResponsesCount(state, id),
-    responsesNext: getSurveyResponsesNext(state, id),
-  }
-};
+const mapStateToProps = (state, { id }) => ({
+  id,
+  survey: getSurvey(state, id),
+  isFetchingSurvey: getIsFetchingSurvey(state, id),
+  surveyFetchErrors: getSurveyFetchErrors(state, id),
+  responses: getSurveyResponses(state, id),
+  fetchingResponses: getIsFetchingSurveyResponses(state, id),
+  responsesFetchError: getSurveyResponsesFetchErrors(state, id),
+  responsesCount: getSurveyResponsesCount(state, id),
+  responsesNext: getSurveyResponsesNext(state, id),
+});
 
 const mergeProps = (stateProps, { dispatch }, ownProps) => ({
   ...ownProps,

@@ -8,11 +8,18 @@ const mapStateToProps = (state) => ({
   currentUser: getCurrentUser(state),
 });
 
-function PublicOnlyRoute({ location, currentUser, component: Component, ...rest}) {
+function PublicOnlyRoute({ location, currentUser, component: Component, render, ...rest}) {
+  const renderComponent = (props) => {
+    if(Component)
+      return <Component {...props} />
+    if(render)
+      return render(props);
+  }
+  
   return <Route {...rest} location={location} render={props => (
     !!currentUser ? 
       <Redirect to={{ pathname: '/' }} /> :
-      <Component {...props} />
+      renderComponent(props)
   )} />
 }
 

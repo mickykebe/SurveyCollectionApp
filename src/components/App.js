@@ -109,10 +109,10 @@ class App extends Component {
           />
         <PrivateRoute 
           path="/surveys/new" 
-          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Create survey"><SurveyCreate /></AppFrame> } />
+          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Create survey"><SurveyCreate history={props.history} /></AppFrame> } />
         <PrivateRoute 
           path="/surveys/edit/:surveyId" 
-          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Edit survey"><SurveyEdit id={props.match.params.surveyId} /></AppFrame> } />
+          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Edit survey"><SurveyEdit id={props.match.params.surveyId} history={props.history} /></AppFrame> } />
         <PrivateRoute 
           path="/surveys/responses/:surveyId" 
           render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Survey responses"><ResponsePageContainer id={props.match.params.surveyId}/></AppFrame> } />

@@ -10,6 +10,7 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import AssignmentIcon from 'material-ui-icons/Assignment';
+import LanguageIcon from 'material-ui-icons/Language';
 import logo from '../images/logo.png';
 import AppDrawerNavLink from './AppDrawerNavLink';
 
@@ -42,6 +43,10 @@ function AppDrawer({ classes, mobileOpen, onRequestClose }) {
           path="/"
           label="My Surveys"
           IconComponent={AssignmentIcon} />
+        {/*<AppDrawerNavLink
+          path="/languages"
+          label="Language Admin"
+          IconComponent={LanguageIcon} />*/}
       </div>
     )
   };

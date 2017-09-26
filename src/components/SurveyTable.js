@@ -3,7 +3,12 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Table, { 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableRow,
+  TableFooter } from 'material-ui/Table';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import AddIcon from 'material-ui-icons/Add';
@@ -150,7 +155,7 @@ class SurveyTable extends Component {
                     }
                     {
                       !fetchErrors &&
-                      <Typography type="subheading">
+                      <Typography type="subheading" align="center">
                         Surveys unavailable
                       </Typography>
                     }
@@ -169,15 +174,23 @@ class SurveyTable extends Component {
                   />)
               }
             </TableBody>
+            {
+              !isFetching && !!next &&
+              <TableFooter>
+                <Button className={classes.loadMoreBtn} raised color="accent" onClick={this.props.fetchSurveyFeed}>
+                  Load More
+                </Button>
+              </TableFooter>
+            }
           </Table>
-          {
+          { /*
             !isFetching && !!next &&
             <div className={classes.tableFooter}>
               <Button className={classes.loadMoreBtn} raised color="accent" onClick={this.props.fetchSurveyFeed}>
                 Load More
               </Button>
             </div>
-          }
+          */}
           <Dialog open={this.state.deleteDialogOpen} onRequestClose={this.deleteDialogClose}>
             <DialogTitle>Confirm</DialogTitle>
             <DialogContent>

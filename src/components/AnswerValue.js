@@ -25,7 +25,7 @@ function AnswerCurrency({ value }) {
 function AnswerImage({ value }) {
   const BASE_URL = 'http://collect.ahadootec.info/media/';
   return (
-    <img src={`${BASE_URL}${value}`} alt="Answer" />
+    <img src={`${BASE_URL}${value}`} alt="Image answer" />
   );
 }
 

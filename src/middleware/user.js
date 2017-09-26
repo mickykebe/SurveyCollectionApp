@@ -1,8 +1,8 @@
 export default store => next => action => {
   const { auth, ..._action } = action;
   if(auth) {
-    const userId = store.getState().common.currentUser.id;
-    return next({ ..._action, userId });
+    const { currentUser } = store.getState().common;
+    return next({ ..._action, userId: currentUser && currentUser.id });
   }
   return next(action);
 }

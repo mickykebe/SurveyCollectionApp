@@ -18,6 +18,9 @@ const styles = theme => ({
     '&:hover': {
       textDecoration: 'none',
     },
+    '&:active': {
+      color: theme.palette.text.primary,
+    }
   }),
   navLink: {
     fontWeight: theme.typography.fontWeightRegular,
@@ -29,9 +32,6 @@ const styles = theme => ({
     textIndent: theme.spacing.unit * 3,
     fontSize: 13,
   },
-  activeButton: {
-    color: theme.palette.text.primary,
-  },
   buttonText: {
     padding: 0,
   },
@@ -42,8 +42,7 @@ const styles = theme => ({
 
 function AppDrawerNavLink({ classes, path, label, IconComponent }) {
   return (
-    <Button 
-      activeClassName={classes.activeButton}
+    <Button
       className={classNames(classes.button, classes.navLinkButton)}
       component={Link}
       to={path}

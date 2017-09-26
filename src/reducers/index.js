@@ -89,9 +89,6 @@ export const getGroup = (state, id) =>
 
 //Choice selectors
 export const getChoice = (state, id) => {
-  console.log(state.choices, id);
-  console.log(state.choices.byId[id]);
-  console.log(fromChoices.getChoice(state.choices, id));
   return fromChoices.getChoice(state.choices, id);
 }
 

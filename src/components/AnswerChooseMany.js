@@ -17,7 +17,7 @@ function AnswerChooseMany({ classes, choices }) {
         className={classes.group}>
         {
           choices.map(choice => 
-            <FormControlLabel control={<Checkbox checked={true} disabled={true} />} label={valFromLangObj(choice.text)} />
+            <FormControlLabel key={choice.uuid} control={<Checkbox checked={true} disabled={true} />} label={valFromLangObj(choice.text)} />
           )
         }
       </div>

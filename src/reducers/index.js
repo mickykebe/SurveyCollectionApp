@@ -32,8 +32,6 @@ export default combineReducers({
 //Common selectors
 export const getCurrentUser = (state) =>
   fromCommon.getCurrentUser(state.common);
-export const getAppLoadError = (state) =>
-  fromCommon.getAppLoadError(state.common);
 
 //Auth selectors
 export const getIsAuthenticating = (state) =>
@@ -103,6 +101,10 @@ export const getLanguage = (state, code) =>
   fromLanguages.getLanguage(state.languages, code);
 export const getLanguagesFromCodes = (state, codes) => 
   fromLanguages.getLanguagesFromCodes(state.languages, codes);
+export const getIsFetchingLanguages = (state) =>
+  fromLanguages.getIsFetchingLanguages(state.languages);
+export const getLanguagesFetchErrors = (state) =>
+  fromLanguages.getLanguagesFetchErrors(state.languages);
 
 //Question type selectors
 export const getAllQuestionTypes = (state) => 

@@ -78,6 +78,17 @@ export const responsesFetch = apiActionCreator({
   fail: actionTypes.ACTION_RESPONSES_FETCH_FAIL,
 }, true);
 
+export const languagesFetch = apiActionCreator({
+  request: actionTypes.ACTION_LANGUAGE_FEED_FETCH_REQUEST,
+  success: actionTypes.ACTION_LANGUAGE_FEED_FETCH_SUCCESS,
+  fail: actionTypes.ACTION_LANGUAGE_FEED_FETCH_FAIL,
+}, true);
+
+export const createLanguageSuccess = (response) => ({
+  type: actionTypes.ACTION_LANGUAGE_CREATE_SUCCESS,
+  response,
+});
+
 export const showPopup = (message) => ({
   type: actionTypes.ACTION_POPUP_MESSAGE_SET,
   message,
@@ -87,37 +98,10 @@ export const clearPopup = () => ({
   type: actionTypes.ACTION_POPUP_MESSAGE_CLEAR
 });
 
-export const getCurrentUser = (token) => 
-  (dispatch, getState, api) => {
-    dispatch({ type: actionTypes.ACTION_APP_LOAD_REQUEST });
-    if(token) {
-      api.Auth.current().then(
-        response => {
-          dispatch({
-            type: actionTypes.ACTION_APP_LOAD_SUCCESS,
-            token,
-            response
-          });
-        },
-        e => {
-          if(e && e.response && e.response.body && e.response.body.detail === 'Signature has expired.') {
-            dispatch({
-              type: actionTypes.ACTION_APP_LOAD_SUCCESS,
-            });
-          }
-          dispatch({
-            type: actionTypes.ACTION_APP_LOAD_FAIL,
-            error: 'Problem occurred connecting to server. Refresh and try again',
-          });
-        }
-      )
-    }
-    else {
-      dispatch({
-        type: actionTypes.ACTION_APP_LOAD_SUCCESS,
-      });
-    }
-  }
+export const setCurrentUser = (user) => ({
+  type: actionTypes.ACTION_SET_CURRENT_USER,
+  user,
+});
 
 export const logout = () => ({
   type: actionTypes.ACTION_LOGOUT,

@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import api from '../api';
 import AppFrame from './AppFrame';
 import Login from './Login';
 import Register from './Register';
 import Home from './Home';
-import AppLoading from './AppLoading';
-import AppLoadingError from './AppLoadingError';
 import PrivateRoute from './PrivateRoute';
 import PublicOnlyRoute from './PublicOnlyRoute';
-import PopupSnackbar from './PopupSnackbar';
 import SurveyCreate from '../containers/SurveyCreate';
 import SurveyEdit from '../containers/SurveyEdit';
 import ResponsePageContainer from '../containers/ResponsePageContainer';
+import LanguageTableContainer from '../containers/LanguageTableContainer';
 import { withStyles } from 'material-ui/styles';
 
 const styles = (theme) => ({
@@ -51,46 +48,10 @@ const styles = (theme) => ({
 });
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.loadCurrentUser = this.loadCurrentUser.bind(this);
-  }
-
-  loadCurrentUser() {
-    const token = window.localStorage.getItem('jwt');
-
-    if(token) {
-      api.setToken(token);
-    }
-    this.props.onLoad(token);
-  }
-  
-  componentWillMount() {
-    this.loadCurrentUser();
-  }
-
   render() {
     const { 
-      classes, 
-      appLoaded, 
-      appLoadError, 
       currentUser,
-      popupMessage,
-      clearPopupMessage
      } = this.props;
-
-    if(!appLoaded && appLoadError) {
-      return (
-        <AppLoadingError retry={this.loadCurrentUser} />
-      );
-    }
-    
-    if(!appLoaded && !appLoadError) {
-      return (
-        <AppLoading />
-      );
-    }
 
     return (
       <div>
@@ -116,10 +77,10 @@ class App extends Component {
         <PrivateRoute 
           path="/surveys/responses/:surveyId" 
           render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Survey responses"><ResponsePageContainer id={props.match.params.surveyId}/></AppFrame> } />
-        <PopupSnackbar
-          show={!!popupMessage}
-          message={popupMessage}
-          onClose={clearPopupMessage} />
+        <PrivateRoute
+          path="/languages"
+          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Language Admin"><LanguageTableContainer /></AppFrame>}
+          />
       </div>
     );
   }

@@ -13,7 +13,6 @@ function PrivateRoute({ currentUser, component: Component, render, ...rest }) {
     if(Component)
       return <Component {...props} />
     if(render){
-      console.log(props);
       return render(props);
     }
   }

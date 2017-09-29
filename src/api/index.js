@@ -71,9 +71,19 @@ const SurveyResponses = {
   }
 }
 
+const Languages = {
+  all() {
+    return requests.get('/languages/?limit=0');
+  },
+  create(language) {
+    return requests.post('/languages/', language);
+  }
+}
+
 export default {
   Auth,
   Surveys,
   SurveyResponses,
+  Languages,
   setToken: _token => { token = _token; }
 };

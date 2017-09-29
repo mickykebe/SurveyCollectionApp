@@ -12,5 +12,9 @@ export const surveySchema = new schema.Entity('surveys', {
   questions: [ questionScehma ],
 }, { idAttribute: 'uuid' });
 export const surveyListSchema = [surveySchema];
+
 const responseSchema = new schema.Entity('responses', {}, { idAttribute: 'uuid' });
 export const responseListSchema = [responseSchema];
+
+export const languageSchema = new schema.Entity('languages', {}, { idAttribute: 'code' });
+export const languageListSchema = [languageSchema];

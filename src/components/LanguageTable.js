@@ -3,9 +3,8 @@ import Paper from 'material-ui/Paper';
 import Table, { TableBody } from 'material-ui/Table';
 import { withStyles } from 'material-ui/styles';
 import TableToolbar from './table/TableToolbar';
-import TableHeadRow from './table/TableHeadRow';
 import AddLanguageRowContainer from '../containers/AddLanguageRowContainer';
-import LanguageRow from './LanguageRow';
+import LanguageRowContainer from '../containers/LanguageRowContainer';
 
 const styles = theme => ({
   root: {
@@ -15,11 +14,6 @@ const styles = theme => ({
 })
 
 function LanguageTable({ classes, languages }) {
-  const columns = [
-    { id: 'code', label: 'Code'},
-    { id: 'name', label: 'Name'},
-    { id: 'actions', label: 'Actions'},
-  ];
   return (
     <div>
       <Paper className={classes.root}>
@@ -28,12 +22,10 @@ function LanguageTable({ classes, languages }) {
           <TableBody>
             <AddLanguageRowContainer />
             {
-              languages.map(({ uuid: id, code, name}) =>
-                <LanguageRow
-                  key={id} 
-                  id={id}
-                  code={code}
-                  name={name} />)
+              languages.map((language) =>
+                <LanguageRowContainer
+                  key={language.uuid} 
+                  language={language} />)
             }
           </TableBody>
         </Table>

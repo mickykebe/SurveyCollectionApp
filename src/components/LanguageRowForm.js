@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Button from 'material-ui/Button';
-import { TableRow, TableCell } from 'material-ui/Table';
+import { TableCell } from 'material-ui/Table';
 import TextField from 'material-ui/TextField';
 import { withStyles } from 'material-ui/styles';
 
@@ -16,14 +16,18 @@ const styles = theme => ({
   },
   actionCell: {
     paddingTop: theme.spacing.unit
+  },
+  cancelBtn: {
+    marginLeft: theme.spacing.unit,
   }
 })
 
-class AddLanguageRow extends Component {
+class LanguageRowForm extends Component {
   constructor(props) {
     super(props);
+    const { code = '', name = '' } = this.props.initialValues || {};
 
-    this.state = { code: '', name: ''};
+    this.state = { code, name };
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.fieldValue = this.fieldValue.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -61,7 +65,7 @@ class AddLanguageRow extends Component {
   }
 
   render() {
-    const { classes, errors, inProgress } = this.props;
+    const { classes, errors, inProgress, onCancel, submitLabel = 'Submit' } = this.props;
     const { 
       code: codeError = false,
       name: nameError = false,
@@ -88,8 +92,8 @@ class AddLanguageRow extends Component {
             inputProps={{required: 'true'}}
             onChange={this.handleFieldChange('name')}
             value={this.fieldValue('name')}
-            error={!!codeError}
-            helperText={codeError} />
+            error={!!nameError}
+            helperText={nameError} />
         </TableCell>
         <TableCell className={classes.actionCell}>
           <Button 
@@ -97,11 +101,21 @@ class AddLanguageRow extends Component {
             raised 
             color="accent"
             type="submit"
-            disabled={inProgress}>Add</Button>
+            disabled={inProgress}>{submitLabel}</Button>
+          {
+            !!onCancel &&
+            <Button
+              className={classes.cancelBtn}
+              dense
+              raised
+              color="accent"
+              disabled={inProgress}
+              onClick={onCancel}>Cancel</Button>
+          }
         </TableCell>
       </form>
     );
   }
 }
 
-export default withStyles(styles)(AddLanguageRow);
+export default withStyles(styles)(LanguageRowForm);

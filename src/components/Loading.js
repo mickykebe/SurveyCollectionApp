@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { CircularProgress } from 'material-ui/Progress';
 import { withStyles } from 'material-ui/styles';
 
@@ -18,10 +19,10 @@ const styles = theme => ({
   }
 });
 
-function Loading({ classes }) {
+function Loading({ classes, className }) {
   return (
     <div className={classes.root}>
-      <CircularProgress className={classes.progress} color="accent" />
+      <CircularProgress className={classNames(classes.progress, className)} color="accent" />
     </div>
   )
 }

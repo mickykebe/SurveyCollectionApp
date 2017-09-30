@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import AddLanguageRow from '../components/AddLanguageRow';
-import PopupSnackbar from '../components/PopupSnackbar';
+import LanguageRowForm from '../components/LanguageRowForm';
 import api from '../api';
-import { showPopup, clearPopup, createLanguageSuccess } from '../actions';
+import { showPopup, createLanguageSuccess } from '../actions';
 
 const mapDispatchToProps = (dispatch) => ({
   showPopupMessage(message) {
@@ -24,7 +23,7 @@ class AddLanguageRowContainer extends Component {
 
   addLanguage(language) {
     const { showPopupMessage, createLanguage } = this.props;
-    this.setState({ inProgress: true });
+    this.setState({ inProgress: true, errors: null });
     api.Languages.create(language)
       .then((response) => {
         createLanguage(response);
@@ -34,7 +33,7 @@ class AddLanguageRowContainer extends Component {
         if(!e.response) {
           showPopupMessage('Problem occurred connecting to server');
         }
-        this.setState({ inProgress: false, errors: e });
+        this.setState({ inProgress: false, errors: e.response.body });
       })
   }
 
@@ -42,10 +41,11 @@ class AddLanguageRowContainer extends Component {
     const { errors, inProgress } = this.state;
 
     return(
-      <AddLanguageRow
+      <LanguageRowForm
         onSubmit={this.addLanguage}
         errors={errors}
-        inProgress={inProgress} />
+        inProgress={inProgress}
+        submitLabel="Add" />
     );
   }
 }

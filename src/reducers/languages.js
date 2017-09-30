@@ -4,6 +4,8 @@ import {
   ACTION_LANGUAGE_FEED_FETCH_SUCCESS,
   ACTION_LANGUAGE_FEED_FETCH_FAIL,
   ACTION_LANGUAGE_CREATE_SUCCESS,
+  ACTION_LANGUAGE_UPDATE_SUCCESS,
+  ACTION_LANGUAGE_DELETE_SUCCESS,
 } from '../actions/types';
 import asyncStatus from './hor/asyncStatus';
 
@@ -11,6 +13,7 @@ const byCode = (state = {}, action) => {
   switch(action.type) {
     case ACTION_LANGUAGE_FEED_FETCH_SUCCESS:
     case ACTION_LANGUAGE_CREATE_SUCCESS:
+    case ACTION_LANGUAGE_UPDATE_SUCCESS:
       return {
         ...state,
         ...action.response.entities.languages,
@@ -26,6 +29,11 @@ const codes = (state = [], action) => {
       return action.response.result;
     case ACTION_LANGUAGE_CREATE_SUCCESS:
       return [...state, action.response.result];
+    case ACTION_LANGUAGE_DELETE_SUCCESS:
+      return state.filter(code => code !== action.code);
+    case ACTION_LANGUAGE_UPDATE_SUCCESS: {
+      return [action.response.result, ...(state.filter(code => code !== action.prevCode))]
+    }
     default:
       return state;
   }
@@ -38,7 +46,9 @@ export default combineReducers({
 });
 
 export const getAllLanguages = (state) =>
-  state.codes.map(code => state.byCode[code]);
+  state.codes
+    .sort()
+    .map(code => state.byCode[code]);
 export const getLanguage = (state, code) => 
   state.byCode[code.toLowerCase()];
 export const getLanguagesFromCodes = (state, codes) =>

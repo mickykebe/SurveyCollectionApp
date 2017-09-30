@@ -54,10 +54,10 @@ const Surveys = {
     return requests.get(`/surveys/${id}/`);
   },
   create(survey) {
-    return requests.post('/surveys/', { ...survey });
+    return requests.post('/surveys/', survey);
   },
   update(survey) {
-    return requests.put(`/surveys/${survey.uuid}/`, { ...survey });
+    return requests.put(`/surveys/${survey.uuid}/`, survey);
   },
   delete(id) {
     return requests.del(`/surveys/${id}/`);
@@ -77,6 +77,12 @@ const Languages = {
   },
   create(language) {
     return requests.post('/languages/', language);
+  },
+  update(language) {
+    return requests.put(`/languages/${language.uuid}/`, language);
+  },
+  delete(id) {
+    return requests.del(`/languages/${id}/`);
   }
 }
 

@@ -89,6 +89,17 @@ export const createLanguageSuccess = (response) => ({
   response,
 });
 
+export const updateLanguageSuccess = (response, prevCode) => ({
+  type: actionTypes.ACTION_LANGUAGE_UPDATE_SUCCESS,
+  response,
+  prevCode
+});
+
+export const deleteLanguageSuccess = (code) => ({
+  type: actionTypes.ACTION_LANGUAGE_DELETE_SUCCESS,
+  code,
+});
+
 export const showPopup = (message) => ({
   type: actionTypes.ACTION_POPUP_MESSAGE_SET,
   message,

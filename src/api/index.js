@@ -38,8 +38,9 @@ const Auth = {
         last_name,
         email,
         password,
-        confirm_password
-      }
+        confirm_password,
+      },
+      is_company: true,
     }).use(tokenPlugin).then(res => {
       return mapper.register(res.body);
     }),

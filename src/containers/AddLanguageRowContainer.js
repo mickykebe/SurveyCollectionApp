@@ -33,7 +33,8 @@ class AddLanguageRowContainer extends Component {
         if(!e.response) {
           showPopupMessage('Problem occurred connecting to server');
         }
-        this.setState({ inProgress: false, errors: e.response.body });
+        const error = (e.response && e.response.body) || true;
+        this.setState({ inProgress: false, errors: error });
       })
   }
 

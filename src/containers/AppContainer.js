@@ -59,29 +59,9 @@ class AppContainer extends Component {
     this.setState({
       appLoading: true,
     });
-    this.loadCurrentUser()
-      .then((user) => {
-        if(!user) {
-          this.setState({
-            appLoading: false,
-            appLoadFail: false,
-          });
-          return;
-        }
-        return this.props.fetchLanguages()
-          .then(() => {
-            this.setState({
-              appLoading: false,
-              appLoadFail: false,
-            })
-          });
-      })
-      .catch(e => {
-        this.setState({
-          appLoading: false,
-          appLoadFail: true,
-        })
-      });
+    Promise.all([this.loadCurrentUser(), this.props.fetchLanguages()])
+      .then(() => this.setState({ appLoading: false, appLoadFail: false }))
+      .catch(() => this.setState({ appLoading: false, appLoadFail: true }));
   }
 
   componentWillMount() {

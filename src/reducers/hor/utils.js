@@ -8,7 +8,7 @@ export const createKeyWrappedReducer = (actionKey) => (reducer) => {
     if(typeof key === 'function') {
       key = actionKey(action);
     }
-    if(key === undefined && state === undefined) {
+    if(key === undefined) {
       return state;
     }
     return {

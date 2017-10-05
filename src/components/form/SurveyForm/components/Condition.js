@@ -22,29 +22,9 @@ const styles = {
 }
 
 class Condition extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { selectedQuuid: null };
-    this.onQuestionChange = this.onQuestionChange.bind(this);
-  }
-
-  onQuestionChange(e, uuid) {
-    this.setState({
-      selectedQuuid: uuid,
-    });
-  }
-
-  getSelectedQuestion() {
-    const uuid = this.state.selectedQuuid;
-    return this.props.controllingQuestions.reduce((question, currentQuestion) => {
-      return (question.uuid === uuid || currentQuestion.uuid !== uuid) ? question : currentQuestion;
-    }, {});
-  }
-
   render() {
     const { 
-      classes, 
+      classes,
       controllingQuestions,
       onConditionValueChange, 
       onRemove } = this.props;
@@ -63,18 +43,11 @@ class Condition extends Component {
             component={renderMenuSelectField}
             label='Question'
             options={questionOptions}
-            onChange={this.onQuestionChange}
             className={classes.selectQuestion}
             />
-          { 
-            this.state.selectedQuuid && 
-            <Field
-              name="conditionRHS"
-              component={ConditionRHSContainer}
-              question={this.getSelectedQuestion()}
-              onConditionValueChange={onConditionValueChange}
-                />
-          }
+          <ConditionRHSContainer
+            controllingQuestions={controllingQuestions}
+            onConditionValueChange={onConditionValueChange} />
         </div>
         <IconButton onClick={onRemove}>
           <DeleteIcon />

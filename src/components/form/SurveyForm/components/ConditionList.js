@@ -32,12 +32,20 @@ function ConditionList({ classes, fields, ...rest }) {
               <FormSection
                 key={condition}
                 name={condition}>
-                <Field
-                  key={condition}
-                  name={condition}
-                  component={ type === 'logical' ? ConditionGroup : Condition }
-                  onRemove={() => fields.remove(index)}
-                  {...rest} />
+                {
+                  type === 'relational' &&
+                  <Condition
+                    onRemove={() => fields.remove(index)}
+                    {...rest}
+                    />
+                }
+                {
+                  type === 'logical' &&
+                  <ConditionGroup
+                    onRemove={() => fields.remove(index)}
+                    {...rest}
+                    />
+                }
               </FormSection>);
           })
         }

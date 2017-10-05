@@ -61,9 +61,8 @@ class QuestionForm extends Component {
               inputGroupClassName={classes.inputs}
               required={true} />
           </FormSection>
-          <Field
-            name='type'
-            component={QuestionTypeContainer}
+          <QuestionTypeContainer
+            activeQuestionType={question.type}
             controllingQuestions={controllingQuestions}
             formLanguages={formLanguages} />
         </CardContent>
@@ -81,9 +80,7 @@ class QuestionForm extends Component {
         <Collapse className={classes.overflow} in={this.state.expanded} transitionDuration="auto" unmountOnExit>
           <CardContent>
             <FormSection name="condition">
-              <Field
-                name="condition"
-                component={ConditionGroupContainer}
+              <ConditionGroupContainer
                 controllingQuestions={controllingQuestions} />
             </FormSection>
           </CardContent>

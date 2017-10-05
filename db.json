@@ -1,0 +1,78 @@
+
+
+GET /permissions/survey/
+
+{
+  "permissions": [
+    {
+      type: 'change'
+    },
+    {
+      type: 'delete'
+    }
+  ],
+  "users": [
+    {
+      "username": "kebede"
+    },
+    {
+      "username": "abebe"
+    }
+  ],
+  "groups": [
+    {
+
+    },
+    {
+
+    }
+  ]
+}
+
+POST
+
+{
+  "permission-info": {
+    "permissions": [
+
+    ],
+    "users": [
+      {
+        "username": "kebede"
+      },
+      {
+        "username": "abebe"
+      }
+    ],
+    "groups": [
+      {
+
+      },
+      {
+
+      }
+    ]
+  },
+  "permissions": [
+    {
+      "permission": "edit",
+      "users": [
+        "123",
+        "456"
+      ],
+      "groups": [
+        "abc",
+        "def"
+      ]
+    },
+    {
+      "permission": "delete",
+      "users": [
+
+      ],
+      "groups": [
+
+      ]
+    }
+  ]
+}

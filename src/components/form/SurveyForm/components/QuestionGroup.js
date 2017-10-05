@@ -89,9 +89,7 @@ class QuestionGroup extends Component{
         <Collapse className={classes.overflow} in={this.state.expanded} transitionDuration="auto" unmountOnExit>
           <CardContent>
             <FormSection name="condition">
-              <Field
-                name="condition"
-                component={ConditionGroupContainer}
+              <ConditionGroupContainer
                 controllingQuestions={controllingQuestions} />
             </FormSection>
           </CardContent>

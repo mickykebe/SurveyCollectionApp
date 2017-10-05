@@ -50,8 +50,18 @@ class ConditionRHS extends Component {
           className={classes.operator}
           />
         {
+          question.type === 'text' &&
+          <Field
+            name="value"
+            component={renderTextField}
+            label="value"
+            required={true}
+            className={classes.value}
+            onChange={this.onConditionValueChange}
+            />
+        }
+        {
           (
-            question.type === 'text' ||
             question.type === 'number' ||
             question.type === 'number-range'
           ) &&
@@ -61,6 +71,8 @@ class ConditionRHS extends Component {
             label="value"
             required={true}
             className={classes.value}
+            inputProps={{ type: 'number' }}
+            parse={value => Number(value)}
             onChange={this.onConditionValueChange}
             />
         }

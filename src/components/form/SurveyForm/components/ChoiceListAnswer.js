@@ -41,13 +41,22 @@ class ChoiceListAnswer extends Component {
               <FormSection 
               key={choice}
               name={choice}>
-                <Field
-                  name={choice}
-                  component={choiceSchema === 'choice_condition' ? ChoiceCondition : ChoiceAnswer}
-                  choiceType={choiceType}
-                  formLanguages={formLanguages}
-                  onRemove={() => fields.remove(index)}
-                  controllingQuestions={controllingQuestions} />
+                {
+                  choiceSchema === 'choice_condition' &&
+                  <ChoiceCondition
+                    choiceType={choiceType}
+                    formLanguages={formLanguages}
+                    onRemove={() => fields.remove(index)}
+                    controllingQuestions={controllingQuestions} />
+                }
+                {
+                  choiceSchema === 'choice' &&
+                  <ChoiceAnswer
+                    choiceType={choiceType}
+                    formLanguages={formLanguages}
+                    onRemove={() => fields.remove(index)}
+                    />
+                }
               </FormSection>);
           })
         }

@@ -60,25 +60,22 @@ function QuestionGroupList(props) {
             if(schema === 'group') {
               return (
                 <FormSection key={groupElement} name={groupElement}>
-                  <Field
-                    name={groupElement}
-                    component={QuestionGroup}
+                  <QuestionGroup
                     onRemove={() => fields.remove(index)}
                     rootChild={!!root}
                     root={false}
                     index={index}
                     group={fields.get(index)}
                     controllingQuestions={controllingQuestions(fields, index)}
-                    {...rest} />
+                    {...rest}
+                    />
                 </FormSection>
               );
             }
             else {
               return (
                 <FormSection key={groupElement} name={groupElement}>
-                  <Field
-                    name={groupElement}
-                    component={QuestionForm}
+                  <QuestionForm
                     onRemove={() => fields.remove(index)}
                     rootChild={!!root}
                     root={false}

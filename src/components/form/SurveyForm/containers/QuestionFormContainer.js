@@ -5,7 +5,7 @@ import { getLanguagesFromCodes } from 'reducers';
 import QuestionForm from '../components/QuestionForm';
 
 const formSelector = formValueSelector(surveyFormName);
-const mapStateToProps = (state, { input: { name:question } }) => {
+const mapStateToProps = (state) => {
   const langCodes = formSelector(state, 'languages');
   const formLanguages = getLanguagesFromCodes(state, langCodes);
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { 
-  getIsFetchingSurvey, 
+  getIsFetchingSurvey,
   getSurveyFormData,
   getIsUpdatingSurvey
 } from '../reducers';
@@ -64,6 +64,9 @@ class SurveyEdit extends Component {
           <AppCircularProgress />
         </div>
       );
+    }
+    if(!surveyFormData && !isFetching) {
+      return null;
     }
     return (
       <div>

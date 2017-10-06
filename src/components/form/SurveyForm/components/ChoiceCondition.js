@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FieldArray } from 'redux-form';
-import Condition from './Condition';
+import ConditionContainer from '../containers/ConditionContainer';
 import ChoiceListAnswer from './ChoiceListAnswer';
 import { withStyles } from 'material-ui/styles';
 
@@ -20,7 +20,7 @@ class ChoiceCondition extends Component{
     const { classes, controllingQuestions, formLanguages, choiceType, onRemove } = this.props;
     return (
       <div>
-        <Condition
+        <ConditionContainer
           onConditionValueChange={(val) => this.setState({ showChoiceToolbar: !!val })}
           controllingQuestions={controllingQuestions}
           onRemove={onRemove} />

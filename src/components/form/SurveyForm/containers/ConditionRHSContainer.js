@@ -19,11 +19,21 @@ class ConditionRHSContainer extends Component {
     super(props);
 
     this.state = { selectedQuestion: null };
+    this.setSelectedQuestion = this.setSelectedQuestion.bind(this);
   }
 
-  componentWillMount() {
-    const { question: questionId, controllingQuestions } = this.props;
-    console.log(questionId);
+  componentDidMount() {
+    this.setSelectedQuestion(this.props.questionId);
+  }
+
+  componentWillReceiveProps({ questionId }) {
+    if(questionId !== this.props.questionId) {
+      this.setSelectedQuestion(questionId);
+    }
+  }
+
+  setSelectedQuestion(questionId) {
+    const { controllingQuestions } = this.props;
 
     if(questionId !== null) {
       controllingQuestions.forEach((question) => {
@@ -37,7 +47,7 @@ class ConditionRHSContainer extends Component {
   }
 
   render() {
-    const { controllingQuestions, question: questionId, getOperators, ...rest} = this.props;
+    const { controllingQuestions, questionId, getOperators, ...rest} = this.props;
     const { selectedQuestion } = this.state;
     
     if(selectedQuestion !== null) {
@@ -50,7 +60,4 @@ class ConditionRHSContainer extends Component {
   }
 }
 
-export default compose(
-  formValues('question'),
-  connect(mapStateToProps),
-)(ConditionRHSContainer);
+export default connect(mapStateToProps)(ConditionRHSContainer);

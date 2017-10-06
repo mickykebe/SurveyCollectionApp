@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import ConditionGroup from './ConditionGroup';
-import Condition from './Condition';
+import ConditionContainer from '../containers/ConditionContainer';
 import FormSectionToolbar from './FormSectionToolbar';
 
 const styles = {
@@ -34,7 +34,7 @@ function ConditionList({ classes, fields, ...rest }) {
                 name={condition}>
                 {
                   type === 'relational' &&
-                  <Condition
+                  <ConditionContainer
                     onRemove={() => fields.remove(index)}
                     {...rest}
                     />

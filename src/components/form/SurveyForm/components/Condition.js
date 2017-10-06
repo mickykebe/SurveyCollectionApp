@@ -18,6 +18,9 @@ const styles = {
   },
   selectQuestion: {
     flex: 1,
+  },
+  deleteIcon: {
+    alignSelf: 'center',
   }
 }
 
@@ -25,6 +28,7 @@ class Condition extends Component {
   render() {
     const { 
       classes,
+      question: questionId,
       controllingQuestions,
       onConditionValueChange, 
       onRemove } = this.props;
@@ -46,10 +50,11 @@ class Condition extends Component {
             className={classes.selectQuestion}
             />
           <ConditionRHSContainer
+            questionId={questionId}
             controllingQuestions={controllingQuestions}
             onConditionValueChange={onConditionValueChange} />
         </div>
-        <IconButton onClick={onRemove}>
+        <IconButton className={classes.deleteIcon} onClick={onRemove}>
           <DeleteIcon />
         </IconButton>
       </div>

@@ -78,7 +78,7 @@ class SurveyForm extends Component {
               color="accent" 
               className={classes.submitButton} 
               type="submit"
-              disabled={submittingForm}>Submit</Button>
+              disabled={submittingForm}>Save</Button>
           </form>
         </div>
     );

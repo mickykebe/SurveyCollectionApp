@@ -7,9 +7,8 @@ import LangTextField from './LangTextField';
 import IconButton from 'material-ui/IconButton';
 import FunctionIcon from 'material-ui-icons/Functions';
 import DeleteIcon from 'material-ui-icons/Delete';
-import Collapse from 'material-ui/transitions/Collapse';
+import ConditionCollapse from './ConditionCollapse';
 import QuestionGroupList from './QuestionGroupList';
-import ConditionGroupContainer from '../containers/ConditionGroupContainer';
 import { valFromLangObj } from 'utils';
 
 const styles = (theme) => ({
@@ -44,7 +43,8 @@ class QuestionGroup extends Component{
   constructor(props) {
     super(props);
 
-    this.state = { expanded: false };
+    const conditionExpand = this.props.group.condition.conditions.length > 0;
+    this.state = { expanded: conditionExpand };
   }
 
   handleExpandClick = () => {
@@ -86,14 +86,11 @@ class QuestionGroup extends Component{
             <DeleteIcon />
           </IconButton>
         </CardActions>
-        <Collapse className={classes.overflow} in={this.state.expanded} transitionDuration="auto" unmountOnExit>
-          <CardContent>
-            <FormSection name="condition">
-              <ConditionGroupContainer
-                controllingQuestions={controllingQuestions} />
-            </FormSection>
-          </CardContent>
-        </Collapse>
+        <FormSection name="condition">
+          <ConditionCollapse
+            expanded={this.state.expanded}
+            controllingQuestions={controllingQuestions} />
+        </FormSection>
       </div>
     );
   }

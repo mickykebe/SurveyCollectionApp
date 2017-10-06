@@ -11,20 +11,23 @@ const styles = {
 };
 
 class ChoiceCondition extends Component{
-  constructor(props) {
-    super(props);
-
-    this.state = { showChoiceToolbar: false };
-  }
   render() {
-    const { classes, controllingQuestions, formLanguages, choiceType, onRemove } = this.props;
+    const { 
+      classes, 
+      controllingQuestions, 
+      formLanguages, 
+      choiceType, 
+      onRemove,
+      conditionValue
+     } = this.props;
+
     return (
       <div>
         <ConditionContainer
-          onConditionValueChange={(val) => this.setState({ showChoiceToolbar: !!val })}
           controllingQuestions={controllingQuestions}
           onRemove={onRemove} />
-        { this.state.showChoiceToolbar &&
+        { 
+          conditionValue !== undefined &&
           <div className={classes.choices}>
             <FieldArray
               name='choices'

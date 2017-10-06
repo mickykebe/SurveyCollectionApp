@@ -30,7 +30,6 @@ class Condition extends Component {
       classes,
       question: questionId,
       controllingQuestions,
-      onConditionValueChange, 
       onRemove } = this.props;
     
     const questionOptions = controllingQuestions
@@ -51,8 +50,7 @@ class Condition extends Component {
             />
           <ConditionRHSContainer
             questionId={questionId}
-            controllingQuestions={controllingQuestions}
-            onConditionValueChange={onConditionValueChange} />
+            controllingQuestions={controllingQuestions} />
         </div>
         <IconButton className={classes.deleteIcon} onClick={onRemove}>
           <DeleteIcon />

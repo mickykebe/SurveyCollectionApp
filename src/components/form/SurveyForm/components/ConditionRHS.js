@@ -18,18 +18,6 @@ const styles = {
 }
 
 class ConditionRHS extends Component {
-  constructor(props) {
-    super(props);
-
-    this.onConditionValueChange = this.onConditionValueChange.bind(this);
-  }
-
-  onConditionValueChange(e, val) {
-    if(this.props.onConditionValueChange) {
-      this.props.onConditionValueChange(val);
-    }
-  }
-
   render() {
     const { classes, operators, question } = this.props;
     const opOptions = operators.map(op => ({ label: op.text, val: op.code }));
@@ -57,7 +45,6 @@ class ConditionRHS extends Component {
             label="value"
             required={true}
             className={classes.value}
-            onChange={this.onConditionValueChange}
             />
         }
         {
@@ -73,7 +60,6 @@ class ConditionRHS extends Component {
             className={classes.value}
             inputProps={{ type: 'number' }}
             parse={value => Number(value)}
-            onChange={this.onConditionValueChange}
             />
         }
         {
@@ -85,7 +71,6 @@ class ConditionRHS extends Component {
             label="Value"
             options={valOptions}
             className={classes.value}
-            onChange={this.onConditionValueChange}
             />
         }
         {
@@ -98,7 +83,6 @@ class ConditionRHS extends Component {
             valueField='val'
             textField='label'
             className={classes.value}
-            onChange={this.onConditionValueChange}
             />
         }
       </div>

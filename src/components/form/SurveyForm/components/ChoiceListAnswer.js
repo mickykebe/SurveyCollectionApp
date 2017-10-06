@@ -3,7 +3,7 @@ import { Field, FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import { FormHelperText } from 'material-ui/Form';
 import ChoiceAnswer from './ChoiceAnswer';
-import ChoiceCondition from './ChoiceCondition';
+import ChoiceConditionContainer from '../containers/ChoiceConditionContainer';
 import { uuidv4 } from 'utils';
 import FormSectionToolbar from './FormSectionToolbar';
 
@@ -43,7 +43,7 @@ class ChoiceListAnswer extends Component {
               name={choice}>
                 {
                   choiceSchema === 'choice_condition' &&
-                  <ChoiceCondition
+                  <ChoiceConditionContainer
                     choiceType={choiceType}
                     formLanguages={formLanguages}
                     onRemove={() => fields.remove(index)}

@@ -151,7 +151,7 @@ export const getSurveyFormData = (state, surveyId) => {
         if(found)
           return true;
         const choiceIds = condition.choices || [];
-        return !!choiceIds.findIndex(id => id === choice.uuid);
+        return choiceIds.findIndex(id => id === choice.uuid) !== -1;
       }, false)
     ).map(choice => ({ ...choice, schema: 'choice' }));
   }

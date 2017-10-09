@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Field, FieldArray, FormSection } from 'redux-form';
+import { FieldArray, FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent, CardActions } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';

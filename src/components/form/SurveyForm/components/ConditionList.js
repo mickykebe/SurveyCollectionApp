@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, FormSection } from 'redux-form';
+import { FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import ConditionGroup from './ConditionGroup';
 import ConditionContainer from '../containers/ConditionContainer';

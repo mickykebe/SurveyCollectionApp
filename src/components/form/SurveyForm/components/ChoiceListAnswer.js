@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Field, FormSection } from 'redux-form';
+import { FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import { FormHelperText } from 'material-ui/Form';
 import ChoiceAnswer from './ChoiceAnswer';

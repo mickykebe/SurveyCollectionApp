@@ -1,7 +1,10 @@
 import React from 'react';
+import { compose } from 'redux';
 import { FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import { FormHelperText } from 'material-ui/Form';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import QuestionGroup from './QuestionGroup';
 import QuestionForm from './QuestionForm';
 import FormSectionToolbar from './FormSectionToolbar';
@@ -49,6 +52,7 @@ function QuestionGroupList(props) {
     })
   }
 
+
   return (
     <div>
       <FormSectionToolbar title="Questions" />
@@ -67,6 +71,7 @@ function QuestionGroupList(props) {
                     index={index}
                     group={fields.get(index)}
                     controllingQuestions={controllingQuestions(fields, index)}
+                    move={(dragIndex, hoverIndex) => fields.move(dragIndex, hoverIndex)}
                     {...rest}
                     />
                 </FormSection>
@@ -82,6 +87,7 @@ function QuestionGroupList(props) {
                     index={index}
                     question={fields.get(index)}
                     controllingQuestions={controllingQuestions(fields, index)}
+                    move={(dragIndex, hoverIndex) => fields.move(dragIndex, hoverIndex)}
                     {...rest} />
                 </FormSection>
               );
@@ -94,4 +100,7 @@ function QuestionGroupList(props) {
   )
 }
 
-export default withStyles(styles)(QuestionGroupList);
+export default compose(
+  DragDropContext(HTML5Backend),
+  withStyles(styles)
+)(QuestionGroupList);

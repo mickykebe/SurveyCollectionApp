@@ -59,9 +59,21 @@ class AppContainer extends Component {
     this.setState({
       appLoading: true,
     });
-    Promise.all([this.loadCurrentUser(), this.props.fetchLanguages()])
-      .then(() => this.setState({ appLoading: false, appLoadFail: false }))
-      .catch(() => this.setState({ appLoading: false, appLoadFail: true }));
+    this.loadCurrentUser()
+      .then(() => {
+        this.props.fetchLanguages()
+          .then(() => this.setState({ appLoading: false, appLoadFail: false }))
+          .catch(() => this.setState({ appLoading: false, appLoadFail: true }));
+      }, 
+      (e) => {
+        if(e.response && e.response.body && e.response.body.detail === 'Signature has expired.') {
+          window.localStorage.setItem('jwt', '');
+          this.loadApp();
+        }
+        else {
+          this.setState({ appLoading: false, appLoadFail: true });
+        }
+      });
   }
 
   componentWillMount() {

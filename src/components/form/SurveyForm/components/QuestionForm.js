@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
+import { findDOMNode } from 'react-dom';
 import { FormSection } from 'redux-form';
+import { DragSource, DropTarget } from 'react-dnd';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent, CardActions} from 'material-ui/Card';
+import Divider from 'material-ui/Divider';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
@@ -9,6 +13,7 @@ import FunctionIcon from 'material-ui-icons/Functions';
 import LangTextField from './LangTextField';
 import QuestionTypeContainer from '../containers/QuestionTypeContainer';
 import ConditionCollapse from './ConditionCollapse';
+import { DragItemType } from '../../../../constants';
 import { valFromLangObj } from 'utils';
 
 const styles = (theme) => ({
@@ -29,6 +34,9 @@ const styles = (theme) => ({
   },
   overflow: {
     overflow: 'visible',
+  },
+  dragging: {
+    opacity: 0,
   }
 });
 
@@ -47,6 +55,7 @@ class QuestionForm extends Component {
   render() {
     const { classes, question, index, formLanguages, controllingQuestions } = this.props;
     const { onRemove } = this.props;
+
     return (
       <div>
         <CardContent>
@@ -66,6 +75,7 @@ class QuestionForm extends Component {
             controllingQuestions={controllingQuestions}
             formLanguages={formLanguages} />
         </CardContent>
+        <Divider />
         <CardActions>
           { controllingQuestions.length &&
             <IconButton onClick={this.handleExpandClick}>
@@ -88,14 +98,92 @@ class QuestionForm extends Component {
 }
 
 function CardWrapper(props) {
+  const { classes, isDragging, connectDropTarget, connectDragSource } = props;
+  let Comp;
   if(props.rootChild) {
-    return (
+    Comp = (
       <Card className={props.classes.root}>
         <QuestionForm {...props} />
       </Card>
-    );
+      );
   }
-  return <QuestionForm {...props} />;
+  else {
+    Comp = <QuestionForm {...props} />;
+  }
+
+  let containerClassName = '';
+  if(isDragging) {
+    containerClassName = classes.dragging;
+  }
+
+  return connectDragSource(
+    connectDropTarget(<div className={containerClassName}>{Comp}</div>),
+  );
 }
 
-export default withStyles(styles)(CardWrapper);
+const elementSource = {
+  beginDrag(props) {
+    return {
+      id: props.question.uuid,
+      index: props.index
+    }
+  }
+}
+
+const elementTarget = {
+	hover(props, monitor, component) {
+		const dragIndex = monitor.getItem().index
+		const hoverIndex = props.index
+
+		// Don't replace items with themselves
+		if (dragIndex === hoverIndex) {
+			return
+		}
+
+		// Determine rectangle on screen
+    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
+
+		// Get vertical middle
+		const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+
+		// Determine mouse position
+		const clientOffset = monitor.getClientOffset()
+
+		// Get pixels to the top
+		const hoverClientY = clientOffset.y - hoverBoundingRect.top
+
+		// Only perform the move when the mouse has crossed half of the items height
+		// When dragging downwards, only move when the cursor is below 50%
+		// When dragging upwards, only move when the cursor is above 50%
+
+		// Dragging downwards
+		if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+			return
+		}
+
+		// Dragging upwards
+		if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+			return
+		}
+
+		// Time to actually perform the action
+		props.move(dragIndex, hoverIndex)
+
+		// Note: we're mutating the monitor item here!
+		// Generally it's better to avoid mutations,
+		// but it's good here for the sake of performance
+		// to avoid expensive index searches.
+		monitor.getItem().index = hoverIndex
+  },
+}
+
+export default compose(
+  DropTarget(DragItemType.GROUP_ELEMENT, elementTarget, connect => ({
+    connectDropTarget: connect.dropTarget(),
+  })),
+  DragSource(DragItemType.GROUP_ELEMENT, elementSource, (connect, monitor) => ({
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging(),
+  })),
+  withStyles(styles)
+)(CardWrapper);

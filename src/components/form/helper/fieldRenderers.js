@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import Multiselect from 'react-widgets/lib/Multiselect';
+import { Multiselect } from 'react-widgets';
 import AlignedTextField from 'components/form/controls/AlignedTextField';
 import MultiChoiceField from 'components/form/controls/MultiChoiceField';
 import MenuSelectField from 'components/form/controls/MenuSelectField';

@@ -80,6 +80,7 @@ class DragDroppable extends Component {
 
     let containerClassName;
     if(isDragging) {
+      console.log('dragging');
       containerClassName = classes.dragging;
     }
     else {

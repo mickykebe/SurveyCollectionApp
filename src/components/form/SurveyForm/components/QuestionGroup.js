@@ -8,7 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import FunctionIcon from 'material-ui-icons/Functions';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ConditionCollapse from './ConditionCollapse';
-import QuestionGroupList from './QuestionGroupList';
+import QuestionGroupListContainer from '../containers/QuestionGroupListContainer';
 import { valFromLangObj } from 'utils';
 
 const styles = (theme) => ({
@@ -70,7 +70,7 @@ class QuestionGroup extends Component{
             <FieldArray
               name="groupElements"
               formLanguages={formLanguages}
-              component={QuestionGroupList}
+              component={QuestionGroupListContainer}
               root={root}
               groupId={id}
               />
@@ -101,7 +101,7 @@ function RootQuestionGroup({ id, root, formLanguages }) {
   return <FieldArray
     name="groupElements"
     formLanguages={formLanguages}
-    component={QuestionGroupList}
+    component={QuestionGroupListContainer}
     root={root}
     groupId={id}
     />

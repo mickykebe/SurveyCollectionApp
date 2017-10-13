@@ -59,8 +59,14 @@ class QuestionGroupList extends Component {
   }
 
   onMove = (dragIndex, hoverIndex) => {
+    const { fields: { name }, changeFieldValue } = this.props;
     const { fields } = this.props;
+
     fields.move(dragIndex, hoverIndex);
+    const { min, max } = dragIndex > hoverIndex ? { min: hoverIndex, max: dragIndex } : { min: dragIndex, max: hoverIndex };
+    for(let i = min; i <= max; i++) {
+      changeFieldValue(`${name}[${i}].index`, i+1);
+    }
   }
 
   getControllingQuestions(curIndex) {
@@ -109,7 +115,6 @@ class QuestionGroupList extends Component {
             index={index}
             group={fields.get(index)}
             controllingQuestions={this.getControllingQuestions(index)}
-            onMove={this.onMove}
             {...props}
             />
         </DragDroppable>

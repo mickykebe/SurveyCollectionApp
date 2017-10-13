@@ -42,17 +42,9 @@ class AppContainer extends Component {
       return;
     }
     api.setToken(token);
-    try {
-      const response = await api.Auth.current();
-      this.props.setCurrentUser(response.user);
-      return response.user;
-    }
-    catch(e) {
-      if(e.response && e.response.body && e.response.body.detail === 'Signature has expired.') {
-        return;
-      }
-      return Promise.reject(e);
-    }
+    const response = await api.Auth.current();
+    this.props.setCurrentUser(response.user);
+    return response.user;
   }
 
   loadApp() {
@@ -64,8 +56,8 @@ class AppContainer extends Component {
         this.props.fetchLanguages()
           .then(() => this.setState({ appLoading: false, appLoadFail: false }))
           .catch(() => this.setState({ appLoading: false, appLoadFail: true }));
-      }, 
-      (e) => {
+      })
+      .catch((e) => {
         if(e.response && e.response.body && e.response.body.detail === 'Signature has expired.') {
           window.localStorage.setItem('jwt', '');
           this.loadApp();

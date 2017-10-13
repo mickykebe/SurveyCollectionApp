@@ -3,11 +3,12 @@ import SurveyFormContainer from './containers/SurveyFormContainer'
 import { uuidv4 } from '../../../utils';
 
 function SurveyFormWrapper({ initialValues: initValuesProp, ...props }) {
+  const rootGroupId = uuidv4();
   const initialValues = initValuesProp || {
     uuid: uuidv4(),
     languages: ['en'],
     groupRoot: {
-      uuid: uuidv4(),
+      uuid: rootGroupId,
       root: true,
       index: 1,
       groupElements: [{ 
@@ -21,7 +22,7 @@ function SurveyFormWrapper({ initialValues: initValuesProp, ...props }) {
   };
 
   return (
-    <SurveyFormContainer initialValues={initialValues} {...props} />
+    <SurveyFormContainer initialValues={initialValues} rootGroupId={rootGroupId} {...props} />
   )
 }
 

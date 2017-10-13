@@ -39,6 +39,7 @@ class SurveyForm extends Component {
       formLanguages, 
       handleSubmit,
       submittingForm,
+      rootGroupId,
     } = this.props;
     const langOptions = allLanguages.map((lang) => ({val: lang.code, label: lang.name}));
 
@@ -68,6 +69,7 @@ class SurveyForm extends Component {
               options={langOptions} />
             <FormSection name="groupRoot">
               <Field
+                id={rootGroupId}
                 name="groupRoot"
                 component={QuestionGroupContainer}
                 root={true}

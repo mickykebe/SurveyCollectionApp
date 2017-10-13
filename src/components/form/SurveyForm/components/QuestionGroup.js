@@ -52,7 +52,7 @@ class QuestionGroup extends Component{
   }
 
   render() {
-    const { classes, root, index, formLanguages, group, controllingQuestions, onRemove } = this.props;
+    const { classes, id, root, index, formLanguages, group, controllingQuestions, onRemove } = this.props;
     return (
       <div>
         <CardContent className={classes.content}>
@@ -72,6 +72,7 @@ class QuestionGroup extends Component{
               formLanguages={formLanguages}
               component={QuestionGroupList}
               root={root}
+              groupId={id}
               />
           </div>
         </CardContent>
@@ -96,12 +97,13 @@ class QuestionGroup extends Component{
   }
 }
 
-function RootQuestionGroup({ root, formLanguages }) {
+function RootQuestionGroup({ id, root, formLanguages }) {
   return <FieldArray
     name="groupElements"
     formLanguages={formLanguages}
     component={QuestionGroupList}
     root={root}
+    groupId={id}
     />
 }
 

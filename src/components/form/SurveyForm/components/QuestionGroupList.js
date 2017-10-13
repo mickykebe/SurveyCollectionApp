@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { compose } from 'redux';
 import { FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
@@ -10,6 +10,7 @@ import QuestionForm from './QuestionForm';
 import FormSectionToolbar from './FormSectionToolbar';
 import FormSectionActions from './FormSectionActions';
 import { uuidv4 } from 'utils';
+import DragDroppable from '../containers/DragDroppable';
 
 const styles = (theme) => ({
   errorMessage: {
@@ -18,15 +19,18 @@ const styles = (theme) => ({
   },
 });
 
-const controllingQuestions = (fields, curIndex) => {
-  return fields.getAll().filter((field, index) => 
-    field.schema === 'question' && index < curIndex);
-}
+class QuestionGroupList extends Component {
+  constructor(props) {
+    super(props);
 
-function QuestionGroupList(props) {
-  const { classes, fields, root, meta: { dirty, error }, ...rest } = props;
+    this.addQuestion = this.addQuestion.bind(this);
+    this.addQuestionGroup = this.addQuestionGroup.bind(this);
+    this.onMove = this.onMove.bind(this);
+    this.getControllingQuestions = this.getControllingQuestions.bind(this);
+  }
 
-  const addQuestion = () => {
+  addQuestion = () => {
+    const fields = this.props.fields;
     fields.push({ 
       uuid: uuidv4(),
       schema: 'question', 
@@ -36,7 +40,9 @@ function QuestionGroupList(props) {
     });
   }
 
-  const addQuestionGroup = () => {
+  addQuestionGroup = () => {
+    const fields = this.props.fields;
+
     fields.push({ 
       uuid: uuidv4(), 
       schema: 'group',
@@ -52,52 +58,89 @@ function QuestionGroupList(props) {
     })
   }
 
+  onMove = (dragIndex, hoverIndex) => {
+    const { fields } = this.props;
+    fields.move(dragIndex, hoverIndex);
+  }
 
-  return (
-    <div>
-      <FormSectionToolbar title="Questions" />
-      <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>
+  getControllingQuestions(curIndex) {
+    const { fields } = this.props;
+
+    return fields.getAll().filter((field, index) => 
+      field.schema === 'question' && index < curIndex);
+  }
+
+  renderQuestion = (uuid, index, name, props) => {
+    const { fields, root, groupId } = this.props;
+    return (
+      <FormSection key={uuid} name={name}>
+        <DragDroppable 
+          id={uuid}
+          index={index}
+          onMove={this.onMove}
+          itemType={groupId}>
+          <QuestionForm
+            onRemove={() => fields.remove(index)}
+            rootChild={!!root}
+            root={false}
+            index={index}
+            question={fields.get(index)}
+            controllingQuestions={this.getControllingQuestions(index)}
+            {...props} />
+        </DragDroppable>
+      </FormSection>
+    )
+  }
+
+  renderQuestionGroup = (uuid, index, name, props) => {
+    const { fields, root, groupId } = this.props;
+    return (
+      <FormSection key={uuid} name={name}>
+        <DragDroppable 
+          id={uuid}
+          index={index}
+          onMove={this.onMove}
+          itemType={groupId}>
+          <QuestionGroup
+            id={uuid}
+            onRemove={() => fields.remove(index)}
+            rootChild={!!root}
+            root={false}
+            index={index}
+            group={fields.get(index)}
+            controllingQuestions={this.getControllingQuestions(index)}
+            onMove={this.onMove}
+            {...props}
+            />
+        </DragDroppable>
+      </FormSection>
+    );
+  }
+
+  render() {
+    const { classes, fields, root, meta: { dirty, error }, ...rest } = this.props;
+
+    return (
       <div>
-        {
-          fields.map((groupElement, index) => {
-            const schema = fields.get(index).schema;
-            if(schema === 'group') {
-              return (
-                <FormSection key={groupElement} name={groupElement}>
-                  <QuestionGroup
-                    onRemove={() => fields.remove(index)}
-                    rootChild={!!root}
-                    root={false}
-                    index={index}
-                    group={fields.get(index)}
-                    controllingQuestions={controllingQuestions(fields, index)}
-                    move={(dragIndex, hoverIndex) => fields.move(dragIndex, hoverIndex)}
-                    {...rest}
-                    />
-                </FormSection>
-              );
-            }
-            else {
-              return (
-                <FormSection key={groupElement} name={groupElement}>
-                  <QuestionForm
-                    onRemove={() => fields.remove(index)}
-                    rootChild={!!root}
-                    root={false}
-                    index={index}
-                    question={fields.get(index)}
-                    controllingQuestions={controllingQuestions(fields, index)}
-                    move={(dragIndex, hoverIndex) => fields.move(dragIndex, hoverIndex)}
-                    {...rest} />
-                </FormSection>
-              );
-            }
-          })
-        }
-        <FormSectionActions onAddField={addQuestion} onAddForm={addQuestionGroup} />
+        <FormSectionToolbar title="Questions" />
+        <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>
+        <div>
+          {
+            fields.map((groupElement, index) => {
+              const { uuid, schema } = fields.get(index);
+              if(schema === 'group') {
+                return this.renderQuestionGroup(uuid, index, groupElement, rest);
+              }
+              else {
+                return this.renderQuestion(uuid, index, groupElement, rest);
+              }
+            })
+          }
+          <FormSectionActions onAddField={this.addQuestion} onAddForm={this.addQuestionGroup} />
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default compose(

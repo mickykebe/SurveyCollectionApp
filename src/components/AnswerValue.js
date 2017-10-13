@@ -22,10 +22,10 @@ function AnswerCurrency({ value }) {
   )
 }
 
-function AnswerImage({ value }) {
-  const BASE_URL = 'http://collect.ahadootec.info/media/';
+function AnswerImage({ imgFile }) {
+  const BASE_URL = 'http://collect.ahadootec.info';
   return (
-    <img src={`${BASE_URL}${value}`} alt="Image answer" />
+    <img src={`${BASE_URL}${imgFile}`} alt="Image answer" />
   );
 }
 

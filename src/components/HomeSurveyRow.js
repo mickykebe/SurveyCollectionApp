@@ -21,7 +21,7 @@ function HomeSurveyRow({ id, title, description, languages, history, onDeleteSur
           {languagesStr}
         </span>
       </TableCell>
-      <TableCell disablePadding={true}>
+      <TableCell>
         <IconButton onClick={() => history.push(`/surveys/responses/${id}`)}>
           <ResponseIcon />
         </IconButton>

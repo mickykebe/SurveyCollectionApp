@@ -12,7 +12,7 @@ const styles = {
 
 class NumberRangeAnswer extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, disabled = false } = this.props;
     return (
       <FormGroup row>
         <Field
@@ -20,6 +20,7 @@ class NumberRangeAnswer extends Component {
           component={renderTextField}
           label="From"
           margin="normal"
+          disabled={disabled}
           />
         <div className={classes.gap}></div>
         <Field
@@ -27,6 +28,7 @@ class NumberRangeAnswer extends Component {
           component={renderTextField}
           label="To"
           margin="normal"
+          disabled={disabled}
           />
       </FormGroup>
     );

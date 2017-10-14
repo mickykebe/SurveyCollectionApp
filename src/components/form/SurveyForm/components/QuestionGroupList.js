@@ -77,47 +77,51 @@ class QuestionGroupList extends Component {
   }
 
   renderQuestion = (uuid, index, name, props) => {
-    const { fields, root, groupId } = this.props;
+    const { fields, root, groupId, disableFields = false } = this.props;
     return (
       <FormSection key={uuid} name={name}>
         <DragDroppable 
           id={uuid}
           index={index}
           onMove={this.onMove}
-          itemType={groupId}>
-          <QuestionForm
-            onRemove={() => fields.remove(index)}
-            rootChild={!!root}
-            root={false}
-            index={index}
-            question={fields.get(index)}
-            controllingQuestions={this.getControllingQuestions(index)}
-            {...props} />
-        </DragDroppable>
+          itemType={groupId}
+          render={(isOver) => 
+            <QuestionForm
+              onRemove={() => fields.remove(index)}
+              rootChild={!!root}
+              root={false}
+              index={index}
+              question={fields.get(index)}
+              controllingQuestions={this.getControllingQuestions(index)}
+              disableFields={isOver || disableFields}
+              {...props} />
+          } />
       </FormSection>
     )
   }
 
   renderQuestionGroup = (uuid, index, name, props) => {
-    const { fields, root, groupId } = this.props;
+    const { fields, root, groupId, disableFields = false } = this.props;
     return (
       <FormSection key={uuid} name={name}>
         <DragDroppable 
           id={uuid}
           index={index}
           onMove={this.onMove}
-          itemType={groupId}>
-          <QuestionGroup
-            id={uuid}
-            onRemove={() => fields.remove(index)}
-            rootChild={!!root}
-            root={false}
-            index={index}
-            group={fields.get(index)}
-            controllingQuestions={this.getControllingQuestions(index)}
-            {...props}
-            />
-        </DragDroppable>
+          itemType={groupId}
+          render={(isOver) =>
+            <QuestionGroup
+              id={uuid}
+              onRemove={() => fields.remove(index)}
+              rootChild={!!root}
+              root={false}
+              index={index}
+              group={fields.get(index)}
+              controllingQuestions={this.getControllingQuestions(index)}
+              disableFields={isOver || disableFields}
+              {...props}
+              />
+          } />
       </FormSection>
     );
   }

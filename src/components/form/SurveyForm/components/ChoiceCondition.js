@@ -18,7 +18,8 @@ class ChoiceCondition extends Component{
       formLanguages, 
       choiceType, 
       onRemove,
-      conditionValue
+      conditionValue,
+      disableFields = false
      } = this.props;
 
     return (
@@ -35,7 +36,8 @@ class ChoiceCondition extends Component{
               controllingQuestions={controllingQuestions}
               formLanguages={formLanguages}
               choiceType={choiceType}
-              onAddForm={false} />
+              onAddForm={false}
+              disableFields={disableFields} />
           </div>
         }
       </div>

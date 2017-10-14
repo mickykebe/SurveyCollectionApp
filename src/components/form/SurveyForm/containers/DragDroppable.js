@@ -75,12 +75,12 @@ class DragDroppable extends Component {
       connectDropTarget, 
       connectDragSource,
       isDragging,
-      children,
+      isOver,
+      render,
     } = this.props;
 
     let containerClassName;
     if(isDragging) {
-      console.log('dragging');
       containerClassName = classes.dragging;
     }
     else {
@@ -90,7 +90,7 @@ class DragDroppable extends Component {
     return connectDragSource(
       connectDropTarget(
         <div className={containerClassName}>
-          {children}
+          {render(isOver)}
         </div>
       )
     )
@@ -98,8 +98,9 @@ class DragDroppable extends Component {
 }
 
 export default compose(
-  DropTarget((props) => props.itemType, DragDroppable.target, connect => ({
+  DropTarget((props) => props.itemType, DragDroppable.target, (connect, monitor) => ({
     connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
   })),
   DragSource((props) => props.itemType, DragDroppable.source, (connect, monitor) => ({
     connectDragSource: connect.dragSource(),

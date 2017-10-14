@@ -46,7 +46,7 @@ class QuestionForm extends Component {
   }
 
   render() {
-    const { classes, question, index, formLanguages, controllingQuestions } = this.props;
+    const { classes, question, index, formLanguages, controllingQuestions, disableFields = false } = this.props;
     const { onRemove } = this.props;
 
     return (
@@ -61,12 +61,14 @@ class QuestionForm extends Component {
               languages={formLanguages}
               labelClassName={classes.titleLabel}
               inputGroupClassName={classes.inputs}
-              required={true} />
+              required={true}
+              disabled={disableFields} />
           </FormSection>
           <QuestionTypeContainer
             activeQuestionType={question.type}
             controllingQuestions={controllingQuestions}
-            formLanguages={formLanguages} />
+            formLanguages={formLanguages}
+            disableFields={disableFields} />
         </CardContent>
         <Divider />
         <CardActions>

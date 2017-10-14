@@ -26,7 +26,15 @@ const styles = {
 
 class QuestionType extends Component {
   render() {
-    const { classes, formLanguages, activeQuestionType, questionTypes, controllingQuestions } = this.props;
+    const { 
+      classes, 
+      formLanguages, 
+      activeQuestionType, 
+      questionTypes, 
+      controllingQuestions, 
+      disableFields = false 
+    } = this.props;
+
     const questionTypeOptions = questionTypes.map((qt) => ({ val: qt.id, label: qt.name }));
     if(!activeQuestionType) {
       return null;
@@ -55,7 +63,8 @@ class QuestionType extends Component {
           }
           {
             activeQuestionType === 'number-range' &&
-            <NumberRangeAnswer />
+            <NumberRangeAnswer
+              disabled={disableFields} />
           }
           {
             activeQuestionType.startsWith('choose') &&
@@ -65,6 +74,7 @@ class QuestionType extends Component {
               choiceType={activeQuestionType === 'choose-one' ? "single" : "multiple"}
               formLanguages={formLanguages}
               controllingQuestions={controllingQuestions}
+              disableFields={disableFields}
                />
           }
           {

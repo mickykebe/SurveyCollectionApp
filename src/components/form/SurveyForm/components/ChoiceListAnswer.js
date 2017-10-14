@@ -23,7 +23,8 @@ class ChoiceListAnswer extends Component {
       formLanguages, 
       controllingQuestions,
       onAddForm: onAddFormProp,
-      meta: { dirty, error } 
+      meta: { dirty, error },
+      disableFields = false,
     } = this.props;
 
     const onAddForm = onAddFormProp || onAddFormProp === false ? onAddFormProp : () => fields.push({ uuid: uuidv4(), schema: 'choice_condition', operator: '==' });
@@ -47,7 +48,8 @@ class ChoiceListAnswer extends Component {
                     choiceType={choiceType}
                     formLanguages={formLanguages}
                     onRemove={() => fields.remove(index)}
-                    controllingQuestions={controllingQuestions} />
+                    controllingQuestions={controllingQuestions}
+                    disableFields={disableFields} />
                 }
                 {
                   choiceSchema === 'choice' &&
@@ -55,6 +57,7 @@ class ChoiceListAnswer extends Component {
                     choiceType={choiceType}
                     formLanguages={formLanguages}
                     onRemove={() => fields.remove(index)}
+                    disabled={disableFields}
                     />
                 }
               </FormSection>);

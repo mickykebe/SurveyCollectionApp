@@ -31,6 +31,7 @@ class LangTextField extends Component{
       label, 
       languages,
       required = false,
+      disabled = false,
     } = this.props;
 
     return (
@@ -52,6 +53,7 @@ class LangTextField extends Component{
                 required={required}
                 fullWidth={true}
                 margin="normal"
+                disabled={disabled}
                 />
             )
           }

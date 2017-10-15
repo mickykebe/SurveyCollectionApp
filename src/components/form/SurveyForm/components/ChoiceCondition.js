@@ -19,7 +19,9 @@ class ChoiceCondition extends Component{
       choiceType, 
       onRemove,
       conditionValue,
-      disableFields = false
+      disableFields = false,
+      onFieldMouseEnter,
+      onFieldMouseLeave
      } = this.props;
 
     return (
@@ -37,7 +39,9 @@ class ChoiceCondition extends Component{
               formLanguages={formLanguages}
               choiceType={choiceType}
               onAddForm={false}
-              disableFields={disableFields} />
+              disableFields={disableFields}
+              onFieldMouseEnter={onFieldMouseEnter}
+              onFieldMouseLeave={onFieldMouseLeave} />
           </div>
         }
       </div>

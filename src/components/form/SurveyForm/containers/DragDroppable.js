@@ -69,6 +69,26 @@ class DragDroppable extends Component {
     }
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = { dragSourceActive: true };
+    this.enableDragSource = this.enableDragSource.bind(this);
+    this.disableDragSource = this.disableDragSource.bind(this);
+  }
+
+  disableDragSource() {
+    this.setState({
+      dragSourceActive: false,
+    });
+  }
+
+  enableDragSource() {
+    this.setState({
+      dragSourceActive: true,
+    })
+  }
+
   render() {
     const { 
       classes, 
@@ -87,13 +107,16 @@ class DragDroppable extends Component {
       containerClassName = classes.container;
     }
 
-    return connectDragSource(
-      connectDropTarget(
-        <div className={containerClassName}>
-          {render(isOver)}
-        </div>
-      )
-    )
+    const Comp = connectDropTarget(
+      <div className={containerClassName}>
+        {render(isOver, this.enableDragSource, this.disableDragSource)}
+      </div>
+    );
+
+    if(this.state.dragSourceActive) {
+      return connectDragSource(Comp);
+    }
+    return Comp;
   }
 }
 

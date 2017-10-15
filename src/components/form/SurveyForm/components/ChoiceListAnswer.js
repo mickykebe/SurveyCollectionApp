@@ -25,6 +25,8 @@ class ChoiceListAnswer extends Component {
       onAddForm: onAddFormProp,
       meta: { dirty, error },
       disableFields = false,
+      onFieldMouseEnter,
+      onFieldMouseLeave,
     } = this.props;
 
     const onAddForm = onAddFormProp || onAddFormProp === false ? onAddFormProp : () => fields.push({ uuid: uuidv4(), schema: 'choice_condition', operator: '==' });
@@ -49,7 +51,9 @@ class ChoiceListAnswer extends Component {
                     formLanguages={formLanguages}
                     onRemove={() => fields.remove(index)}
                     controllingQuestions={controllingQuestions}
-                    disableFields={disableFields} />
+                    disableFields={disableFields}
+                    onFieldMouseEnter={onFieldMouseEnter}
+                    onFieldMouseLeave={onFieldMouseLeave} />
                 }
                 {
                   choiceSchema === 'choice' &&
@@ -58,6 +62,8 @@ class ChoiceListAnswer extends Component {
                     formLanguages={formLanguages}
                     onRemove={() => fields.remove(index)}
                     disabled={disableFields}
+                    onMouseEnter={onFieldMouseEnter}
+                    onMouseLeave={onFieldMouseLeave}
                     />
                 }
               </FormSection>);

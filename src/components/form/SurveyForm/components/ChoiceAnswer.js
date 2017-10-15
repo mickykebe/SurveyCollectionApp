@@ -23,7 +23,15 @@ const styles = (theme) => ({
 
 class ChoiceAnswer extends Component {
   render() {
-    const { classes, choiceType, formLanguages, onRemove, disabled = false } = this.props;
+    const { 
+      classes, 
+      choiceType, 
+      formLanguages, 
+      onRemove, 
+      disabled = false,
+      onMouseEnter,
+      onMouseLeave,
+     } = this.props;
     const Control = choiceType === 'single' ? Radio : Checkbox;
     
     return (
@@ -37,7 +45,9 @@ class ChoiceAnswer extends Component {
             languages={formLanguages}
             required={true}
             className={classes.inputs}
-            disabled={disabled} />
+            disabled={disabled}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave} />
         </FormSection>
         <div>
           <IconButton onClick={onRemove}>

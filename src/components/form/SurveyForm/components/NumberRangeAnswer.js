@@ -12,9 +12,16 @@ const styles = {
 
 class NumberRangeAnswer extends Component {
   render() {
-    const { classes, disabled = false } = this.props;
+    const { 
+      classes, 
+      disabled = false,
+      onMouseEnter,
+      onMouseLeave } = this.props;
     return (
-      <FormGroup row>
+      <FormGroup 
+        row
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}>
         <Field
           name="start"
           component={renderTextField}

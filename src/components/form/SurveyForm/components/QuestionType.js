@@ -32,7 +32,9 @@ class QuestionType extends Component {
       activeQuestionType, 
       questionTypes, 
       controllingQuestions, 
-      disableFields = false 
+      disableFields = false,
+      onFieldMouseEnter,
+      onFieldMouseLeave,
     } = this.props;
 
     const questionTypeOptions = questionTypes.map((qt) => ({ val: qt.id, label: qt.name }));
@@ -64,7 +66,9 @@ class QuestionType extends Component {
           {
             activeQuestionType === 'number-range' &&
             <NumberRangeAnswer
-              disabled={disableFields} />
+              disabled={disableFields}
+              onMouseEnter={onFieldMouseEnter}
+              onMouseLeave={onFieldMouseLeave}/>
           }
           {
             activeQuestionType.startsWith('choose') &&
@@ -75,6 +79,8 @@ class QuestionType extends Component {
               formLanguages={formLanguages}
               controllingQuestions={controllingQuestions}
               disableFields={disableFields}
+              onFieldMouseEnter={onFieldMouseEnter}
+              onFieldMouseLeave={onFieldMouseLeave}
                />
           }
           {

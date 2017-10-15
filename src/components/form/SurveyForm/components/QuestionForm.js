@@ -46,7 +46,15 @@ class QuestionForm extends Component {
   }
 
   render() {
-    const { classes, question, index, formLanguages, controllingQuestions, disableFields = false } = this.props;
+    const { 
+      classes,
+      question,
+      index,
+      formLanguages,
+      controllingQuestions,
+      onFieldMouseEnter,
+      onFieldMouseLeave,
+      disableFields = false } = this.props;
     const { onRemove } = this.props;
 
     return (
@@ -62,13 +70,17 @@ class QuestionForm extends Component {
               labelClassName={classes.titleLabel}
               inputGroupClassName={classes.inputs}
               required={true}
-              disabled={disableFields} />
+              disabled={disableFields}
+              onMouseEnter={onFieldMouseEnter}
+              onMouseLeave={onFieldMouseLeave} />
           </FormSection>
           <QuestionTypeContainer
             activeQuestionType={question.type}
             controllingQuestions={controllingQuestions}
             formLanguages={formLanguages}
-            disableFields={disableFields} />
+            disableFields={disableFields}
+            onFieldMouseEnter={onFieldMouseEnter}
+            onFieldMouseLeave={onFieldMouseLeave} />
         </CardContent>
         <Divider />
         <CardActions>

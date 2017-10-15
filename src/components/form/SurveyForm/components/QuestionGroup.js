@@ -62,6 +62,8 @@ class QuestionGroup extends Component{
       controllingQuestions, 
       onRemove,
       disableFields = false,
+      onFieldMouseEnter,
+      onFieldMouseLeave
     } = this.props;
 
     return (
@@ -76,7 +78,9 @@ class QuestionGroup extends Component{
               languages={formLanguages}
               labelClassName={classes.titleLabel}
               inputGroupClassName={classes.inputs}
-              disabled={disableFields} />
+              disabled={disableFields}
+              onMouseEnter={onFieldMouseEnter}
+              onMouseLeave={onFieldMouseLeave} />
           </FormSection>
           <div className={classes.elements}>
             <FieldArray

@@ -76,54 +76,35 @@ class QuestionGroupList extends Component {
       field.schema === 'question' && index < curIndex);
   }
 
-  renderQuestion = (uuid, index, name, props) => {
+  renderElement = (uuid, index, schema, name, props) => {
     const { fields, root, groupId, disableFields = false } = this.props;
+    const ElementComponent = schema === 'group' ? QuestionGroup : QuestionForm;
+    const elemProps = schema === 'group' ? 
+      { id: uuid, group: fields.get(index) } :
+      { question: fields.get(index) };
     return (
       <FormSection key={uuid} name={name}>
-        <DragDroppable 
+        <DragDroppable
           id={uuid}
           index={index}
           onMove={this.onMove}
           itemType={groupId}
-          render={(isOver) => 
-            <QuestionForm
+          render={(isOver, enableDragSource, disableDragSource) => 
+            <ElementComponent
               onRemove={() => fields.remove(index)}
               rootChild={!!root}
               root={false}
               index={index}
-              question={fields.get(index)}
               controllingQuestions={this.getControllingQuestions(index)}
               disableFields={isOver || disableFields}
-              {...props} />
-          } />
-      </FormSection>
-    )
-  }
-
-  renderQuestionGroup = (uuid, index, name, props) => {
-    const { fields, root, groupId, disableFields = false } = this.props;
-    return (
-      <FormSection key={uuid} name={name}>
-        <DragDroppable 
-          id={uuid}
-          index={index}
-          onMove={this.onMove}
-          itemType={groupId}
-          render={(isOver) =>
-            <QuestionGroup
-              id={uuid}
-              onRemove={() => fields.remove(index)}
-              rootChild={!!root}
-              root={false}
-              index={index}
-              group={fields.get(index)}
-              controllingQuestions={this.getControllingQuestions(index)}
-              disableFields={isOver || disableFields}
+              onFieldMouseEnter={disableDragSource}
+              onFieldMouseLeave={enableDragSource}
+              {...elemProps}
               {...props}
               />
           } />
       </FormSection>
-    );
+    )
   }
 
   render() {
@@ -137,12 +118,7 @@ class QuestionGroupList extends Component {
           {
             fields.map((groupElement, index) => {
               const { uuid, schema } = fields.get(index);
-              if(schema === 'group') {
-                return this.renderQuestionGroup(uuid, index, groupElement, rest);
-              }
-              else {
-                return this.renderQuestion(uuid, index, groupElement, rest);
-              }
+              return this.renderElement(uuid, index, schema, groupElement, rest);
             })
           }
           <FormSectionActions onAddField={this.addQuestion} onAddForm={this.addQuestionGroup} />

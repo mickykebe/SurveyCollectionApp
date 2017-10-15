@@ -32,6 +32,8 @@ class LangTextField extends Component{
       languages,
       required = false,
       disabled = false,
+      onMouseEnter,
+      onMouseLeave
     } = this.props;
 
     return (
@@ -42,7 +44,10 @@ class LangTextField extends Component{
             {label}
           </FormLabel>
         }
-        <div className={classnames(classes.fieldsContainer, inputGroupClassName)}>
+        <div 
+          className={classnames(classes.fieldsContainer, inputGroupClassName)}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}>
           {
             languages.map((ln) => 
               <Field

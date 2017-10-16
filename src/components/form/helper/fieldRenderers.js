@@ -1,5 +1,6 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
+import Switch from 'material-ui/Switch';
 import { Multiselect } from 'react-widgets';
 import AlignedTextField from 'components/form/controls/AlignedTextField';
 import MultiChoiceField from 'components/form/controls/MultiChoiceField';
@@ -64,3 +65,14 @@ export const renderMultiSelectField = ({
     onBlur={() => input.onBlur()}
     value={input.value || []}
     {...custom} />;
+
+export const renderSwitch = ({
+  input: { value, onChange, ...inputRest},
+  meta,
+  ...custom
+}) =>
+  <Switch
+    {...inputRest}
+    onChange={(e, checked) => onChange(checked)}
+    {...custom}
+    checked={value} />;

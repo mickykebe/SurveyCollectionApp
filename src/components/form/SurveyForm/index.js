@@ -15,7 +15,8 @@ function SurveyFormWrapper({ initialValues: initValuesProp, ...props }) {
         schema: 'question', 
         index: 1,
         type: 'text',
-        condition: { operator: '&&', conditions: [] }
+        condition: { operator: '&&', conditions: [] },
+        required: true,
       }] 
     }
   };

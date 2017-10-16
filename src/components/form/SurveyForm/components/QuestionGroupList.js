@@ -36,7 +36,8 @@ class QuestionGroupList extends Component {
       schema: 'question', 
       index: fields.length+1,
       type: 'text',
-      condition: { operator: '&&', conditions: [] }
+      condition: { operator: '&&', conditions: [] },
+      required: true,
     });
   }
 
@@ -53,7 +54,8 @@ class QuestionGroupList extends Component {
         schema: 'question', 
         index: 1,
         type: 'text',
-        condition: { operator: '&&', conditions: [] }
+        condition: { operator: '&&', conditions: [] },
+        required: true,
       }] 
     })
   }

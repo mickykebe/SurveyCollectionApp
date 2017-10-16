@@ -26,12 +26,12 @@ const styles = (theme) => ({
 });
 
 function AppLoadingError(props) {
-  const { classes, retry } = props;
+  const { classes, text, retry } = props;
   return (
     <div className={classes.root}>
       <CloudOffIcon className={classes.icon} />
       <Typography className={classes.loadingText} type="body2" align="center">
-        Couldn't connect to server.
+        {text}
       </Typography>
       { !!retry && <Button raised color="accent" onClick={retry}>Retry</Button> }
     </div>

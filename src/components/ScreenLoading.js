@@ -17,16 +17,16 @@ const styles = theme => ({
   }
 });
 
-function LoadingApp(props) {
-  const { classes } = props;
+function ScreenLoading(props) {
+  const { classes, text } = props;
   return (
     <div className={classes.root}>
       <AppCircularProgress />
       <Typography className={classes.loadingText} type="body2" align="center">
-        App loading...
+        {text}
       </Typography>
     </div>
   );
 }
 
-export default withStyles(styles)(LoadingApp);
+export default withStyles(styles)(ScreenLoading);

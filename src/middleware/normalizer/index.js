@@ -5,6 +5,7 @@ import {
   ACTION_SURVEY_FEED_FETCH_SUCCESS,
   ACTION_SURVEY_FETCH_SUCCESS,
   ACTION_RESPONSES_FETCH_SUCCESS,
+  ACTION_APP_DATA_LOAD_SUCCESS,
   ACTION_LANGUAGE_FEED_FETCH_SUCCESS,
   ACTION_LANGUAGE_CREATE_SUCCESS,
   ACTION_LANGUAGE_UPDATE_SUCCESS,
@@ -28,6 +29,7 @@ export default store => next => action => {
         ...action,
         response: normalize(action.response.results, schema.responseListSchema),
       });
+    case ACTION_APP_DATA_LOAD_SUCCESS:
     case ACTION_LANGUAGE_FEED_FETCH_SUCCESS:
       return next({
         ...action,

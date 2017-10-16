@@ -9,6 +9,7 @@ import SurveyCreate from '../containers/SurveyCreate';
 import SurveyEdit from '../containers/SurveyEdit';
 import ResponsePageContainer from '../containers/ResponsePageContainer';
 import LanguageTableContainer from '../containers/LanguageTableContainer';
+import AppDataLoader from '../containers/AppDataLoader';
 import { withStyles } from 'material-ui/styles';
 
 const styles = (theme) => ({
@@ -66,20 +67,45 @@ class App extends Component {
         <PrivateRoute
           exact
           path="/"
-          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="My Surveys"><Home /></AppFrame>}
+          render={(props) => 
+            <AppDataLoader>
+              <AppFrame currentUser={currentUser} appBarTitle="My Surveys">
+                <Home />
+              </AppFrame>
+            </AppDataLoader>}
           />
         <PrivateRoute 
           path="/surveys/new" 
-          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Create survey"><SurveyCreate history={props.history} /></AppFrame> } />
+          render={(props) => 
+            <AppDataLoader>
+              <AppFrame currentUser={currentUser} appBarTitle="Create survey">
+                <SurveyCreate history={props.history} />
+              </AppFrame>
+            </AppDataLoader> } />
         <PrivateRoute 
           path="/surveys/edit/:surveyId" 
-          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Edit survey"><SurveyEdit id={props.match.params.surveyId} history={props.history} /></AppFrame> } />
+          render={(props) => 
+            <AppDataLoader>
+              <AppFrame currentUser={currentUser} appBarTitle="Edit survey">
+                <SurveyEdit id={props.match.params.surveyId} history={props.history} />
+              </AppFrame>
+            </AppDataLoader> } />
         <PrivateRoute 
           path="/surveys/responses/:surveyId" 
-          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Survey responses"><ResponsePageContainer id={props.match.params.surveyId}/></AppFrame> } />
+          render={(props) => 
+            <AppDataLoader>
+              <AppFrame currentUser={currentUser} appBarTitle="Survey responses">
+                <ResponsePageContainer id={props.match.params.surveyId}/>
+              </AppFrame>
+            </AppDataLoader> } />
         <PrivateRoute
           path="/languages"
-          render={(props) => <AppFrame currentUser={currentUser} appBarTitle="Language Admin"><LanguageTableContainer /></AppFrame>}
+          render={(props) => 
+            <AppDataLoader>
+              <AppFrame currentUser={currentUser} appBarTitle="Language Admin">
+                <LanguageTableContainer />
+              </AppFrame>
+            </AppDataLoader>}
           />
       </div>
     );

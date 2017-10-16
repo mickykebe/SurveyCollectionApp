@@ -2,26 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
-import { getIsFetchingLanguages, getLanguagesFetchErrors, getCurrentUser, getPopupMessage } from '../reducers';
-import { clearPopup, setCurrentUser, languagesFetch } from '../actions';
+import { getCurrentUser, getPopupMessage } from '../reducers';
+import { clearPopup, setCurrentUser } from '../actions';
 import api from '../api';
 import App from '../components/App';
-import AppLoadingError from '../components/AppLoadingError';
-import AppLoading from '../components/AppLoading';
+import ScreenError from '../components/ScreenError';
+import ScreenLoading from '../components/ScreenLoading';
 import PopupSnackbar from '../components/PopupSnackbar';
 
 const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
   popupMessage: getPopupMessage(state),
-  fetchingLanguages: getIsFetchingLanguages(state),
-  langFetchErrors: getLanguagesFetchErrors(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   clearPopupMessage: () =>
     dispatch(clearPopup()),
-  fetchLanguages: () =>
-    dispatch(languagesFetch(api.Languages.all())),
   setCurrentUser(user) {
     dispatch(setCurrentUser(user));
   }
@@ -52,15 +48,11 @@ class AppContainer extends Component {
       appLoading: true,
     });
     this.loadCurrentUser()
-      .then(() => {
-        this.props.fetchLanguages()
-          .then(() => this.setState({ appLoading: false, appLoadFail: false }))
-          .catch(() => this.setState({ appLoading: false, appLoadFail: true }));
-      })
+      .then(() => this.setState({ appLoading: false, appLoadFail: false }))
       .catch((e) => {
         if(e.response && e.response.body && e.response.body.detail === 'Signature has expired.') {
           window.localStorage.setItem('jwt', '');
-          this.loadApp();
+          this.setState({ appLoading: false, appLoadFail: false });
         }
         else {
           this.setState({ appLoading: false, appLoadFail: true });
@@ -77,11 +69,11 @@ class AppContainer extends Component {
     const { appLoading, appLoadFail } = this.state;
 
     if(!appLoading && appLoadFail) {
-      return (<AppLoadingError retry={this.loadApp} />);
+      return (<ScreenError text="Couldn't connect to server" retry={this.loadApp} />);
     }
 
     if(appLoading) {
-      return <AppLoading />;
+      return <ScreenLoading text="Loading App..." />;
     }
 
     return (

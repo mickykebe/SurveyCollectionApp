@@ -4,6 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import BlankAnswer from './BlankAnswer';
 import NumberRangeAnswer from './NumberRangeAnswer';
 import ChoiceListAnswer from './ChoiceListAnswer';
+import DateAnswer from './DateAnswer';
 import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
 
 const styles = {
@@ -69,6 +70,10 @@ class QuestionType extends Component {
               disabled={disableFields}
               onMouseEnter={onFieldMouseEnter}
               onMouseLeave={onFieldMouseLeave}/>
+          }
+          {
+            activeQuestionType === 'date' &&
+            <DateAnswer />
           }
           {
             activeQuestionType.startsWith('choose') &&

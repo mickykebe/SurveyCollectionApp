@@ -14,6 +14,11 @@ const types = {
     name: "Number Range",
     validOperators: ["==", "!=", "<", ">", "<=", ">="]
   },
+  "date": {
+    id: "date",
+    name: "Date",
+    validOperators: ["==", "!="],
+  },
   "choose-one": {
     id: "choose-one",
     name: "Choose One",

@@ -15,6 +15,16 @@ const langInputErrors = (value, languages) => {
   }
 }
 
+const dateErrors = (question) => {
+  const errors = {};
+  if(question && question.type === 'date') {
+    if(!question.calendar) {
+      errors.calendar = 'Required';
+    }
+  }
+  return errors;
+}
+
 const numRangeErrors = (question) => {
   const errors = {};
   if(question && question.type === 'number-range') {
@@ -69,6 +79,9 @@ const questionErrors = (value, languages) => {
   if(!_isEmpty(titleErrors)) {
     errors.title = titleErrors;
   }
+  const date_errors = dateErrors(value);
+  Object.assign(errors, date_errors);
+  
   const rangeErrors = numRangeErrors(value);
   Object.assign(errors, rangeErrors);
 

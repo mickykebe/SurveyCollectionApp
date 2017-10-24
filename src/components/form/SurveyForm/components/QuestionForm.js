@@ -4,7 +4,6 @@ import { withStyles } from 'material-ui/styles';
 import Card, { CardContent, CardActions} from 'material-ui/Card';
 import Divider from 'material-ui/Divider';
 import { FormControlLabel } from 'material-ui/Form';
-import Switch from 'material-ui/Switch';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';

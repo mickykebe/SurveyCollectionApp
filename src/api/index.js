@@ -69,6 +69,9 @@ const SurveyResponses = {
   all(id, offset = 0) {
     return requests.get(`/surveys/${id}/filled-surveys/?offset=${offset}`)
       .then(data => mapper.surveyResponses(data));
+  },
+  downloadLink(id, format = 'csv') {
+    return `${BASE_URL}/${id}/filled-surveys/?format=${format}`;
   }
 }
 

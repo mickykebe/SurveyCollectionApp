@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
+import IconButton from 'material-ui/IconButton';
+import { MenuItem } from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
+import CollapsedMenu from './CollapsedMenu';
 import Loading from './Loading';
 import PagerLayout from './PagerLayout';
 import SurveyHeader from './SurveyHeader';
 import AnswerList from './AnswerList';
+import FileDownloadIcon from 'material-ui-icons/FileDownload';
+import api from '../api';
 
 const styles = theme => ({
   root: {
@@ -22,6 +27,9 @@ const styles = theme => ({
   },
   emptyResponses: {
     minHeight: '50px'
+  },
+  toolbar: {
+    paddingRight: theme.spacing.unit,
   }
 });
 
@@ -61,23 +69,47 @@ class ResponsePage extends Component {
           survey={survey}
           inProgress={fetchingSurvey} />
         <Paper className={classes.responseListContainer}>
-          <Toolbar>
+          <Toolbar className={classes.toolbar}>
             <Typography type="title">
               Responses
+              { 
+                !!responses.length &&
+                `(${this.state.curIndex + 1}/${responsesCount})`
+              }
             </Typography>
             <div className={classes.grow} />
-            { 
-              !!responses.length &&
-              <Typography type="body1">
-                {`${this.state.curIndex + 1}/${responsesCount}`}
-              </Typography>
-            }
+            <CollapsedMenu
+              render={(handleMenuClose) => {
+                return (
+                  [
+                    <MenuItem onClick={() => {
+                      window.open(api.SurveyResponses.downloadLink(survey.uuid, 'csv'), '_blank');
+                      handleMenuClose();
+                    }}>
+                      <IconButton>
+                        <FileDownloadIcon />
+                      </IconButton>
+                      Download responses (.csv)
+                    </MenuItem>,
+                    <MenuItem onClick={() => {
+                      window.open(api.SurveyResponses.downloadLink(survey.uuid, 'xlsx'), '_blank');
+                      handleMenuClose();
+                    }}>
+                      <IconButton>
+                        <FileDownloadIcon />
+                      </IconButton>
+                      Download responses (.xlsx)
+                    </MenuItem>
+                  ])
+              }}>
+              
+            </CollapsedMenu>
           </Toolbar>
           {
             !!responses.length && 
             <PagerLayout
               hasPrev={curIndex > 0}
-              hasNext={curIndex+1 < responses.length || hasMore}
+              hasNext={curIndex+1 < responsesCount || hasMore}
               onPrev={() => this.setState({ curIndex: curIndex - 1 })}
               onNext={this.nextResponse}>
               {

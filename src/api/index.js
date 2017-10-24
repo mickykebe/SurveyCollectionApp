@@ -70,8 +70,9 @@ const SurveyResponses = {
     return requests.get(`/surveys/${id}/filled-surveys/?offset=${offset}`)
       .then(data => mapper.surveyResponses(data));
   },
-  downloadLink(id, format = 'csv') {
-    return `${BASE_URL}/${id}/filled-surveys/?format=${format}`;
+  allFormat(id, format = 'csv') {
+    return superagent.get(`${BASE_URL}/surveys/${id}/filled-surveys/?format=${format}`).use(tokenPlugin).responseType('blob').then(responseBody)
+    //return requests.get(`/surveys/${id}/filled-surveys/?format=${format}`);
   }
 }
 

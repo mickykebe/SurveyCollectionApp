@@ -12,10 +12,14 @@ import {
   getSurveyResponsesCount,
   getSurveyResponsesNext,
  } from '../reducers';
-import { responsesFetch, surveyFetch } from '../actions';
+import { 
+  responsesFetch, 
+  surveyFetch,
+  showPopup } from '../actions';
 import api from '../api';
 import ResponsePage from '../components/ResponsePage';
 import PopupSnackbar from '../components/PopupSnackbar';
+import download from '../download';
 
 const mapStateToProps = (state, { id }) => ({
   id,
@@ -39,6 +43,9 @@ const mergeProps = (stateProps, { dispatch }, ownProps) => ({
   },
   fetchSurvey() {
     return dispatch(surveyFetch(api.Surveys.get(stateProps.id), { id: stateProps.id }));
+  },
+  displayPopup(message) {
+    return dispatch(showPopup(message));
   }
 })
 
@@ -68,6 +75,16 @@ class ResponsePageContainer extends Component {
     }
   }
 
+  downloadResponses = (format) => {
+    const { id, displayPopup } = this.props;
+    api.SurveyResponses.allFormat(id, format)
+      .then(blob => download(
+        blob,
+        `responses-${id}.${format}`, 
+        format === 'csv' ? 'text/csv' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))
+      .catch(() => displayPopup('Problem occurred connecting to server.'));
+  }
+
   componentDidMount() {
     this.fetch();
   }
@@ -94,7 +111,8 @@ class ResponsePageContainer extends Component {
           fetchingResponses={fetchingResponses}
           responsesCount={responsesCount}
           hasMore={!!responsesNext}
-          onFetchMore={this.fetchResponses} />
+          onFetchMore={this.fetchResponses}
+          downloadResponses={this.downloadResponses} />
         <PopupSnackbar
           show={!isFetchingSurvey && !!surveyFetchErrors}
           message="Problem occurred fetching survey"

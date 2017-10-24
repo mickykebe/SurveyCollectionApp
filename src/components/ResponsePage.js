@@ -58,7 +58,8 @@ class ResponsePage extends Component {
       responsesCount, 
       fetchingSurvey, 
       fetchingResponses,
-      hasMore
+      hasMore,
+      downloadResponses
      } = this.props;
     const { curIndex } = this.state;
     const currentAnswers = responses[curIndex] && responses[curIndex].answers;
@@ -83,7 +84,7 @@ class ResponsePage extends Component {
                 return (
                   [
                     <MenuItem onClick={() => {
-                      window.open(api.SurveyResponses.downloadLink(survey.uuid, 'csv'), '_blank');
+                      downloadResponses('csv');
                       handleMenuClose();
                     }}>
                       <IconButton>
@@ -92,7 +93,7 @@ class ResponsePage extends Component {
                       Download responses (.csv)
                     </MenuItem>,
                     <MenuItem onClick={() => {
-                      window.open(api.SurveyResponses.downloadLink(survey.uuid, 'xlsx'), '_blank');
+                      downloadResponses('xlsx');
                       handleMenuClose();
                     }}>
                       <IconButton>

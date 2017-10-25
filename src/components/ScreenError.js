@@ -25,7 +25,7 @@ const styles = (theme) => ({
   }
 });
 
-function AppLoadingError(props) {
+function ScreenError(props) {
   const { classes, text, retry } = props;
   return (
     <div className={classes.root}>
@@ -38,4 +38,4 @@ function AppLoadingError(props) {
   );
 }
 
-export default withStyles(styles)(AppLoadingError);
+export default withStyles(styles)(ScreenError);

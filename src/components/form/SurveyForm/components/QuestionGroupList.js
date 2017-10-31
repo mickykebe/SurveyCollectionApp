@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
+import AppBar from 'material-ui/AppBar';
+import Button from 'material-ui/Button';
 import { FormHelperText } from 'material-ui/Form';
+import Toolbar from 'material-ui/Toolbar';
+import Tooltip from 'material-ui/Tooltip';
+import Typography from 'material-ui/Typography';
+import AddIcon from 'material-ui-icons/Add';
+import PlaylistAddIcon from 'material-ui-icons/PlaylistAdd';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import QuestionGroup from './QuestionGroup';
 import QuestionForm from './QuestionForm';
-import FormSectionToolbar from './FormSectionToolbar';
 import FormSectionActions from './FormSectionActions';
 import { uuidv4 } from 'utils';
 import DragDroppable from '../containers/DragDroppable';
@@ -17,6 +23,16 @@ const styles = (theme) => ({
     textAlign: 'center',
     paddingTop: theme.spacing.unit,
   },
+  actions: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    padding: `${theme.spacing.unit}px 0`,
+  },
+  button: {
+    margin: theme.spacing.unit,
+    width: theme.spacing.unit * 6,
+    height: theme.spacing.unit * 6,
+  }
 });
 
 class QuestionGroupList extends Component {
@@ -114,7 +130,13 @@ class QuestionGroupList extends Component {
 
     return (
       <div>
-        <FormSectionToolbar title="Questions" />
+        <AppBar position="static">
+          <Toolbar>
+            <Typography type="subheading" color="inherit">
+              Questions
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>
         <div>
           {
@@ -123,7 +145,18 @@ class QuestionGroupList extends Component {
               return this.renderElement(uuid, index, schema, groupElement, rest);
             })
           }
-          <FormSectionActions onAddField={this.addQuestion} onAddForm={this.addQuestionGroup} />
+          <div className={classes.actions}>
+            <Tooltip title="Add Question" placement="bottom">
+              <Button fab color="accent" className={classes.button} onClick={this.addQuestion}>
+                <AddIcon />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Add Question Group" placement="bottom">
+              <Button fab color="accent" className={classes.button} onClick={this.addQuestionGroup}>
+                <PlaylistAddIcon />
+              </Button>
+            </Tooltip>
+          </div>
         </div>
       </div>
     )

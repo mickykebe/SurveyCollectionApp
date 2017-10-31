@@ -1,9 +1,15 @@
 import React from 'react';
 import { FormSection } from 'redux-form';
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import Toolbar from 'material-ui/Toolbar';
+import Tooltip from 'material-ui/Tooltip';
+import Typography from 'material-ui/Typography';
+import AddIcon from 'material-ui-icons/Add';
+import PlaylistAddIcon from 'material-ui-icons/PlaylistAdd';
 import { withStyles } from 'material-ui/styles';
 import ConditionGroup from './ConditionGroup';
 import ConditionContainer from '../containers/ConditionContainer';
-import FormSectionToolbar from './FormSectionToolbar';
 
 const styles = {
   actions: {
@@ -20,10 +26,24 @@ const styles = {
 function ConditionList({ classes, fields, ...rest }) {
   return (
     <div>
-      <FormSectionToolbar 
-        title="Conditions"
-        onAddField={() => fields.push({ type: 'relational', operator: '==' })}
-        onAddForm={() => fields.push({ type: 'logical', operator: '&&' })} />
+      <AppBar position="static">
+        <Toolbar>
+          <Typography type="subheading" color="inherit">
+            Conditions
+          </Typography>
+          <div className={classes.flexGrow} />
+          <Tooltip title="Add Condition" placement="top">
+            <IconButton dense color="contrast" onClick={() => fields.push({ type: 'relational', operator: '==' })}>
+              <AddIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Add Logical condition group" placement="top">
+            <IconButton dense color="contrast" onClick={() => fields.push({ type: 'logical', operator: '&&' })}>
+              <PlaylistAddIcon />
+            </IconButton>
+          </Tooltip>
+        </Toolbar>
+      </AppBar>
       <div className={classes.conditions}>
         {
           fields.map((condition, index) => {

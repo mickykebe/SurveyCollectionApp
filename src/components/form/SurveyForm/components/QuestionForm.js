@@ -6,6 +6,7 @@ import Divider from 'material-ui/Divider';
 import { FormControlLabel } from 'material-ui/Form';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
+import Tooltip from 'material-ui/Tooltip';
 import DeleteIcon from 'material-ui-icons/Delete';
 import FunctionIcon from 'material-ui-icons/Functions';
 import LangTextField from './LangTextField';
@@ -100,9 +101,11 @@ class QuestionForm extends Component {
         <Divider />
         <CardActions>
           { controllingQuestions.length &&
-            <IconButton onClick={this.handleExpandClick}>
-              <FunctionIcon />
-            </IconButton>
+            <Tooltip title="Conditions to control question visibility" placement="bottom">
+              <IconButton onClick={this.handleExpandClick}>
+                <FunctionIcon />
+              </IconButton>
+            </Tooltip>
           }
           <div className={classes.flexGrow} />
           <FormControlLabel
@@ -118,9 +121,11 @@ class QuestionForm extends Component {
             }
             label="Required" />
           <div className={classes.verticalDivider} />
-          <IconButton onClick={onRemove}>
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="Delete Question" placement="bottom">
+            <IconButton onClick={onRemove}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </CardActions>
         <FormSection name="condition">
           <ConditionCollapse

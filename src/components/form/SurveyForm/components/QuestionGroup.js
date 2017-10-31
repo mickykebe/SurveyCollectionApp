@@ -5,6 +5,7 @@ import Card, { CardContent, CardActions } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import LangTextField from './LangTextField';
 import IconButton from 'material-ui/IconButton';
+import Tooltip from 'material-ui/Tooltip';
 import FunctionIcon from 'material-ui-icons/Functions';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ConditionCollapse from './ConditionCollapse';
@@ -95,14 +96,18 @@ class QuestionGroup extends Component{
         </CardContent>
         <CardActions>
           { controllingQuestions.length && 
-            <IconButton onClick={this.handleExpandClick}>
-              <FunctionIcon />
-            </IconButton>
+            <Tooltip title="Conditions to control group visibility" placement="bottom">
+              <IconButton onClick={this.handleExpandClick}>
+                <FunctionIcon />
+              </IconButton>
+            </Tooltip>
           }
           <div className={classes.flexGrow}/>
-          <IconButton onClick={onRemove}>
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="Delete Group">
+            <IconButton onClick={onRemove}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </CardActions>
         <FormSection name="condition">
           <ConditionCollapse

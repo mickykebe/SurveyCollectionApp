@@ -11,7 +11,6 @@ export default ({ dispatch }) => next => action => {
     api.setToken(user.token);
     dispatch(setCurrentUser(user));
     window.localStorage.setItem('jwt', user.token);
-    return;
   }
   
   if(action.type === ACTION_LOGOUT) {

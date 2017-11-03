@@ -130,13 +130,6 @@ class QuestionGroupList extends Component {
 
     return (
       <div>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography type="subheading" color="inherit">
-              Questions
-            </Typography>
-          </Toolbar>
-        </AppBar>
         <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>
         <div>
           {

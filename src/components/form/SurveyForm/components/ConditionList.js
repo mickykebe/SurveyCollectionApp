@@ -26,19 +26,19 @@ const styles = {
 function ConditionList({ classes, fields, ...rest }) {
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" color="default" elevation="1">
         <Toolbar>
           <Typography type="subheading" color="inherit">
             Conditions
           </Typography>
           <div className={classes.flexGrow} />
           <Tooltip title="Add Condition" placement="top">
-            <IconButton dense color="contrast" onClick={() => fields.push({ type: 'relational', operator: '==' })}>
+            <IconButton dense onClick={() => fields.push({ type: 'relational', operator: '==' })}>
               <AddIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Add Logical condition group" placement="top">
-            <IconButton dense color="contrast" onClick={() => fields.push({ type: 'logical', operator: '&&' })}>
+            <IconButton dense onClick={() => fields.push({ type: 'logical', operator: '&&' })}>
               <PlaylistAddIcon />
             </IconButton>
           </Tooltip>

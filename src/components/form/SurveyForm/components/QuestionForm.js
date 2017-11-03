@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Field, FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
+import AppBar from 'material-ui/AppBar';
 import Card, { CardContent, CardActions} from 'material-ui/Card';
 import Divider from 'material-ui/Divider';
-import { FormControlLabel } from 'material-ui/Form';
-import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
+import { FormControlLabel } from 'material-ui/Form';
+import Toolbar from 'material-ui/Toolbar';
 import Tooltip from 'material-ui/Tooltip';
+import Typography from 'material-ui/Typography';
 import DeleteIcon from 'material-ui-icons/Delete';
 import FunctionIcon from 'material-ui-icons/Functions';
 import LangTextField from './LangTextField';
@@ -18,6 +20,10 @@ import { renderSwitch } from '../../helper/fieldRenderers';
 const styles = (theme) => ({
   root: {
     margin: '16px',
+  },
+  rootBox: {
+    border: `1px solid ${theme.palette.common.faintBlack}`,
+    marginBottom: theme.spacing.unit,
   },
   actionButton: {
     margin: theme.spacing.unit,
@@ -64,6 +70,7 @@ class QuestionForm extends Component {
   render() {
     const { 
       classes,
+      rootChild,
       question,
       index,
       formLanguages,
@@ -75,10 +82,32 @@ class QuestionForm extends Component {
 
     return (
       <div>
+        <AppBar position="static" color="default" elevation="2">
+          <Toolbar>
+            <Typography type="subheading" color="inherit">
+              {`${index+1}) Question: ${valFromLangObj(question.title)}`}
+            </Typography>
+            <div className={classes.flexGrow} />
+            { !!controllingQuestions.length &&
+              <Tooltip title="Conditions to control question visibility" placement="bottom">
+                <IconButton onClick={this.handleExpandClick}>
+                  <FunctionIcon />
+                </IconButton>
+              </Tooltip>
+            }
+            <Tooltip title="Delete Question" placement="bottom">
+              <IconButton onClick={onRemove}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Toolbar>
+        </AppBar>
+        <FormSection name="condition">
+          <ConditionCollapse
+            expanded={this.state.expanded}
+            controllingQuestions={controllingQuestions} />
+        </FormSection>
         <CardContent>
-          <Typography type="subheading" align="center">
-            {`${index+1}) Question: ${valFromLangObj(question.title)}`}
-          </Typography>
           <FormSection name="title">
             <LangTextField
               label="Title"
@@ -100,13 +129,6 @@ class QuestionForm extends Component {
         </CardContent>
         <Divider />
         <CardActions>
-          { controllingQuestions.length &&
-            <Tooltip title="Conditions to control question visibility" placement="bottom">
-              <IconButton onClick={this.handleExpandClick}>
-                <FunctionIcon />
-              </IconButton>
-            </Tooltip>
-          }
           <div className={classes.flexGrow} />
           <FormControlLabel
             control={
@@ -120,18 +142,7 @@ class QuestionForm extends Component {
                 />
             }
             label="Required" />
-          <div className={classes.verticalDivider} />
-          <Tooltip title="Delete Question" placement="bottom">
-            <IconButton onClick={onRemove}>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
         </CardActions>
-        <FormSection name="condition">
-          <ConditionCollapse
-            expanded={this.state.expanded}
-            controllingQuestions={controllingQuestions} />
-        </FormSection>
       </div>
     );
   }
@@ -145,7 +156,11 @@ function CardWrapper(props) {
       </Card>
     );
   }
-  return <QuestionForm {...props} />;
+  return (
+    <div className={props.classes.rootBox}>
+      <QuestionForm {...props} />
+    </div>
+  );
 }
 
 export default withStyles(styles)(CardWrapper);

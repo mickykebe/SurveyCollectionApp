@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { FieldArray, FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
+import AppBar from 'material-ui/AppBar';
 import Card, { CardContent, CardActions } from 'material-ui/Card';
+import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import LangTextField from './LangTextField';
 import IconButton from 'material-ui/IconButton';
@@ -15,6 +17,10 @@ import { valFromLangObj } from 'utils';
 const styles = (theme) => ({
   root: {
     margin: '16px',
+  },
+  rootBox: {
+    border: `1px solid ${theme.palette.common.faintBlack}`,
+    marginBottom: theme.spacing.unit,
   },
   actionButton: {
     margin: theme.spacing.unit,
@@ -44,7 +50,7 @@ class QuestionGroup extends Component{
   constructor(props) {
     super(props);
 
-    const conditionExpand = this.props.group.condition.conditions.length > 0;
+    const conditionExpand = props.group.condition.conditions.length > 0;
     this.state = { expanded: conditionExpand };
   }
 
@@ -69,10 +75,32 @@ class QuestionGroup extends Component{
 
     return (
       <div>
+        <AppBar position="static" color="default" elevation="2">
+          <Toolbar>
+            <Typography type="subheading" color="inherit">
+              {`${index+1}) Group: ${valFromLangObj(group.title)}`}
+            </Typography>
+            <div className={classes.flexGrow} />
+              { !!controllingQuestions.length && 
+                <Tooltip title="Conditions to control group visibility" placement="bottom">
+                  <IconButton onClick={this.handleExpandClick}>
+                    <FunctionIcon />
+                  </IconButton>
+                </Tooltip>
+              }
+            <Tooltip title="Delete Group">
+              <IconButton onClick={onRemove}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Toolbar>
+        </AppBar>
+        <FormSection name="condition">
+          <ConditionCollapse
+            expanded={this.state.expanded}
+            controllingQuestions={controllingQuestions} />
+        </FormSection>
         <CardContent className={classes.content}>
-          <Typography type="subheading" align="center">
-            {`${index+1}) Group: ${valFromLangObj(group.title)}`}
-          </Typography>
           <FormSection name="title">
             <LangTextField
               label="Title"
@@ -94,26 +122,6 @@ class QuestionGroup extends Component{
               />
           </div>
         </CardContent>
-        <CardActions>
-          { controllingQuestions.length && 
-            <Tooltip title="Conditions to control group visibility" placement="bottom">
-              <IconButton onClick={this.handleExpandClick}>
-                <FunctionIcon />
-              </IconButton>
-            </Tooltip>
-          }
-          <div className={classes.flexGrow}/>
-          <Tooltip title="Delete Group">
-            <IconButton onClick={onRemove}>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </CardActions>
-        <FormSection name="condition">
-          <ConditionCollapse
-            expanded={this.state.expanded}
-            controllingQuestions={controllingQuestions} />
-        </FormSection>
       </div>
     );
   }
@@ -130,15 +138,22 @@ function RootQuestionGroup({ id, root, formLanguages }) {
 }
 
 function CardWrapper(props) {
-  const QGComponent = props.root ? RootQuestionGroup : QuestionGroup;
   if(props.rootChild) {
     return (
       <Card className={props.classes.root}>
-        <QGComponent {...props} />
+        <QuestionGroup {...props} />
       </Card>
     );
   }
-  return <QGComponent {...props} />;
+  if(!props.root) {
+    return (
+      <div className={props.classes.rootBox}>
+        <QuestionGroup {...props} />
+      </div>
+    );
+  }
+  return <RootQuestionGroup {...props} />;
+  
 }
 
 export default withStyles(styles)(CardWrapper);

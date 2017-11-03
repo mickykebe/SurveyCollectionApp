@@ -41,21 +41,21 @@ class ChoiceListAnswer extends Component {
     const onAddForm = onAddFormProp || onAddFormProp === false ? onAddFormProp : () => fields.push({ uuid: uuidv4(), schema: 'choice_condition', operator: '==' });
     return (
       <div>
-        <AppBar position="static">
+        <AppBar position="static" color="default" elevation="1">
           <Toolbar>
             <Typography type="subheading" color="inherit">
               Choices
             </Typography>
             <div className={classes.flexGrow} />
             <Tooltip title="Add choice" placement="top">
-              <IconButton dense color="contrast" onClick={() => fields.push({uuid: uuidv4(), schema: 'choice', index: 1 })}>
+              <IconButton dense onClick={() => fields.push({uuid: uuidv4(), schema: 'choice', index: 1 })}>
                 <AddIcon />
               </IconButton>
             </Tooltip>
             {
-              controllingQuestions.length && onAddForm &&
+              !!controllingQuestions.length && onAddForm &&
               <Tooltip title="Add conditional choice" placement="top">
-                <IconButton dense color="contrast" onClick={controllingQuestions.length && onAddForm}>
+                <IconButton dense onClick={controllingQuestions.length && onAddForm}>
                   <PlaylistAddIcon />
                 </IconButton>
               </Tooltip>

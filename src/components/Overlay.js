@@ -11,20 +11,21 @@ const styles = theme => ({
     width: '100%',
     height: '100%',
     backgroundColor: theme.palette.common.lightWhite,
+    zIndex: 100,
   },
   progress: {
     position: 'absolute',
     top: 'calc(50% - 20px)',
     left: 'calc(50% - 20px)',
   }
-});
+})
 
-function Loading({ classes, className }) {
+function Overlay({ classes, spinnerClass, spinner=false }) {
   return (
     <div className={classes.root}>
-      <CircularProgress className={classNames(classes.progress, className)} color="accent" />
+      { spinner && <CircularProgress className={classNames(classes.progress, spinnerClass)} color="accent" /> }
     </div>
-  )
+  );
 }
 
-export default withStyles(styles)(Loading);
+export default withStyles(styles)(Overlay);

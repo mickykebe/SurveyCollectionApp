@@ -15,7 +15,7 @@ import Dialog, {
 } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 import PopupSnackbar from './PopupSnackbar';
-import Loading from './Loading';
+import Overlay from './Overlay';
 import TableToolbar from './table/TableToolbar';
 import TableHeadRow from './table/TableHeadRow';
 import TableFootRow from './table/TableFootRow';
@@ -134,7 +134,7 @@ class SurveyTable extends Component {
           </Table>
           {
             (isDeletingSurvey || isFetching) &&
-            <Loading />
+            <Overlay spinner={true} />
           }
         </Paper>
         <Dialog open={this.state.deleteDialogOpen} onRequestClose={this.deleteDialogClose}>

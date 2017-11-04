@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -14,16 +16,27 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import QuestionGroup from './QuestionGroup';
 import QuestionForm from './QuestionForm';
+import PasteArea from './PasteArea';
 import FormSectionActions from './FormSectionActions';
+import Overlay from 'components/Overlay';
 import { uuidv4 } from 'utils';
 import DragDroppable from '../containers/DragDroppable';
+import { 
+  copyFormGroupElement,
+  showPopup,
+  clearClipboard } from 'actions';
+import { getElementFromClipboard } from 'reducers';
 
 const styles = (theme) => ({
+  clipboardOccupied: {
+    cursor: 'not-allowed',
+  },
   errorMessage: {
     textAlign: 'center',
     paddingTop: theme.spacing.unit,
   },
   actions: {
+    position: 'relative',
     display: 'flex',
     justifyContent: 'flex-end',
     padding: `${theme.spacing.unit}px 0`,
@@ -32,6 +45,20 @@ const styles = (theme) => ({
     margin: theme.spacing.unit,
     width: theme.spacing.unit * 6,
     height: theme.spacing.unit * 6,
+  }
+});
+
+const mapStateToProps = (state) => ({
+  clipboardElement: getElementFromClipboard(state), 
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  copyElementToClipboard(element){
+    dispatch(copyFormGroupElement(element));
+    dispatch(showPopup(`${element.schema === 'question' ? 'Question' : 'Group'} copied to clipboard`));
+  },
+  clearElementClipboard() {
+    dispatch(clearClipboard());
   }
 });
 
@@ -76,6 +103,29 @@ class QuestionGroupList extends Component {
     })
   }
 
+  copyElement = (index) => {
+    const { uuid, ...rest } = this.props.fields.get(index);
+    this.props.copyElementToClipboard({ uuid: uuidv4(), ...rest });
+  }
+
+  cutElement = (element, index) => {
+    const { fields, copyElementToClipboard } = this.props;
+
+    copyElementToClipboard(element);
+    fields.remove(index);
+  }
+
+  pasteElement = (index) => {
+    const { fields, clipboardElement } = this.props;
+    if(fields.length === 0 || index >= fields.length) {
+      fields.push(clipboardElement);
+    }
+    else {
+      fields.insert(index, clipboardElement);
+    }
+    this.props.clearElementClipboard();
+  }
+
   onMove = (dragIndex, hoverIndex) => {
     const { fields: { name }, changeFieldValue } = this.props;
     const { fields } = this.props;
@@ -95,11 +145,12 @@ class QuestionGroupList extends Component {
   }
 
   renderElement = (uuid, index, schema, name, props) => {
-    const { fields, root, groupId, disableFields = false } = this.props;
+    const { fields, root, groupId, disableFields = false, clipboardElement } = this.props;
     const ElementComponent = schema === 'group' ? QuestionGroup : QuestionForm;
+    const field = fields.get(index);
     const elemProps = schema === 'group' ? 
-      { id: uuid, group: fields.get(index) } :
-      { question: fields.get(index) };
+      { id: uuid, group: field } :
+      { question: field };
     return (
       <FormSection key={uuid} name={name}>
         <DragDroppable
@@ -108,29 +159,45 @@ class QuestionGroupList extends Component {
           onMove={this.onMove}
           itemType={groupId}
           render={(isOver, enableDragSource, disableDragSource) => 
-            <ElementComponent
-              onRemove={() => fields.remove(index)}
-              rootChild={!!root}
-              root={false}
-              index={index}
-              controllingQuestions={this.getControllingQuestions(index)}
-              disableFields={isOver || disableFields}
-              onFieldMouseEnter={disableDragSource}
-              onFieldMouseLeave={enableDragSource}
-              {...elemProps}
-              {...props}
-              />
+            <div>
+              <ElementComponent
+                onRemove={() => fields.remove(index)}
+                rootChild={!!root}
+                root={false}
+                index={index}
+                controllingQuestions={this.getControllingQuestions(index)}
+                disableFields={!!clipboardElement || isOver || disableFields}
+                onFieldMouseEnter={disableDragSource}
+                onFieldMouseLeave={enableDragSource}
+                onCopy={() => this.copyElement(index)}
+                onCut={() => this.cutElement(field, index)}
+                {...elemProps}
+                {...props}
+                />
+              { 
+                !!clipboardElement && 
+                <PasteArea 
+                  title={`Paste ${clipboardElement.schema === 'question' ? 'Question' : 'Group'}`}
+                  onClick={() => this.pasteElement(index+1)} /> 
+              }
+            </div>
           } />
       </FormSection>
     )
   }
 
   render() {
-    const { classes, fields, root, meta: { dirty, error }, ...rest } = this.props;
+    const { classes, fields, root, meta: { dirty, error }, clipboardElement, ...rest } = this.props;
 
     return (
-      <div>
+      <div className={classnames({[classes.clipboardOccupied]: !!clipboardElement })}>
         <FormHelperText error className={classes.errorMessage}>{dirty && error}</FormHelperText>
+        { 
+          !!clipboardElement && 
+          <PasteArea 
+            title={`Paste ${clipboardElement.schema === 'question' ? 'Question' : 'Group'}`}
+            onClick={() => this.pasteElement(0)} /> 
+        }
         <div>
           {
             fields.map((groupElement, index) => {
@@ -149,6 +216,7 @@ class QuestionGroupList extends Component {
                 <PlaylistAddIcon />
               </Button>
             </Tooltip>
+            { !!clipboardElement && <Overlay />}
           </div>
         </div>
       </div>
@@ -158,5 +226,6 @@ class QuestionGroupList extends Component {
 
 export default compose(
   DragDropContext(HTML5Backend),
-  withStyles(styles)
+  connect(mapStateToProps, mapDispatchToProps),
+  withStyles(styles),
 )(QuestionGroupList);

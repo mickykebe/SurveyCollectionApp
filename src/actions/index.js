@@ -122,3 +122,12 @@ export const setCurrentUser = (user) => ({
 export const logout = () => ({
   type: actionTypes.ACTION_LOGOUT,
 });
+
+export const copyFormGroupElement = (element) => ({
+  type: actionTypes.ACTION_SURVEY_FORM_COPY_ELEMENT,
+  element,
+});
+
+export const clearClipboard = () => ({
+  type: actionTypes.ACTION_SURVEY_FORM_CLEAR_CLIPBOARD
+});

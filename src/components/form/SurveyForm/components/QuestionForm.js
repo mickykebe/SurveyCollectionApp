@@ -16,6 +16,7 @@ import FunctionIcon from 'material-ui-icons/Functions';
 import LangTextField from './LangTextField';
 import QuestionTypeContainer from '../containers/QuestionTypeContainer';
 import ConditionCollapse from './ConditionCollapse';
+import Overlay from 'components/Overlay';
 import { valFromLangObj } from 'utils';
 import { renderSwitch } from '../../helper/fieldRenderers';
 
@@ -26,6 +27,9 @@ const styles = (theme) => ({
   rootBox: {
     border: `1px solid ${theme.palette.common.faintBlack}`,
     marginBottom: theme.spacing.unit,
+  },
+  content: {
+    position: 'relative',
   },
   actionButton: {
     margin: theme.spacing.unit,
@@ -79,12 +83,15 @@ class QuestionForm extends Component {
       controllingQuestions,
       onFieldMouseEnter,
       onFieldMouseLeave,
-      disableFields = false } = this.props;
-    const { onRemove } = this.props;
+      disableFields = false,
+      onRemove,
+      onCopy,
+      onCut,
+     } = this.props;
 
     return (
-      <div>
-        <AppBar position="static" color="default" elevation="2">
+      <div className={classes.content}>
+        <AppBar position="static" color="default" elevation={2}>
           <Toolbar>
             <Typography type="subheading" color="inherit">
               {`${index+1}) Question: ${valFromLangObj(question.title)}`}
@@ -98,12 +105,12 @@ class QuestionForm extends Component {
               </Tooltip>
             }
             <Tooltip title="Copy question" placement="bottom">
-              <IconButton>
+              <IconButton onClick={onCopy}>
                 <CopyIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="Cut question" placement="bottom">
-              <IconButton>
+              <IconButton onClick={onCut}>
                 <CutIcon />
               </IconButton>
             </Tooltip>
@@ -155,6 +162,7 @@ class QuestionForm extends Component {
             }
             label="Required" />
         </CardActions>
+        {disableFields && <Overlay />}
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer} from 'redux-form';
+import surveyForm, * as fromSurveyForm from './surveyForm';
 import auth, * as fromAuth from './auth';
 import common, * as fromCommon from './common';
 import surveys, * as fromSurveys from './surveys';
@@ -26,7 +26,7 @@ export default combineReducers({
   questionTypes,
   operators,
   ui,
-  form: formReducer,
+  form: surveyForm,
 });
 
 //Common selectors
@@ -40,6 +40,10 @@ export const getIsAuthenticating = (state) =>
   fromAuth.getIsAuthenticating(state.auth);
 export const getAuthErrors = (state) =>
   fromAuth.getAuthErrors(state.auth);
+
+//Form selectors
+export const getElementFromClipboard = (state) =>
+  fromSurveyForm.getElementFromClipboard(state.form);
 
 //Survey selectors
 export const getSurvey = (state, id) =>

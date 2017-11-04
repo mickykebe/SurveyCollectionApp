@@ -9,6 +9,8 @@ import { FormControlLabel } from 'material-ui/Form';
 import Toolbar from 'material-ui/Toolbar';
 import Tooltip from 'material-ui/Tooltip';
 import Typography from 'material-ui/Typography';
+import CopyIcon from 'material-ui-icons/ContentCopy';
+import CutIcon from 'material-ui-icons/ContentCut';
 import DeleteIcon from 'material-ui-icons/Delete';
 import FunctionIcon from 'material-ui-icons/Functions';
 import LangTextField from './LangTextField';
@@ -95,6 +97,16 @@ class QuestionForm extends Component {
                 </IconButton>
               </Tooltip>
             }
+            <Tooltip title="Copy question" placement="bottom">
+              <IconButton>
+                <CopyIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Cut question" placement="bottom">
+              <IconButton>
+                <CutIcon />
+              </IconButton>
+            </Tooltip>
             <Tooltip title="Delete Question" placement="bottom">
               <IconButton onClick={onRemove}>
                 <DeleteIcon />

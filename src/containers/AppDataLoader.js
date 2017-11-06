@@ -48,7 +48,6 @@ class AppDataLoader extends Component {
     }
 
     return null;
-    
   }
 }
 

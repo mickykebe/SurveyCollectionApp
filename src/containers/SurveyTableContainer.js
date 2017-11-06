@@ -20,7 +20,7 @@ const mergeProps = (stateProps, { dispatch }, ownProps) => ({
   ...ownProps,
   ...stateProps,
   fetchSurveyFeed() {
-    return dispatch(surveyFeedFetch(api.Surveys.mine(stateProps.next), getIsFetchingSurveyFeed))
+    return dispatch(surveyFeedFetch(api.Surveys.mine(stateProps.next)));
   },
   deleteSurvey(surveyId) {
     return dispatch(surveyDelete(api.Surveys.delete(surveyId), { id: surveyId }));

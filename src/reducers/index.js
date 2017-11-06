@@ -32,8 +32,12 @@ export default combineReducers({
 //Common selectors
 export const getCurrentUser = (state) =>
   fromCommon.getCurrentUser(state.common);
+export const getIsAppDataLoading = (state) =>
+  fromCommon.getIsAppDataLoading(state.common);
 export const getAppDataLoaded = (state) =>
   fromCommon.getAppDataLoaded(state.common);
+export const getAppDataLoadError = (state) =>
+  fromCommon.getAppDataLoadError(state.common);
 
 //Auth selectors
 export const getIsAuthenticating = (state) =>

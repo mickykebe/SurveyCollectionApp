@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FieldArray, FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
-import Card, { CardContent, CardActions } from 'material-ui/Card';
+import Card from 'material-ui/Card';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import LangTextField from './LangTextField';

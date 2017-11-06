@@ -76,7 +76,6 @@ class QuestionForm extends Component {
   render() {
     const { 
       classes,
-      rootChild,
       question,
       index,
       formLanguages,

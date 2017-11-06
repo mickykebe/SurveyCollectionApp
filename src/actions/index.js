@@ -30,10 +30,11 @@ export const apiActionCreator =
         )
       }
 
-export const appDataLoad = (response) => ({
-  type: actionTypes.ACTION_APP_DATA_LOAD_SUCCESS,
-  response
-});
+export const appDataLoad = apiActionCreator({
+  request: actionTypes.ACTION_APP_DATA_LOAD_REQUEST,
+  success: actionTypes.ACTION_APP_DATA_LOAD_SUCCESS,
+  fail: actionTypes.ACTION_APP_DATA_LOAD_FAIL,
+}, true);
 
 export const login = apiActionCreator({
   request: actionTypes.ACTION_LOGIN_REQUEST,

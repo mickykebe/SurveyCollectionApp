@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
-import { getCurrentUser, getPopupMessage } from '../reducers';
-import { clearPopup, setCurrentUser } from '../actions';
+import { 
+  getCurrentUser,
+  getPopupMessage, } from '../reducers';
+import { companiesFetchSuccess, clearPopup, setCurrentUser } from '../actions';
 import api from '../api';
 import App from '../components/App';
 import ScreenError from '../components/ScreenError';
@@ -20,6 +22,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch(clearPopup()),
   setCurrentUser(user) {
     dispatch(setCurrentUser(user));
+  },
+  companiesFetched(response) {
+    dispatch(companiesFetchSuccess(response))
   }
 });
 
@@ -47,8 +52,11 @@ class AppContainer extends Component {
     this.setState({
       appLoading: true,
     });
-    this.loadCurrentUser()
-      .then(() => this.setState({ appLoading: false, appLoadFail: false }))
+    Promise.all([this.loadCurrentUser(), api.Companies.all()])
+      .then(([user, companyResponse]) => {
+        this.props.companiesFetched(companyResponse);
+        this.setState({ appLoading: false, appLoadFail: false });
+      })
       .catch((e) => {
         if(e.response && e.response.body && e.response.body.detail === 'Signature has expired.') {
           window.localStorage.setItem('jwt', '');

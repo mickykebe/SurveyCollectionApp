@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AppFrame from './AppFrame';
 import Login from './Login';
-import Register from './Register';
+import RegisterContainer from '../containers/RegisterContainer';
 import Home from './Home';
 import PrivateRoute from './PrivateRoute';
 import PublicOnlyRoute from './PublicOnlyRoute';
@@ -58,7 +58,7 @@ class App extends Component {
       <div>
         <PublicOnlyRoute 
           path="/register" 
-          render={(props) => <AppFrame currentUser={currentUser} disableDrawer={true}><Register /></AppFrame> }
+          render={(props) => <AppFrame currentUser={currentUser} disableDrawer={true}><RegisterContainer /></AppFrame> }
           />
         <PublicOnlyRoute 
           path="/login" 

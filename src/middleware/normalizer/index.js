@@ -9,6 +9,7 @@ import {
   ACTION_LANGUAGE_FEED_FETCH_SUCCESS,
   ACTION_LANGUAGE_CREATE_SUCCESS,
   ACTION_LANGUAGE_UPDATE_SUCCESS,
+  ACTION_COMPANIES_FETCH_SUCCESS,
 } from '../../actions/types';
 
 export default store => next => action => {
@@ -40,6 +41,11 @@ export default store => next => action => {
       return next({
         ...action,
         response: normalize(action.response, schema.languageSchema),
+      });
+    case ACTION_COMPANIES_FETCH_SUCCESS:
+      return next({
+        ...action,
+        response: normalize(action.response.results, schema.companyListSchema),
       });
     default:
       return next(action);

@@ -48,6 +48,17 @@ export const register = apiActionCreator({
   fail: actionTypes.ACTION_REGISTER_FAIL,
 });
 
+export const companiesFetchSuccess = (response) => ({
+  type: actionTypes.ACTION_COMPANIES_FETCH_SUCCESS,
+  response,
+});
+
+export const companiesFetch = apiActionCreator({
+  request: actionTypes.ACTION_COMPANIES_FETCH_REQUEST,
+  success: actionTypes.ACTION_COMPANIES_FETCH_SUCCESS,
+  fail: actionTypes.ACTION_COMPANIES_FETCH_FAIL,
+});
+
 export const surveyCreate = apiActionCreator({
   request: actionTypes.ACTION_SURVEY_CREATE_REQUEST,
   success: actionTypes.ACTION_SURVEY_CREATE_SUCCESS,

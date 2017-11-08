@@ -1,26 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
-import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
+import Paper from 'material-ui/Paper';
+import { LinearProgress } from 'material-ui/Progress';
+import TextField from 'material-ui/TextField';
 import PopupSnackbar from './PopupSnackbar';
-import AuthViewContainer from '../containers/AuthViewContainer';
 import { login } from '../actions';
 import api from '../api';
-import { getIsAuthenticating, getAuthErrors } from '../reducers';
+import { getIsAuthenticating, getLoginErrors } from '../reducers';
+import logo from '../images/logo.png';
 
-const styles = {
-  button: {
-    marginLeft: 'auto',
-    marginRight: 0,
-    display: 'block',
-    marginTop: '10px',
+const styles = theme => ({
+  root: {
+    maxWidth: '400px',
+    margin: '0 auto',
   },
-};
+  content: {
+    padding: theme.spacing.unit * 4,
+  },
+  button: {
+    width: '100%',
+    marginTop: theme.spacing.unit,
+  },
+  logo: {
+    display: 'block',
+    width: '75%',
+    margin: `${theme.spacing.unit * 2}px auto`,
+  }
+});
 
 const mapStateToProps = (state) => ({
   isAuthenticating: getIsAuthenticating(state),
-  errors: getAuthErrors(state),
+  errors: getLoginErrors(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -53,7 +65,7 @@ class Login extends Component {
   }
 
   render() {
-    const { classes, errors } = this.props;
+    const { isAuthenticating, classes, errors } = this.props;
 
     const {
       username:usernameError = false,
@@ -63,37 +75,48 @@ class Login extends Component {
     } = errors || {};
 
     return (
-      <AuthViewContainer>
-        <form onSubmit={this.onSubmitForm}>
-          <TextField
-            required={true}
-            placeholder='Username'
-            label='Username'
-            fullWidth={true}
-            inputProps={{required: 'true'}}
-            margin='normal'
-            onChange={(e) => this.onFieldChange('username', e)}
-            value={this.state.username}
-            error={!!usernameError || !!nonFieldErrors}
-            helperText={usernameError || nonFieldErrors} />
-          <TextField
-            required={true}
-            placeholder='Password'
-            label='Password'
-            fullWidth={true}
-            type='password'
-            inputProps={{required: 'true'}}
-            margin='normal'
-            onChange={(e) => this.onFieldChange('password', e)}
-            value={this.state.password}
-            error={!!passwordError}
-            helperText={passwordError} />
-          <Button raised className={classes.button} color="accent" type="submit">Login</Button>
-        </form>
+      <Paper className={classes.root}>
+        { isAuthenticating && 
+          <LinearProgress color="accent" />
+        }
+        <div className={classes.content}>
+          <img src={logo} className={classes.logo} alt="logo"/>
+          <form onSubmit={this.onSubmitForm}>
+            <TextField
+              required={true}
+              placeholder='Username'
+              label='Username'
+              fullWidth={true}
+              inputProps={{required: 'true'}}
+              margin='normal'
+              onChange={(e) => this.onFieldChange('username', e)}
+              value={this.state.username}
+              error={!!usernameError || !!nonFieldErrors}
+              helperText={usernameError || nonFieldErrors} />
+            <TextField
+              required={true}
+              placeholder='Password'
+              label='Password'
+              fullWidth={true}
+              type='password'
+              inputProps={{required: 'true'}}
+              margin='normal'
+              onChange={(e) => this.onFieldChange('password', e)}
+              value={this.state.password}
+              error={!!passwordError}
+              helperText={passwordError} />
+            <Button
+              disabled={isAuthenticating}
+              raised
+              className={classes.button}
+              color="accent"
+              type="submit">Login</Button>
+          </form>
+        </div>
         <PopupSnackbar
           show={!!networkError}
           message={networkError} />
-      </AuthViewContainer>
+      </Paper>
     );
   }
 }

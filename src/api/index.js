@@ -30,8 +30,9 @@ const Auth = {
     requests.get('/profiles/me/').then((data) => mapper.current(data)),
   login: (username, password) =>
     requests.post('/api-token-auth/', { username, password }).then((data) => mapper.login(data)),
-  register: (username, first_name, last_name, email, password, confirm_password) =>
+  memberRegister: (username, first_name, last_name, email, password, confirm_password, company) =>
     superagent.post(`${BASE_URL}/profiles/`, {
+      company,
       user: {
         username,
         first_name,
@@ -71,8 +72,7 @@ const SurveyResponses = {
       .then(data => mapper.surveyResponses(data));
   },
   allFormat(id, format = 'csv') {
-    return superagent.get(`${BASE_URL}/surveys/${id}/filled-surveys/?format=${format}`).use(tokenPlugin).responseType('blob').then(responseBody)
-    //return requests.get(`/surveys/${id}/filled-surveys/?format=${format}`);
+    return superagent.get(`${BASE_URL}/surveys/${id}/filled-surveys/?format=${format}`).use(tokenPlugin).responseType('blob').then(responseBody);
   }
 }
 
@@ -91,10 +91,17 @@ const Languages = {
   }
 }
 
+const Companies = {
+  all() {
+    return requests.get('/companies/?limit=0');
+  }
+}
+
 export default {
   Auth,
   Surveys,
   SurveyResponses,
   Languages,
+  Companies,
   setToken: _token => { token = _token; }
 };

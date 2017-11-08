@@ -18,3 +18,5 @@ export const responseListSchema = [responseSchema];
 
 export const languageSchema = new schema.Entity('languages', {}, { idAttribute: 'code' });
 export const languageListSchema = [languageSchema];
+export const companySchema = new schema.Entity('companies', {}, { idAttribute: 'uuid' });
+export const companyListSchema = [companySchema];

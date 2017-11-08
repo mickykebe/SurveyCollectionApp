@@ -1,170 +1,74 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
+import AppBar from 'material-ui/AppBar';
+import { LinearProgress } from 'material-ui/Progress';
+import Paper from 'material-ui/Paper';
+import Tabs, { Tab } from 'material-ui/Tabs';
+import PersonAddIcon from 'material-ui-icons/PersonAdd';
+import CompanyIcon from 'material-ui-icons/AccountBalance';
 import { withStyles } from 'material-ui/styles';
-import PopupSnackbar from './PopupSnackbar';
-import AuthViewContainer from '../containers/AuthViewContainer';
-import { register } from '../actions';
-import api from '../api';
-import { getIsAuthenticating, getAuthErrors } from '../reducers';
+import CompanyRegisterContainer from '../containers/CompanyRegisterContainer';
+import MemberRegisterContainer from '../containers/MemberRegisterContainer';
+import logo from '../images/logo.png';
 
-const styles = {
-  button: {
-    marginLeft: 'auto',
-    marginRight: 0,
+const styles = theme => ({
+  root: {
+    maxWidth: '400px',
+    margin: '0 auto',
+  },
+  content: {
+    padding: theme.spacing.unit * 4,
+  },
+  logo: {
     display: 'block',
-    marginTop: '10px',
-  },
-};
-
-const mapStateToProps = (state) => ({
-  isAuthenticating: getIsAuthenticating(state),
-  errors: getAuthErrors(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (username, first_name, last_name, email, password, confirm_password) => {
-    dispatch(register(
-      api.Auth.register(username, first_name, last_name, email, password, confirm_password),
-    ));
-  },
+    width: '75%',
+    margin: `0 auto ${theme.spacing.unit * 2}px`,
+  }
 });
 
 class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      first_name: '',
-      last_name: '',
-      email: '',
-      password: '',
-      confirm_password: '',
-    };
-    this.onSubmitForm = this.onSubmitForm.bind(this);
-    this.onFieldChange = this.onFieldChange.bind(this);
-  }
-
-  onSubmitForm(e) {
-    e.preventDefault();
-    if(this.props.isAuthenticating)
-      return;
-    const { 
-      username,
-      first_name,
-      last_name,
-      email,
-      password,
-      confirm_password
-    } = this.state;
-    this.props.onSubmit(username, first_name, last_name, email, password, confirm_password);
-  }
-
-  onFieldChange(fieldKey, e) {
-    this.setState({
-      [fieldKey]: e.target.value,
-    });
+  state = {
+    tabIndex: 0,
   }
 
   render() {
-    const { classes, errors } = this.props;
-    const { 
-      user: { 
-        username:usernameError = false,
-        first_name:firstnameError = false,
-        last_name:lastnameError = false,
-        email:emailError = false,
-        password:passwordError = false,
-        confirm_password:confirmPassError = false
-      } = {
-        usernameError: false,
-        firstnameError: false,
-        lastnameError: false,
-        emailError: false,
-        passwordError: false,
-        confirmPassError: false
-      },
-      network_error:networkError = false,
-    } = errors || {};
-
+    const { isAuthenticating, classes } = this.props;
+    const { tabIndex } = this.state;
 
     return (
-      <AuthViewContainer>
-        <form onSubmit={this.onSubmitForm}>
-          <TextField
-            required={true}
-            placeholder='Username'
-            label='Username'
-            fullWidth={true}
-            inputProps={{required: 'true'}}
-            margin='normal'
-            onChange={(e) => this.onFieldChange('username', e)}
-            value={this.state.username}
-            error={!!usernameError}
-            helperText={usernameError} />
-          <TextField
-            placeholder='First Name'
-            label='First Name'
-            fullWidth={true}
-            margin='normal'
-            onChange={(e) => this.onFieldChange('first_name', e)}
-            value={this.state.first_name}
-            error={!!firstnameError}
-            helperText={firstnameError} />
-          <TextField
-            placeholder='Last Name'
-            label='Last Name'
-            fullWidth={true}
-            margin='normal'
-            onChange={(e) => this.onFieldChange('last_name', e)}
-            value={this.state.last_name}
-            error={!!lastnameError}
-            helperText={lastnameError} />
-          <TextField
-            required={true}
-            placeholder='Email'
-            label='Email'
-            fullWidth={true}
-            type='email'
-            inputProps={{required: 'true'}}
-            margin='normal'
-            onChange={(e) => this.onFieldChange('email', e)}
-            value={this.state.email}
-            error={!!emailError}
-            helperText={emailError} />
-          <TextField
-            required={true}
-            placeholder='Password'
-            label='Password'
-            fullWidth={true}
-            type='password'
-            inputProps={{required: 'true'}}
-            margin='normal'
-            onChange={(e) => this.onFieldChange('password', e)}
-            value={this.state.password}
-            error={!!passwordError}
-            helperText={passwordError} />
-          <TextField
-            required={true}
-            placeholder='Confirm Password'
-            label='Confirm Password'
-            fullWidth={true}
-            type='password'
-            inputProps={{required: 'true'}}
-            margin='normal'
-            onChange={(e) => this.onFieldChange('confirm_password', e)}
-            value={this.state.confirm_password}
-            error={!!confirmPassError}
-            helperText={confirmPassError} />
-          <Button raised className={classes.button} type="submit" color="accent">Register</Button>
-        </form>
-        <PopupSnackbar
-          show={!!networkError}
-          message={networkError} />
-      </AuthViewContainer>
+      <Paper className={classes.root}>
+        { isAuthenticating && 
+          <LinearProgress color="accent" />
+        }
+        <AppBar
+          position="static"
+          color="default"
+          elevation={1}>
+          <Tabs
+            value={this.state.tabIndex}
+            onChange={(e, val) => this.setState({ tabIndex: val })}
+            fullWidth
+            indicatorColor="accent"
+            textColor="accent">
+            <Tab icon={<PersonAddIcon />} label="Member Register" />
+            <Tab icon={<CompanyIcon />} label="Company Register" />
+          </Tabs>
+        </AppBar>
+        <div className={classes.content}>
+          <img src={logo} className={classes.logo} alt="logo"/>
+          {
+            tabIndex === 0 &&
+            <MemberRegisterContainer
+              isAuthenticating={isAuthenticating} />
+          }
+          {
+            tabIndex === 1 &&
+            <CompanyRegisterContainer
+              isAuthenticating={isAuthenticating} />
+          }
+        </div>
+      </Paper>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Register));
+export default withStyles(styles)(Register);

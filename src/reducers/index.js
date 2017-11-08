@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import surveyForm, * as fromSurveyForm from './surveyForm';
 import auth, * as fromAuth from './auth';
 import common, * as fromCommon from './common';
+import companies, * as fromCompanies from './companies';
 import surveys, * as fromSurveys from './surveys';
 import responses, * as fromResponses from './responses';
 import questions, * as fromQuestions from './questions';
@@ -16,6 +17,7 @@ import ui, * as fromUi from './ui';
 export default combineReducers({
   common,
   auth,
+  companies,
   surveys,
   responses,
   questions,
@@ -42,8 +44,22 @@ export const getAppDataLoadError = (state) =>
 //Auth selectors
 export const getIsAuthenticating = (state) =>
   fromAuth.getIsAuthenticating(state.auth);
-export const getAuthErrors = (state) =>
-  fromAuth.getAuthErrors(state.auth);
+export const getLoginErrors = (state) =>
+  fromAuth.getLoginErrors(state.auth);
+export const getRegisterErrors = (state) =>
+  fromAuth.getRegisterErrors(state.auth);
+export const getRegisterAdminErrors = (state) =>
+  fromAuth.getRegisterAdminErrors(state.auth);
+
+//Company selectors
+export const getIsFetchingCompanies = (state) =>
+  fromCompanies.getIsFetchingCompanies(state.companies);
+export const getCompaniesFetchError = (state) =>
+  fromCompanies.getCompaniesFetchError(state.companies);
+export const getAllCompanies = (state) =>
+  fromCompanies.getAllCompanies(state.companies);
+export const getCompany = (state, id) =>
+  fromCompanies.getCompany(state, id);
 
 //Form selectors
 export const getElementFromClipboard = (state) =>

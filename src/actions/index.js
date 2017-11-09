@@ -48,6 +48,12 @@ export const register = apiActionCreator({
   fail: actionTypes.ACTION_REGISTER_FAIL,
 });
 
+export const adminRegister = apiActionCreator({
+  request: actionTypes.ACTION_ADMIN_REGISTER_REQUEST,
+  success: actionTypes.ACTION_ADMIN_REGISTER_SUCCESS,
+  fail: actionTypes.ACTION_ADMIN_REGISTER_FAIL,
+});
+
 export const companiesFetchSuccess = (response) => ({
   type: actionTypes.ACTION_COMPANIES_FETCH_SUCCESS,
   response,

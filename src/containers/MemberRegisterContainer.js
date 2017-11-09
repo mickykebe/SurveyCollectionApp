@@ -5,15 +5,13 @@ import { register } from '../actions';
 import api from '../api';
 
 const mapStateToProps = (state) => ({
-  errors: getRegisterErrors,
+  errors: getRegisterErrors(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (username, first_name, last_name, email, password, confirm_password, company) => {
-    dispatch(register(
-      api.Auth.memberRegister(username, first_name, last_name, email, password, confirm_password, company),
-    ));
+  onSubmit: (user) => {
+    dispatch(register(api.Auth.memberRegister(user)));
   },
 });
 
-export default connect(mapStateToProps)(MemberRegister);
+export default connect(mapStateToProps, mapDispatchToProps)(MemberRegister);

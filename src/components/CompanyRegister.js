@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Button from 'material-ui/Button';
-import Divider from 'material-ui/Divider';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
 import CompanyIcon from 'material-ui-icons/AccountBalance';
 import PersonIcon from 'material-ui-icons/Person';
 import FormSection from './FormSection';
+import PopupSnackbar from './PopupSnackbar';
 import _get from 'lodash/get';
 
 const styles = theme => ({
@@ -26,6 +26,10 @@ const styles = theme => ({
   },
   headerTitle: {
     paddingBottom: 4,
+  },
+  error: {
+    color: 'red',
+    paddingTop: theme.spacing.unit * 2,
   }
 });
 
@@ -39,6 +43,28 @@ class CompanyRegister extends Component {
     confirm_password: '',
     company_name: '',
   }
+
+  onSubmitForm = (e) => {
+    e.preventDefault();
+    if(this.props.isAuthenticating)
+      return;
+    const company = {
+      name: this.state.company_name,
+      admin: {
+        user: {
+          username: this.state.username,
+          first_name: this.state.first_name,
+          last_name: this.state.last_name,
+          email: this.state.email,
+          password: this.state.password,
+          confirm_password: this.state.confirm_password,
+        }
+      }
+    };
+
+    this.props.onSubmit(company);
+  }
+  
 
   onFieldChange = (fieldKey, e) => {
     this.setState({
@@ -55,11 +81,19 @@ class CompanyRegister extends Component {
     const passwordError = _get(errors, 'admin.user.password', false);
     const confirmPassError = _get(errors, 'admin.user.confirm_password', false);
     const companyNameError = (errors && errors.name) || false;
+    const networkError = (errors && errors.network_error) || false;
+    const nonFieldErrors = (errors && errors.non_field_errors) || false;
 
     return (
-      <form>
+      <form onSubmit={this.onSubmitForm}>
+        {
+          !!nonFieldErrors &&
+          <Typography type="body1" align="center" className={classes.error}>
+            {nonFieldErrors}
+          </Typography>
+        }
         <FormSection
-          Icon={CompanyIcon}
+          iconComponent={CompanyIcon}
           title="Company">
           <TextField
             required={true}
@@ -74,7 +108,7 @@ class CompanyRegister extends Component {
             helperText={companyNameError} />
         </FormSection>
         <FormSection
-          Icon={PersonIcon}
+          iconComponent={PersonIcon}
           title="User">
           <TextField
             required={true}
@@ -143,6 +177,9 @@ class CompanyRegister extends Component {
             helperText={confirmPassError} />
           <Button disabled={isAuthenticating} raised className={classes.button} type="submit" color="accent">Register</Button>
         </FormSection>
+        <PopupSnackbar
+          show={!!networkError}
+          message={networkError} />
       </form>
     );
   }

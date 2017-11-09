@@ -30,21 +30,10 @@ const Auth = {
     requests.get('/profiles/me/').then((data) => mapper.current(data)),
   login: (username, password) =>
     requests.post('/api-token-auth/', { username, password }).then((data) => mapper.login(data)),
-  memberRegister: (username, first_name, last_name, email, password, confirm_password, company) =>
-    superagent.post(`${BASE_URL}/profiles/`, {
-      company,
-      user: {
-        username,
-        first_name,
-        last_name,
-        email,
-        password,
-        confirm_password,
-      },
-      is_company: true,
-    }).use(tokenPlugin).then(res => {
-      return mapper.register(res.body);
-    }),
+  memberRegister: (user) =>
+    requests.post('/profiles/', user).then((data) => mapper.register(data)),
+  adminRegister: (company) =>
+    requests.post('/profiles/', company).then((data) => mapper.register(data)),
 }
 
 const Surveys = {
@@ -94,7 +83,10 @@ const Languages = {
 const Companies = {
   all() {
     return requests.get('/companies/?limit=0');
-  }
+  },
+  /* create(company) {
+    return requests.post('/companies/', company).then((data) => mapper.register(data));
+  } */
 }
 
 export default {

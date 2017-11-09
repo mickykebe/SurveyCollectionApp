@@ -5,6 +5,7 @@ import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
 import { LinearProgress } from 'material-ui/Progress';
 import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
 import PopupSnackbar from './PopupSnackbar';
 import { login } from '../actions';
 import api from '../api';
@@ -27,6 +28,10 @@ const styles = theme => ({
     display: 'block',
     width: '75%',
     margin: `${theme.spacing.unit * 2}px auto`,
+  },
+  error: {
+    color: 'red',
+    paddingTop: theme.spacing.unit * 2,
   }
 });
 
@@ -82,6 +87,12 @@ class Login extends Component {
         <div className={classes.content}>
           <img src={logo} className={classes.logo} alt="logo"/>
           <form onSubmit={this.onSubmitForm}>
+            {
+              !!nonFieldErrors &&
+              <Typography type="body1" align="center" className={classes.error}>
+                {nonFieldErrors}
+              </Typography>
+            }
             <TextField
               required={true}
               placeholder='Username'
@@ -91,8 +102,8 @@ class Login extends Component {
               margin='normal'
               onChange={(e) => this.onFieldChange('username', e)}
               value={this.state.username}
-              error={!!usernameError || !!nonFieldErrors}
-              helperText={usernameError || nonFieldErrors} />
+              error={!!usernameError}
+              helperText={usernameError} />
             <TextField
               required={true}
               placeholder='Password'

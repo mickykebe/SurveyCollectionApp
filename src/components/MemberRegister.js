@@ -5,6 +5,7 @@ import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import Select from 'material-ui/Select';
 import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import CompanyIcon from 'material-ui-icons/AccountBalance';
 import PersonIcon from 'material-ui-icons/Person';
@@ -17,8 +18,12 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
   },
   selectControl: {
-    margin: `${theme.spacing.unit}px 0`,
+    marginTop: theme.spacing.unit,
     width: '100%',
+  },
+  error: {
+    color: 'red',
+    paddingTop: theme.spacing.unit * 2,
   }
 });
 
@@ -37,16 +42,18 @@ class MemberRegister extends Component {
     e.preventDefault();
     if(this.props.isAuthenticating)
       return;
-      const { 
-        username,
-        first_name,
-        last_name,
-        email,
-        password,
-        confirm_password,
-        company
-      } = this.state;
-      this.props.onSubmit(username, first_name, last_name, email, password, confirm_password, company);
+    const user = {
+      company: this.state.company,
+      user: {
+        username: this.state.username,
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
+        email: this.state.email,
+        password: this.state.password,
+        confirm_password: this.state.confirm_password,
+      },
+    };
+    this.props.onSubmit(user);
   }
 
   onFieldChange = (fieldKey, e) => {
@@ -75,13 +82,20 @@ class MemberRegister extends Component {
         companyError: false,
       },
       company: companyError = false,
+      non_field_errors: nonFieldErrors = false,
       network_error:networkError = false,
     } = errors || {};
 
     return (
       <form onSubmit={this.onSubmitForm}>
+        {
+          !!nonFieldErrors &&
+          <Typography type="body1" align="center" className={classes.error}>
+            {nonFieldErrors}
+          </Typography>
+        }
         <FormSection
-          Icon={CompanyIcon}
+          iconComponent={CompanyIcon}
           title="Company">
           <FormControl error={!!companyError} className={classes.selectControl}>
             <InputLabel htmlFor="company-select">Company</InputLabel>
@@ -100,7 +114,7 @@ class MemberRegister extends Component {
           </FormControl>
         </FormSection>
         <FormSection
-          Icon={PersonIcon}
+          iconComponent={PersonIcon}
           title="User">
           <TextField
             required={true}

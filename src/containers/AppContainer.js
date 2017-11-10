@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _get from 'lodash/get';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
@@ -58,7 +59,8 @@ class AppContainer extends Component {
         this.setState({ appLoading: false, appLoadFail: false });
       })
       .catch((e) => {
-        if(e.response && e.response.body && e.response.body.detail === 'Signature has expired.') {
+        const sigError = _get(e, 'response.body.detail', false);
+        if(sigError && (sigError === 'Signature has expired.' || sigError === 'Invalid signature.')) {
           window.localStorage.setItem('jwt', '');
           this.setState({ appLoading: false, appLoadFail: false });
         }

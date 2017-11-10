@@ -63,7 +63,7 @@ class MemberRegister extends Component {
   }
 
   render() {
-    const { isAuthenticating, classes, errors } = this.props;
+    const { isAuthenticating, classes, errors, companies } = this.props;
     const { 
       user: { 
         username:usernameError = false,
@@ -109,6 +109,9 @@ class MemberRegister extends Component {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
+              {
+                companies.map(({uuid, name}) => <MenuItem value={uuid}>{name}</MenuItem>)
+              }
             </Select>
             <FormHelperText>{companyError}</FormHelperText>
           </FormControl>

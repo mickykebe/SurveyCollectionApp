@@ -12,7 +12,7 @@ const styles = theme => ({
     borderColor: 'inherit',
   },
   fieldCell: {
-    padding: `0 ${theme.spacing.unit*3}px`,
+    padding: `0 ${theme.spacing.unit*3}px ${theme.spacing.unit}px`,
   },
   actionCell: {
     paddingTop: theme.spacing.unit

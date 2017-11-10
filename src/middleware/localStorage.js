@@ -15,10 +15,12 @@ export default ({ dispatch }) => next => action => {
       api.setToken(user.token);
       dispatch(setCurrentUser(user));
       window.localStorage.setItem('jwt', user.token);
+      break;
     }
     case ACTION_LOGOUT: {
       api.setToken(null);
       window.localStorage.setItem('jwt', '');
+      break;
     }
   }
   return next(action);

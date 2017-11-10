@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
-import { getRegisterErrors } from '../reducers';
+import { getRegisterErrors, getAllCompanies } from '../reducers';
 import MemberRegister from '../components/MemberRegister';
 import { register } from '../actions';
 import api from '../api';
 
 const mapStateToProps = (state) => ({
+  companies: getAllCompanies(state),
   errors: getRegisterErrors(state),
 });
 

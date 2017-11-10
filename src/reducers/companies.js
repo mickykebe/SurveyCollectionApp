@@ -11,7 +11,7 @@ const byId = (state = {}, action) => {
     case ACTION_COMPANIES_FETCH_SUCCESS:
       return {
         ...state,
-        ...action.response.entities.languages,
+        ...action.response.entities.companies,
       }
     default:
       return state;

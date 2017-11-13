@@ -6,7 +6,7 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import MenuIcon from 'material-ui-icons/Menu';
 import AppDrawer from './AppDrawer';
-import LoggedInMenu from './LoggedInMenu';
+import LoggedInMenuContainer from '../containers/LoggedInMenuContainer';
 import LoggedOutMenu from './LoggedOutMenu';
 import { withStyles } from 'material-ui/styles';
 
@@ -76,15 +76,15 @@ class AppFrame extends Component {
   }
 
   render() {
-    const { classes, disableDrawer = false, children, appBarTitle, currentUser } = this.props;
-    const appBarClassName = classNames(classes.appBar, { [classes.appBarShift]: !disableDrawer });
-    const contentClassName = classNames(classes.content, { [classes.contentShift]: !disableDrawer});
+    const { classes, children, appBarTitle, loggedIn = false } = this.props;
+    const appBarClassName = classNames(classes.appBar, { [classes.appBarShift]: loggedIn });
+    const contentClassName = classNames(classes.content, { [classes.contentShift]: loggedIn });
     return (
       <div className={classes.root}>
         <AppBar className={appBarClassName}>
           <Toolbar>
             {
-              !disableDrawer &&
+              loggedIn &&
               <IconButton
                 color="contrast"
                 onClick={this.handleDrawerToggle}
@@ -96,12 +96,12 @@ class AppFrame extends Component {
               {appBarTitle || 'AhadooCollect'}
             </Typography>
             <div className={classes.grow} />
-            { !!currentUser && <LoggedInMenu currentUser={currentUser} /> }
-            { !currentUser && <LoggedOutMenu />}
+            { loggedIn && <LoggedInMenuContainer /> }
+            { !loggedIn && <LoggedOutMenu />}
           </Toolbar>
         </AppBar>
         { 
-          !disableDrawer &&
+          loggedIn &&
           <AppDrawer
             className={classes.drawer}
             mobileOpen={this.state.drawerOpen}

@@ -10,7 +10,7 @@ import { companiesFetchSuccess, clearPopup, setCurrentUser } from '../actions';
 import api from '../api';
 import App from '../components/App';
 import ScreenError from '../components/ScreenError';
-import ScreenLoading from '../components/ScreenLoading';
+import Loading from '../components/Loading';
 import PopupSnackbar from '../components/PopupSnackbar';
 
 const mapStateToProps = state => ({
@@ -59,14 +59,20 @@ class AppContainer extends Component {
         this.setState({ appLoading: false, appLoadFail: false });
       })
       .catch((e) => {
-        const sigError = _get(e, 'response.body.detail', false);
-        if(sigError && (sigError === 'Signature has expired.' || sigError === 'Invalid signature.')) {
-          window.localStorage.setItem('jwt', '');
-          this.setState({ appLoading: false, appLoadFail: false });
+        console.log(e);
+        const error = _get(e, 'response.body.detail', false);
+        if(error) {
+          if(error === 'Signature has expired.' || error === 'Invalid signature.') {
+            window.localStorage.setItem('jwt', '');
+            this.setState({ appLoading: false, appLoadFail: false });
+            return;
+          }
+          if(error === 'User account is disabled.') {
+            this.setState({ appLoading: false, appLoadFail: false });
+            return;
+          }
         }
-        else {
-          this.setState({ appLoading: false, appLoadFail: true });
-        }
+        this.setState({ appLoading: false, appLoadFail: true });
       });
   }
 
@@ -78,12 +84,14 @@ class AppContainer extends Component {
     const { currentUser, popupMessage, clearPopupMessage } = this.props;
     const { appLoading, appLoadFail } = this.state;
 
+    return <Loading />
+
     if(!appLoading && appLoadFail) {
       return (<ScreenError text="Couldn't connect to server" retry={this.loadApp} />);
     }
 
     if(appLoading) {
-      return <ScreenLoading text="Loading App..." />;
+      return <Loading text="Loading App..." />;
     }
 
     return (

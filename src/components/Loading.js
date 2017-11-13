@@ -5,11 +5,10 @@ import { withStyles } from 'material-ui/styles';
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    height: '100vh',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: ''
   },
   loadingText: {
     color: theme.palette.common.lightBlack,
@@ -17,7 +16,7 @@ const styles = theme => ({
   }
 });
 
-function ScreenLoading(props) {
+function Loading(props) {
   const { classes, text } = props;
   return (
     <div className={classes.root}>
@@ -29,4 +28,4 @@ function ScreenLoading(props) {
   );
 }
 
-export default withStyles(styles)(ScreenLoading);
+export default withStyles(styles)(Loading);

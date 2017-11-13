@@ -84,7 +84,7 @@ const Languages = {
 
 const Companies = {
   all() {
-    return requests.get('/companies/?limit=0');
+    return superagent.get(`${BASE_URL}/companies/?limit=0`).then(responseBody);
   },
   /* create(company) {
     return requests.post('/companies/', company).then((data) => mapper.register(data));

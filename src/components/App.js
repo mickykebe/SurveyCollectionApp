@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import AppFrame from './AppFrame';
 import Login from './Login';
 import RegisterContainer from '../containers/RegisterContainer';
@@ -10,6 +11,7 @@ import SurveyEdit from '../containers/SurveyEdit';
 import ResponsePageContainer from '../containers/ResponsePageContainer';
 import LanguageTableContainer from '../containers/LanguageTableContainer';
 import AppDataLoader from '../containers/AppDataLoader';
+import AuthContainer from '../containers/AuthContainer';
 import { withStyles } from 'material-ui/styles';
 
 const styles = (theme) => ({
@@ -52,18 +54,33 @@ class App extends Component {
   render() {
     const { 
       currentUser,
-     } = this.props;
+    } = this.props;
 
     return (
+      <AppFrame loggedIn={!!currentUser}>
+        <PublicOnlyRoute path="/register" component={RegisterContainer} />
+        <PublicOnlyRoute path="/login" component={Login} />
+        <AuthContainer currentUser={currentUser}>
+          <Route path="/" component={Home} />
+          <Route path="/surveys/new" component={SurveyCreate} />
+          <Route path="/surveys/edit/:surveyId" render={({match, history}) => <SurveyEdit id={match.params.surveyId} history={history} />} />
+          <Route path="/surveys/responses/:surveyId" render={(match) => <ResponsePageContainer id={match.params.surveyId}/>} />
+          <Route path="/languages" component={LanguageTableContainer} />
+        </AuthContainer>
+      </AppFrame>
+    )
+
+    /* return (
       <div>
         <PublicOnlyRoute 
           path="/register" 
-          render={(props) => <AppFrame currentUser={currentUser} disableDrawer={true}><RegisterContainer /></AppFrame> }
+          render={() => <AppFrame currentUser={currentUser} disableDrawer={true}><RegisterContainer /></AppFrame> }
           />
         <PublicOnlyRoute 
           path="/login" 
-          render={(props) => <AppFrame currentUser={currentUser} disableDrawer={true}><Login /></AppFrame> } 
+          render={() => <AppFrame currentUser={currentUser} disableDrawer={true}><Login /></AppFrame> } 
           />
+
         <PrivateRoute
           exact
           path="/"
@@ -108,7 +125,7 @@ class App extends Component {
             </AppDataLoader>}
           />
       </div>
-    );
+    ); */
   }
 }
 

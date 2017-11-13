@@ -4,7 +4,7 @@ import { getIsAppDataLoading, getAppDataLoaded, getAppDataLoadError } from '../r
 import { appDataLoad } from '../actions';
 import api from '../api';
 import ScreenError from '../components/ScreenError';
-import ScreenLoading from '../components/ScreenLoading';
+import Loading from '../components/Loading';
 
 const mapStateToProps = state => ({
   appDataLoading: getIsAppDataLoading(state),
@@ -44,7 +44,7 @@ class AppDataLoader extends Component {
     }
 
     if(loading) {
-      return <ScreenLoading text="Loading app data..." />
+      return <Loading text="Loading app data..." />
     }
 
     return null;

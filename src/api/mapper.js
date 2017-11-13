@@ -15,7 +15,7 @@ const login = (data) => ({
 
 const register = (data) => ({
   user: {
-    id: data.uuid,
+    ...data,
     ...(data.user)
   }
 });

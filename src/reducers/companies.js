@@ -3,12 +3,14 @@ import {
   ACTION_COMPANIES_FETCH_REQUEST,
   ACTION_COMPANIES_FETCH_SUCCESS,
   ACTION_COMPANIES_FETCH_FAIL,
+  ACTION_ADMIN_REGISTER_SUCCESS,
 } from '../actions/types';
 import asyncStatus from './hor/asyncStatus';
 
 const byId = (state = {}, action) => {
   switch(action.type) {
     case ACTION_COMPANIES_FETCH_SUCCESS:
+    case ACTION_ADMIN_REGISTER_SUCCESS:
       return {
         ...state,
         ...action.response.entities.companies,
@@ -22,6 +24,8 @@ const ids = (state = [], action) => {
   switch(action.type) {
     case ACTION_COMPANIES_FETCH_SUCCESS:
       return action.response.result;
+    case ACTION_ADMIN_REGISTER_SUCCESS:
+      return [action.response.result, ...state];
     default:
       return state;
   }

@@ -66,7 +66,7 @@ class PopupSnackbar extends Component {
       autoHideDuration={6e3}
       onRequestClose={this.handleSnackbarClose}
       message={<span id='message-id'>{this.props.message}</span>}
-      transition={<Slide direction='up' />}
+      transition={(props) => <Slide direction='up' {...props} />}
       action={
         <div className={classes.popupActions}>
           {

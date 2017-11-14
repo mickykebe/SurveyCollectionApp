@@ -10,6 +10,7 @@ import {
   ACTION_LANGUAGE_CREATE_SUCCESS,
   ACTION_LANGUAGE_UPDATE_SUCCESS,
   ACTION_COMPANIES_FETCH_SUCCESS,
+  ACTION_ADMIN_REGISTER_SUCCESS
 } from '../../actions/types';
 
 export default store => next => action => {
@@ -46,6 +47,11 @@ export default store => next => action => {
       return next({
         ...action,
         response: normalize(action.response.results, schema.companyListSchema),
+      });
+    case ACTION_ADMIN_REGISTER_SUCCESS:
+      return next({
+        ...action,
+        response: normalize(action.response.company, schema.companySchema),
       });
     default:
       return next(action);

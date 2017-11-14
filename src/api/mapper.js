@@ -5,13 +5,16 @@ const current = (data) => ({
   }
 });
 
-const login = (data) => ({
-  user: {
-    id: data.profile.uuid,
-    token: data.token,
-    ...(data.profile.user),
+const login = (data) => {
+  const { uuid: id, user, ...rest} = data.profile;
+  return {
+    user: {
+      id,
+      ...user,
+      ...rest,
+    }
   }
-});
+};
 
 const register = (data) => ({
   user: {
@@ -19,6 +22,19 @@ const register = (data) => ({
     ...(data.user)
   }
 });
+
+const adminRegister = (data) => {
+  const { admin, ...company } = data;
+  const { uuid: id, user, ...restAdmin } = admin;
+  return {
+    user: {
+      id,
+      ...user,
+      ...restAdmin,
+    },
+    company,
+  };
+}
 
 const pagination = (data) => {
   const { next: nextUrl, ...rest } = data;
@@ -48,6 +64,7 @@ export default {
   current,
   login,
   register,
+  adminRegister,
   surveyFeed,
   surveyResponses,
 }

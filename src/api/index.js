@@ -34,7 +34,7 @@ const Auth = {
     superagent.post(`${BASE_URL}/profiles/`, user).then(responseBody).then(data => mapper.register(data)),
     //requests.post('/profiles/', user).then((data) => mapper.register(data)),
   adminRegister: (company) =>
-    superagent.post(`${BASE_URL}/companies/`, company).then(responseBody).then(data => mapper.register(data)),
+    superagent.post(`${BASE_URL}/companies/`, company).then(responseBody).then(data => mapper.adminRegister(data)),
     //requests.post('/profiles/', company).then((data) => mapper.register(data)),
 }
 

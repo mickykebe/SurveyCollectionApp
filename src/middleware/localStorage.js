@@ -1,5 +1,4 @@
-import { 
-  ACTION_REGISTER_SUCCESS, 
+import {
   ACTION_LOGIN_SUCCESS,
   ACTION_ADMIN_REGISTER_SUCCESS,
   ACTION_LOGOUT } from '../actions/types';
@@ -9,7 +8,6 @@ import api from '../api';
 export default ({ dispatch }) => next => action => {
   switch(action.type) {
     case ACTION_LOGIN_SUCCESS:
-    case ACTION_REGISTER_SUCCESS:
     case ACTION_ADMIN_REGISTER_SUCCESS: {
       const { user } = action.response;
       api.setToken(user.token);

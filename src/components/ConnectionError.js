@@ -6,11 +6,10 @@ import Button from 'material-ui/Button';
 
 const styles = (theme) => ({
   root: {
-    display: 'flex',
-    height: '100vh',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translateX(-50%) translateY(-50%)',
   },
   icon: {
     color: theme.palette.common.lightBlack,
@@ -21,11 +20,15 @@ const styles = (theme) => ({
   },
   loadingText: {
     color: theme.palette.common.lightBlack,
-    paddingBottom: '32px',
+    paddingBottom: '24px',
+  },
+  button: {
+    display: 'block',
+    margin: '0 auto',
   }
 });
 
-function ScreenError(props) {
+function ConnectionError(props) {
   const { classes, text, retry } = props;
   return (
     <div className={classes.root}>
@@ -33,9 +36,9 @@ function ScreenError(props) {
       <Typography className={classes.loadingText} type="body2" align="center">
         {text}
       </Typography>
-      { !!retry && <Button raised color="accent" onClick={retry}>Retry</Button> }
+      { !!retry && <Button className={classes.button} raised color="accent" onClick={retry}>Retry</Button> }
     </div>
   );
 }
 
-export default withStyles(styles)(ScreenError);
+export default withStyles(styles)(ConnectionError);

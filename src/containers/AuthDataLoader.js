@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getIsAppDataLoading, getAppDataLoaded, getAppDataLoadError } from '../reducers';
 import { appDataLoad } from '../actions';
 import api from '../api';
-import ScreenError from '../components/ScreenError';
+import ConnectionError from '../components/ConnectionError';
 import Loading from '../components/Loading';
 
 const mapStateToProps = state => ({
@@ -18,7 +18,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-class AppDataLoader extends Component {
+class AuthDataLoader extends Component {
   componentWillMount() {
     const { appDataLoaded, loadAppData } = this.props;
 
@@ -40,7 +40,7 @@ class AppDataLoader extends Component {
     }
 
     if(!loading && loadError) {
-      return <ScreenError text="Problem occurred loading app data" retry={() => this.props.loadAppData()} />
+      return <ConnectionError text="Problem occurred loading app data" retry={() => this.props.loadAppData()} />
     }
 
     if(loading) {
@@ -51,4 +51,4 @@ class AppDataLoader extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppDataLoader);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthDataLoader);

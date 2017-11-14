@@ -9,7 +9,7 @@ import {
 import { companiesFetchSuccess, clearPopup, setCurrentUser } from '../actions';
 import api from '../api';
 import App from '../components/App';
-import ScreenError from '../components/ScreenError';
+import ConnectionError from '../components/ConnectionError';
 import Loading from '../components/Loading';
 import PopupSnackbar from '../components/PopupSnackbar';
 
@@ -61,33 +61,26 @@ class AppContainer extends Component {
       .catch((e) => {
         console.log(e);
         const error = _get(e, 'response.body.detail', false);
-        if(error) {
-          if(error === 'Signature has expired.' || error === 'Invalid signature.') {
+        if(error && error === 'Signature has expired.' || error === 'Invalid signature.') {
             window.localStorage.setItem('jwt', '');
             this.setState({ appLoading: false, appLoadFail: false });
-            return;
-          }
-          if(error === 'User account is disabled.') {
-            this.setState({ appLoading: false, appLoadFail: false });
-            return;
-          }
         }
-        this.setState({ appLoading: false, appLoadFail: true });
+        else {
+          this.setState({ appLoading: false, appLoadFail: true });
+        }
       });
   }
 
   componentWillMount() {
     this.loadApp();
   }
-
+  
   render() {
     const { currentUser, popupMessage, clearPopupMessage } = this.props;
     const { appLoading, appLoadFail } = this.state;
 
-    return <Loading />
-
     if(!appLoading && appLoadFail) {
-      return (<ScreenError text="Couldn't connect to server" retry={this.loadApp} />);
+      return (<ConnectionError text="Couldn't connect to server" retry={this.loadApp} />);
     }
 
     if(appLoading) {

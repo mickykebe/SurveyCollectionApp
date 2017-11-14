@@ -8,7 +8,7 @@ const styles = theme => ({
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: ''
+    transform: 'translateX(-50%) translateY(-50%)',
   },
   loadingText: {
     color: theme.palette.common.lightBlack,

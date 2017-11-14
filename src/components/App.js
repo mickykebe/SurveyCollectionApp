@@ -10,7 +10,6 @@ import SurveyCreate from '../containers/SurveyCreate';
 import SurveyEdit from '../containers/SurveyEdit';
 import ResponsePageContainer from '../containers/ResponsePageContainer';
 import LanguageTableContainer from '../containers/LanguageTableContainer';
-import AppDataLoader from '../containers/AppDataLoader';
 import AuthContainer from '../containers/AuthContainer';
 import { withStyles } from 'material-ui/styles';
 
@@ -61,7 +60,7 @@ class App extends Component {
         <PublicOnlyRoute path="/register" component={RegisterContainer} />
         <PublicOnlyRoute path="/login" component={Login} />
         <AuthContainer currentUser={currentUser}>
-          <Route path="/" component={Home} />
+          <Route exact path="/" component={Home} />
           <Route path="/surveys/new" component={SurveyCreate} />
           <Route path="/surveys/edit/:surveyId" render={({match, history}) => <SurveyEdit id={match.params.surveyId} history={history} />} />
           <Route path="/surveys/responses/:surveyId" render={(match) => <ResponsePageContainer id={match.params.surveyId}/>} />
@@ -69,63 +68,6 @@ class App extends Component {
         </AuthContainer>
       </AppFrame>
     )
-
-    /* return (
-      <div>
-        <PublicOnlyRoute 
-          path="/register" 
-          render={() => <AppFrame currentUser={currentUser} disableDrawer={true}><RegisterContainer /></AppFrame> }
-          />
-        <PublicOnlyRoute 
-          path="/login" 
-          render={() => <AppFrame currentUser={currentUser} disableDrawer={true}><Login /></AppFrame> } 
-          />
-
-        <PrivateRoute
-          exact
-          path="/"
-          render={(props) => 
-            <AppDataLoader>
-              <AppFrame currentUser={currentUser} appBarTitle="My Surveys">
-                <Home />
-              </AppFrame>
-            </AppDataLoader>}
-          />
-        <PrivateRoute 
-          path="/surveys/new" 
-          render={(props) => 
-            <AppDataLoader>
-              <AppFrame currentUser={currentUser} appBarTitle="Create survey">
-                <SurveyCreate history={props.history} />
-              </AppFrame>
-            </AppDataLoader> } />
-        <PrivateRoute 
-          path="/surveys/edit/:surveyId" 
-          render={(props) => 
-            <AppDataLoader>
-              <AppFrame currentUser={currentUser} appBarTitle="Edit survey">
-                <SurveyEdit id={props.match.params.surveyId} history={props.history} />
-              </AppFrame>
-            </AppDataLoader> } />
-        <PrivateRoute 
-          path="/surveys/responses/:surveyId" 
-          render={(props) => 
-            <AppDataLoader>
-              <AppFrame currentUser={currentUser} appBarTitle="Survey responses">
-                <ResponsePageContainer id={props.match.params.surveyId}/>
-              </AppFrame>
-            </AppDataLoader> } />
-        <PrivateRoute
-          path="/languages"
-          render={(props) => 
-            <AppDataLoader>
-              <AppFrame currentUser={currentUser} appBarTitle="Language Admin">
-                <LanguageTableContainer />
-              </AppFrame>
-            </AppDataLoader>}
-          />
-      </div>
-    ); */
   }
 }
 

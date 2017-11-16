@@ -15,8 +15,9 @@ export const surveyListSchema = [surveySchema];
 
 const responseSchema = new schema.Entity('responses', {}, { idAttribute: 'uuid' });
 export const responseListSchema = [responseSchema];
-
 export const languageSchema = new schema.Entity('languages', {}, { idAttribute: 'code' });
 export const languageListSchema = [languageSchema];
 export const companySchema = new schema.Entity('companies', {}, { idAttribute: 'uuid' });
 export const companyListSchema = [companySchema];
+const profileSchema = new schema.Entity('profiles', {}, { idAttribute: 'uuid' });
+export const profileListSchema = [profileSchema];

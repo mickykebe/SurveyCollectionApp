@@ -7,7 +7,10 @@ import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import AssignmentIcon from 'material-ui-icons/Assignment';
 import LanguageIcon from 'material-ui-icons/Language';
+import PersonIcon from 'material-ui-icons/Person';
 import AppDrawerNavLink from './AppDrawerNavLink';
+import { permissions } from '../constants';
+import WithPermission from './WithPermission';
 
 const styles = theme => ({
   paper: {
@@ -38,10 +41,20 @@ function AppDrawer({ classes, mobileOpen, onRequestClose }) {
           path="/"
           label="My Surveys"
           IconComponent={AssignmentIcon} />
-        <AppDrawerNavLink
-          path="/languages"
-          label="Language Admin"
-          IconComponent={LanguageIcon} />
+        <WithPermission
+          permission={permissions.CHANGE_LANGUAGE}>
+          <AppDrawerNavLink
+            path="/languages"
+            label="Language Admin"
+            IconComponent={LanguageIcon} />
+        </WithPermission>
+        <WithPermission
+          permission={permissions.CHANGE_PERMISSION}>
+          <AppDrawerNavLink
+            path="/users"
+            label="Manage Users"
+            IconComponent={PersonIcon} />
+        </WithPermission>
       </div>
     )
   };

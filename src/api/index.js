@@ -91,11 +91,18 @@ const Companies = {
   } */
 }
 
+const Profiles = {
+  all() {
+    return requests.get('/profiles/?limit=0');
+  }
+}
+
 export default {
   Auth,
   Surveys,
   SurveyResponses,
   Languages,
   Companies,
+  Profiles,
   setToken: _token => { token = _token; }
 };

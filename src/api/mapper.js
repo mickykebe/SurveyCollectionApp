@@ -1,9 +1,13 @@
-const current = (data) => ({
-  user: {
-    id: data.uuid,
-    ...(data.user),
+const current = (data) => {
+  const { uuid: id, user, ...rest } = data;
+  return {
+    user: {
+      id,
+      ...user,
+      ...rest,
+    }
   }
-});
+};
 
 const login = (data) => {
   const { uuid: id, user, ...rest} = data.profile;

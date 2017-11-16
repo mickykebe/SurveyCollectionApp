@@ -11,6 +11,7 @@ import SurveyEdit from '../containers/SurveyEdit';
 import ResponsePageContainer from '../containers/ResponsePageContainer';
 import LanguageTableContainer from '../containers/LanguageTableContainer';
 import AuthContainer from '../containers/AuthContainer';
+import ProfilesManage from './ProfilesManage';
 import { withStyles } from 'material-ui/styles';
 
 const styles = (theme) => ({
@@ -65,6 +66,7 @@ class App extends Component {
           <Route path="/surveys/edit/:surveyId" render={({match, history}) => <SurveyEdit id={match.params.surveyId} history={history} />} />
           <Route path="/surveys/responses/:surveyId" render={(match) => <ResponsePageContainer id={match.params.surveyId}/>} />
           <Route path="/languages" component={LanguageTableContainer} />
+          <Route path="/users" component={ProfilesManage} />
         </AuthContainer>
       </AppFrame>
     )

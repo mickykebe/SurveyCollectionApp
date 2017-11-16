@@ -54,6 +54,11 @@ export const adminRegister = apiActionCreator({
   fail: actionTypes.ACTION_ADMIN_REGISTER_FAIL,
 });
 
+export const profilesFetchSuccess = (response) => ({
+  type: actionTypes.ACTION_PROFILES_FETCH_SUCCESS,
+  response,
+})
+
 export const companiesFetchSuccess = (response) => ({
   type: actionTypes.ACTION_COMPANIES_FETCH_SUCCESS,
   response,

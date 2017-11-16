@@ -3,6 +3,7 @@ import surveyForm, * as fromSurveyForm from './surveyForm';
 import auth, * as fromAuth from './auth';
 import common, * as fromCommon from './common';
 import companies, * as fromCompanies from './companies';
+import profiles, * as fromProfiles from './profiles';
 import surveys, * as fromSurveys from './surveys';
 import responses, * as fromResponses from './responses';
 import questions, * as fromQuestions from './questions';
@@ -18,6 +19,7 @@ export default combineReducers({
   common,
   auth,
   companies,
+  profiles,
   surveys,
   responses,
   questions,
@@ -60,6 +62,12 @@ export const getAllCompanies = (state) =>
   fromCompanies.getAllCompanies(state.companies);
 export const getCompany = (state, id) =>
   fromCompanies.getCompany(state, id);
+
+//Profile selectors
+export const getProfiles = (state) =>
+  fromProfiles.getProfiles(state.profiles);
+export const getProfile = (state, id) =>
+  fromProfiles.getProfile(state.profiles, id);
 
 //Form selectors
 export const getElementFromClipboard = (state) =>

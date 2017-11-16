@@ -19,7 +19,7 @@ const styles = theme => ({
 function FormSection({ classes, iconComponent: Icon, title, children }) {
   return (
     <div className={classes.root}>
-      <div className={classes.header}>
+      <div>
         <Typography type="title" color="secondary" className={classes.headerTitle}>
           { !!Icon &&
             <Icon className={classes.headerIcon} />

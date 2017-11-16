@@ -40,6 +40,7 @@ const styles = theme => ({
   },
   content: {
     flex: '1 1 100%',
+    display: 'flex',
     maxWidth: '100%',
     margin: '0 auto',
     paddingTop: '80px',
@@ -108,7 +109,7 @@ class AppFrame extends Component {
             onRequestClose={this.handleDrawerClose} />
         }
         <div className={contentClassName}>
-        {children}
+          {children}
         </div>
       </div>
     )

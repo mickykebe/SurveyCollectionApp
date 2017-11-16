@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
-import ProfileManage from './ProfileManage';
+import ProfileManageContainer from '../containers/ProfileManageContainer';
 import ProfilesSidebarContainer from '../containers/ProfilesSidebarContainer';
 
 const styles = theme => ({
@@ -11,6 +11,7 @@ const styles = theme => ({
     flex: 1,
     margin: '-80px -16px 0',
     paddingTop: theme.spacing.unit * 8,
+    height: '100vh'
   }
 });
 
@@ -20,7 +21,7 @@ class ProfilesManage extends Component {
     return (
       <div className={classes.root}>
         <ProfilesSidebarContainer />
-        <Route path={`${match.url}/:profileId`} component={ProfileManage} />
+        <Route path={`${match.url}/:profileId`} component={ProfileManageContainer} />
       </div>
     );
   }

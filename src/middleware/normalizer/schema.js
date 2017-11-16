@@ -19,5 +19,5 @@ export const languageSchema = new schema.Entity('languages', {}, { idAttribute: 
 export const languageListSchema = [languageSchema];
 export const companySchema = new schema.Entity('companies', {}, { idAttribute: 'uuid' });
 export const companyListSchema = [companySchema];
-const profileSchema = new schema.Entity('profiles', {}, { idAttribute: 'uuid' });
+export const profileSchema = new schema.Entity('profiles', {}, { idAttribute: 'uuid' });
 export const profileListSchema = [profileSchema];

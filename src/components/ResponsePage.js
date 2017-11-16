@@ -6,7 +6,7 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import CollapsedMenu from './CollapsedMenu';
-import Overlay from './Overlay';
+import OverlayLoading from './OverlayLoading';
 import PagerLayout from './PagerLayout';
 import SurveyHeader from './SurveyHeader';
 import AnswerList from './AnswerList';
@@ -126,7 +126,7 @@ class ResponsePage extends Component {
             </Typography>
           }
           {
-            fetchingResponses && <Overlay spinner={true} />
+            fetchingResponses && <OverlayLoading />
           }
         </Paper>
       </div>

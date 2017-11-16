@@ -17,6 +17,7 @@ import {
   surveyFetch,
   showPopup } from '../actions';
 import api from '../api';
+import Content from '../components/Content';
 import ResponsePage from '../components/ResponsePage';
 import PopupSnackbar from '../components/PopupSnackbar';
 import download from '../download';
@@ -102,7 +103,7 @@ class ResponsePageContainer extends Component {
       responsesNext
      } = this.props;
     return (
-      <div>
+      <Content>
         <ResponsePage 
           id={id}
           survey={survey}
@@ -121,7 +122,7 @@ class ResponsePageContainer extends Component {
           show={!fetchingResponses && !!responsesFetchError}
           message="Problem occurred fetching responses"
           retryAction={this.fetchResponses} />
-      </div>
+      </Content>
     );
   }
 }

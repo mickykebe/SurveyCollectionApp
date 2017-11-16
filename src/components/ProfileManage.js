@@ -32,10 +32,11 @@ const styles = theme => ({
 
 class ProfileManage extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, profile } = this.props;
 
     return (
       <div className={classes.root}>
+
         <Card className={classes.section}>
           <CardContent>
             <Typography type="headline" color="secondary" className={classes.header}>
@@ -45,35 +46,35 @@ class ProfileManage extends Component {
               <Grid item xs={12} md={5}>
                 <TextField
                   label="Username"
-                  value="mickykebe"
+                  value={profile.user.username}
                   fullWidth={true}
                   disabled={true} />
               </Grid>
               <Grid item xs={12} md={5}>
                 <TextField
                   label="First Name"
-                  value="Michael"
+                  value={profile.user.first_name}
                   fullWidth={true}
                   disabled={true} />
               </Grid>
               <Grid item xs={12} md={5}>
                 <TextField
                   label="LastName"
-                  value="Kebede"
+                  value={profile.user.last_name}
                   fullWidth={true}
                   disabled={true} />
               </Grid>
               <Grid item xs={12} md={5}>
                 <TextField
                   label="Email"
-                  value="mickykebe@gmail.com"
+                  value={profile.user.email}
                   fullWidth={true}
                   disabled={true} />
               </Grid>
             </Grid>
           </CardContent>
         </Card>
-        <Card className={classes.section}>
+        {/*<Card className={classes.section}>
           <CardContent>
             <Typography type="headline" color="secondary" className={classes.header}>
               <LockIcon className={classes.sectionIcon} /> Permissions
@@ -83,7 +84,7 @@ class ProfileManage extends Component {
             <div className={classes.grow} />
             <Button color="accent" dense raised>Save</Button>
           </CardActions>
-        </Card>
+        </Card>*/}
       </div>
     )
   }

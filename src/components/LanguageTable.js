@@ -2,6 +2,7 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 import Table, { TableBody } from 'material-ui/Table';
 import { withStyles } from 'material-ui/styles';
+import Content from './Content';
 import TableToolbar from './table/TableToolbar';
 import AddLanguageRowContainer from '../containers/AddLanguageRowContainer';
 import LanguageRowContainer from '../containers/LanguageRowContainer';
@@ -15,7 +16,7 @@ const styles = theme => ({
 
 function LanguageTable({ classes, languages }) {
   return (
-    <div>
+    <Content>
       <Paper className={classes.root}>
         <TableToolbar title="Languages" />
         <Table>
@@ -30,7 +31,7 @@ function LanguageTable({ classes, languages }) {
           </TableBody>
         </Table>
       </Paper>
-    </div>
+    </Content>
   );
 }
 

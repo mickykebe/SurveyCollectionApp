@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { surveyFetch, surveyUpdate, showPopup } from '../actions';
+import api from '../api';
+import AppCircularProgress from '../components/AppCircularProgress';
+import Content from '../components/Content';
 import { 
   getIsFetchingSurvey,
   getSurveyFormData,
   getIsUpdatingSurvey
 } from '../reducers';
-import { surveyFetch, surveyUpdate, showPopup } from '../actions';
-import api from '../api';
 import SurveyForm from '../components/form/SurveyForm';
-import AppCircularProgress from '../components/AppCircularProgress';
 
 const mapStateToProps = (state, { id }) => ({
   surveyFormData: getSurveyFormData(state, id),
@@ -60,21 +61,21 @@ class SurveyEdit extends Component {
     const { surveyFormData, isFetching, isUpdating } = this.props;
     if(!surveyFormData && isFetching) {
       return (
-        <div>
+        <Content>
           <AppCircularProgress />
-        </div>
+        </Content>
       );
     }
     if(!surveyFormData && !isFetching) {
       return null;
     }
     return (
-      <div>
+      <Content>
         <SurveyForm
           initialValues={surveyFormData}
           onSubmit={this.handleSubmit}
           submittingForm={isUpdating} />
-      </div>
+      </Content>
     );
   }
 }

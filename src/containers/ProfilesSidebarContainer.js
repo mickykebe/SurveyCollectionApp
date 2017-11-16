@@ -20,7 +20,7 @@ class ProfilesSidebarContainer extends Component {
     error: false,
   }
 
-  componentDidMount() {
+  fetchProfiles = () => {
     const { profiles, profilesFetched } = this.props;
 
     if(profiles.length === 0) {
@@ -37,13 +37,16 @@ class ProfilesSidebarContainer extends Component {
           });
         })
         .catch((e) => {
-          console.log(e);
           this.setState({
             loading: false,
             error: true,
           });
-        })
+        });
     }
+  }
+
+  componentDidMount() {
+    this.fetchProfiles();
   }
 
   render() {
@@ -54,7 +57,8 @@ class ProfilesSidebarContainer extends Component {
       <ProfilesSidebar
         loading={loading}
         error={error}
-        profiles={profiles} />
+        profiles={profiles}
+        retry={this.fetchProfiles} />
     );
   }
 }

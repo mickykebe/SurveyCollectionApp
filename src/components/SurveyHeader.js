@@ -2,7 +2,7 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
-import Overlay from './Overlay';
+import OverlayLoading from './OverlayLoading';
 import { valFromLangObj } from '../utils';
 
 const Content = ({ id, title, description }) => {
@@ -33,7 +33,7 @@ function SurveyHeader({ classes, inProgress, error, onRetry, survey }) {
           survey && <Content {...survey} />
         }
         {
-          inProgress && <Overlay spinner={true} />
+          inProgress && <OverlayLoading />
         }
       </Paper>
     </div>

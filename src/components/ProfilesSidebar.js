@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
+import Drawer from 'material-ui/Drawer';
 import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
-import Overlay from './Overlay'
+import OverlayError from './OverlayError';
+import OverlayLoading from './OverlayLoading';
 import ProfileSidebarItem from './ProfileSidebarItem';
 
 const styles = theme => ({
   root: {
-    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    overflowY: 'auto',
     maxWidth: 360,
     background: theme.palette.background.paper,
     borderRight: `1px solid ${theme.palette.common.faintBlack}`
@@ -25,21 +29,23 @@ class ProfilesSidebar extends Component {
   }
 
   render() {
-    const { classes, loading, error, profiles } = this.props;
+    const { classes, loading, error, profiles, retry } = this.props;
 
     return (
-      <List className={classes.root}>
-        {/* <Overlay spinner={true} /> */}
+      <List
+        className={classes.root}>
         {
           profiles.map(profile => this.renderUser(profile))
         }
         { 
           profiles.length === 0 && loading &&
-          <Overlay spinner={true} />
+          <OverlayLoading />
         }
         {
           error &&
-          <span>Problem occurred fetching profiles</span>
+          <OverlayError
+            text="Problem occurred fetching profiles"
+            retry={retry} />
         }
       </List>
     );

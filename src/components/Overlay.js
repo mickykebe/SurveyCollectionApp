@@ -12,18 +12,13 @@ const styles = theme => ({
     height: '100%',
     backgroundColor: theme.palette.common.lightWhite,
     zIndex: 100,
-  },
-  progress: {
-    position: 'absolute',
-    top: 'calc(50% - 20px)',
-    left: 'calc(50% - 20px)',
   }
 })
 
-function Overlay({ classes, spinnerClass, spinner=false }) {
+function Overlay({ classes, spinnerClass, children=null, spinner=false }) {
   return (
     <div className={classes.root}>
-      { spinner && <CircularProgress className={classNames(classes.progress, spinnerClass)} color="accent" /> }
+      {children}
     </div>
   );
 }

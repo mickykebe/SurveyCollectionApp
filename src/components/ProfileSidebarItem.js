@@ -31,7 +31,7 @@ class ProfileSidebarItem extends Component {
         </Avatar>
         <ListItemText
           primary={`${firstName} ${lastName}`}
-          secondary={`${username}`}
+          secondary={`@${username}`}
           />
         <RightArrowIcon className={classes.arrowIcon} />
       </ListItem>

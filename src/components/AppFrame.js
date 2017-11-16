@@ -41,6 +41,7 @@ const styles = theme => ({
   content: {
     flex: '1 1 100%',
     display: 'flex',
+    alignItems: 'start',
     maxWidth: '100%',
     margin: '0 auto',
     paddingTop: '80px',

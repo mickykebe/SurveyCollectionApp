@@ -57,7 +57,12 @@ export const adminRegister = apiActionCreator({
 export const profilesFetchSuccess = (response) => ({
   type: actionTypes.ACTION_PROFILES_FETCH_SUCCESS,
   response,
-})
+});
+
+export const profileFetchSuccess = (response) => ({
+  type: actionTypes.ACTION_PROFILE_FETCH_SUCCESS,
+  response
+});
 
 export const companiesFetchSuccess = (response) => ({
   type: actionTypes.ACTION_COMPANIES_FETCH_SUCCESS,

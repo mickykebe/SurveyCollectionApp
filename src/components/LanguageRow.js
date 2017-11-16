@@ -5,7 +5,7 @@ import CreateIcon from 'material-ui-icons/Create';
 import DeleteIcon from 'material-ui-icons/Delete';
 import LanguageRowForm from './LanguageRowForm';
 import ConfirmDialog from './ConfirmDialog';
-import Overlay from './Overlay';
+import OverlayLoading from './OverlayLoading';
 import { withStyles } from 'material-ui/styles';
 
 const styles = theme => ({
@@ -70,7 +70,7 @@ class LanguageRow extends Component {
           </IconButton>
           {
             deleting &&
-            <Overlay spinner={true} spinnerClass={classes.loadingSpinner} />
+            <OverlayLoading classes={{ spinner: classes.loadingSpinner }} />
           }
         </TableCell>
         <ConfirmDialog 

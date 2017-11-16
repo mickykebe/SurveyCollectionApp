@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { surveyCreate, showPopup } from '../actions';
 import api from '../api';
+import Content from '../components/Content';
 import {
   getIsCreatingSurvey
 } from '../reducers';
@@ -42,9 +43,11 @@ class SurveyCreate extends Component{
 
   render() {
     return (
-      <SurveyForm
-        onSubmit={this.create}
-        submittingForm={this.props.inProgress} />
+      <Content>
+        <SurveyForm
+          onSubmit={this.create}
+          submittingForm={this.props.inProgress} />
+      </Content>
     );
   }
 }

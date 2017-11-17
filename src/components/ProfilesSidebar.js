@@ -8,10 +8,9 @@ import ProfileSidebarItem from './ProfileSidebarItem';
 
 const styles = theme => ({
   root: {
-    display: 'flex',
     flexDirection: 'column',
     overflowY: 'auto',
-    maxWidth: 360,
+    flex: '0 360px',
     background: theme.palette.background.paper,
     borderRight: `1px solid ${theme.palette.common.faintBlack}`
   }

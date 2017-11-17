@@ -59,7 +59,6 @@ class AppContainer extends Component {
         this.setState({ appLoading: false, appLoadFail: false });
       })
       .catch((e) => {
-        console.log(e);
         const error = _get(e, 'response.body.detail', false);
         if(error && error === 'Signature has expired.' || error === 'Invalid signature.') {
             window.localStorage.setItem('jwt', '');

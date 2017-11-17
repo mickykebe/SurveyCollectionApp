@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import _get from 'lodash/get';
 import { withStyles } from 'material-ui/styles';
 import { profileFetchSuccess } from '../actions';
 import api from '../api';
@@ -16,9 +17,7 @@ const styles = theme => ({
   }
 });
 
-const mapStateToProps = (state, ownProps) => 
-  console.log(ownProps.match.params.profileId) ||
-  console.log(getProfile(state, ownProps.match.params.profileId)) ||
+const mapStateToProps = (state, ownProps) =>
   ({
     profile: getProfile(state, ownProps.match.params.profileId),
   });
@@ -35,8 +34,8 @@ class ProfileManageContainer extends Component {
     error: false,
   }
 
-  fetchProfile = () => {
-    const { match: { params: { profileId: id }}, profile, profileFetched } = this.props;
+  fetchProfile = (props) => {
+    const { match: { params: { profileId: id }}, profile, profileFetched } = props;
 
     if(!profile) {
       this.setState({ loading: true, error: false});
@@ -45,14 +44,34 @@ class ProfileManageContainer extends Component {
           profileFetched(response);
           this.setState({ loading: false, error: false });
         })
-        .catch(() => {
-          this.setState({ loading: false, error: true });
+        .catch(e => {
+          this.setState({ loading: false, error: e });
         });
     }
   }
 
   componentDidMount() {
-    this.fetchProfile();
+    this.fetchProfile(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props.match.params.profileId !== nextProps.match.params.profileId) {
+      this.setState({ loading: false, error: false });
+      this.fetchProfile(nextProps);
+    }
+  }
+
+  renderError = (error) => {
+    if(error && error.response && error.response.status === 404) {
+      return <OverlayError
+        text="User not found" />
+    }
+
+    else {
+      <OverlayError
+        text="Problem occurred fetching profile"
+        retry={this.fetchProfile} />
+    }
   }
 
   render() {
@@ -63,19 +82,17 @@ class ProfileManageContainer extends Component {
       <div className={classes.root}>
         {
           !!profile &&
-          <ProfileManage
-            profile={profile} />
-        }
-        {
-          loading &&
-          <OverlayLoading />
-        }
-        {
-          error &&
-          <OverlayError
-            text="Problem occurred fetching profile"
-            retry={this.fetchProfile} />
-        }
+            <ProfileManage
+              profile={profile} />
+          }
+          {
+            loading &&
+              <OverlayLoading />
+          }
+          {
+            !!error &&
+            this.renderError(error)
+          }
       </div>
     );
   }

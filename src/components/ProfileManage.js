@@ -6,6 +6,8 @@ import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import LockIcon from 'material-ui-icons/LockOpen';
+import PersonAddIcon from 'material-ui-icons/PersonAdd';
+import PersonOutlineIcon from 'material-ui-icons/PersonOutline';
 import PersonIcon from 'material-ui-icons/Person';
 
 const styles = theme => ({
@@ -17,6 +19,9 @@ const styles = theme => ({
   section: {
     marginBottom: theme.spacing.unit * 3,
   },
+  icon: {
+    marginRight: theme.spacing.unit,
+  },
   sectionIcon: {
     verticalAlign: 'top',
     width: '28px',
@@ -26,7 +31,16 @@ const styles = theme => ({
     flex: 1
   },
   header: {
+    flex: 1,
+    display: 'flex',
     paddingBottom: theme.spacing.unit * 4,
+  },
+  headline: {
+    display: 'inline-block',
+  },
+  activationButton: {
+    flexBasis: '200px',
+    padding: 0,
   }
 });
 
@@ -36,12 +50,26 @@ class ProfileManage extends Component {
 
     return (
       <div className={classes.root}>
-
         <Card className={classes.section}>
           <CardContent>
-            <Typography type="headline" color="secondary" className={classes.header}>
-              <PersonIcon className={classes.sectionIcon} /> User Information
-            </Typography>
+            <div className={classes.header}>
+              <Typography type="headline" color="secondary" className={classes.headline}>
+                <PersonIcon className={`${classes.icon} ${classes.sectionIcon}`} /> User Information
+              </Typography>
+              <div className={classes.grow} />
+              {
+                !profile.active &&
+                <Button color="accent" dense raised className={classes.activationButton}>
+                  <PersonAddIcon className={classes.icon} />Activate User
+                </Button>
+              }
+              {
+                profile.active &&
+                <Button color="accent" dense className={classes.activationButton}>
+                  <PersonOutlineIcon className={classes.icon} />Deactivate User
+                </Button>
+              }
+            </div>
             <Grid container justify="center">
               <Grid item xs={12} md={5}>
                 <TextField

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getProfiles } from '../reducers';
+import { getProfiles, getCurrentUser } from '../reducers';
 import ProfilesSidebar from '../components/ProfilesSidebar';
 import api from '../api';
 import { profilesFetchSuccess } from '../actions';
 
 const mapStateToProps = (state) => ({
   profiles: getProfiles(state),
+  currentUser: getCurrentUser(state),
 });
 const mapDispatchToProps = (dispatch) => ({
   profilesFetched(response) {
@@ -50,8 +51,10 @@ class ProfilesSidebarContainer extends Component {
   }
 
   render() {
-    const { profiles } = this.props;
+    const { profiles: companyProfiles, currentUser } = this.props;
     const { loading, error } = this.state;
+
+    const profiles = companyProfiles.filter(p => p.uuid !== currentUser.id);
 
     return (
       <ProfilesSidebar

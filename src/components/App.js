@@ -63,7 +63,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/surveys/new" component={SurveyCreate} />
           <Route path="/surveys/edit/:surveyId" render={({match, history}) => <SurveyEdit id={match.params.surveyId} history={history} />} />
-          <Route path="/surveys/responses/:surveyId" render={(match) => <ResponsePageContainer id={match.params.surveyId}/>} />
+          <Route path="/surveys/responses/:surveyId" render={({match}) => <ResponsePageContainer id={match.params.surveyId}/>} />
           <Route path="/languages" component={LanguageTableContainer} />
         </AuthContainer>
       </AppFrame>

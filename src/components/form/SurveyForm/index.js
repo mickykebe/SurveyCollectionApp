@@ -6,6 +6,7 @@ function SurveyFormWrapper({ initialValues: initValuesProp, ...props }) {
   const initialValues = initValuesProp || {
     uuid: uuidv4(),
     languages: ['en'],
+    active: false,
     groupRoot: {
       uuid: uuidv4(),
       root: true,

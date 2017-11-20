@@ -35,7 +35,6 @@ const styles = (theme) => ({
     position: 'relative',
     display: 'flex',
     justifyContent: 'flex-end',
-    padding: `${theme.spacing.unit}px 0`,
   },
   button: {
     margin: theme.spacing.unit,

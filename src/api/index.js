@@ -63,7 +63,7 @@ const SurveyResponses = {
       .then(data => mapper.surveyResponses(data));
   },
   allFormat(id, format = 'csv') {
-    return superagent.get(`${BASE_URL}/surveys/${id}/filled-surveys/?format=${format}`).use(tokenPlugin).responseType('blob').then(responseBody);
+    return superagent.get(`${BASE_URL}/surveys/${id}/export/?format=${format}`).use(tokenPlugin).responseType('blob').then(responseBody);
   }
 }
 

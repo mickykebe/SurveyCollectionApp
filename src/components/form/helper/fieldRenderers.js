@@ -67,12 +67,13 @@ export const renderMultiSelectField = ({
     {...custom} />;
 
 export const renderSwitch = ({
-  input: { value, onChange, ...inputRest},
+  input: { value, onChange, onBlur, ...inputRest},
+  checked,
   meta,
   ...custom
 }) =>
   <Switch
     {...inputRest}
-    onChange={(e, checked) => onChange(checked)}
     {...custom}
-    checked={value} />;
+    onChange={(e, checked) => onChange(checked)}
+    checked={!!value} />;

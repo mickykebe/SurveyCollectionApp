@@ -131,6 +131,7 @@ class MemberRegister extends Component {
             error={!!usernameError}
             helperText={usernameError} />
           <TextField
+            required={true}
             placeholder='First Name'
             label='First Name'
             fullWidth={true}
@@ -140,6 +141,7 @@ class MemberRegister extends Component {
             error={!!firstnameError}
             helperText={firstnameError} />
           <TextField
+            required={true}
             placeholder='Last Name'
             label='Last Name'
             fullWidth={true}

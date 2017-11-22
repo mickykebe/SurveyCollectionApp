@@ -24,6 +24,13 @@ const styles = (theme) => ({
 });
 
 class ChoiceListAnswer extends Component {
+  createChoice = () => {
+    return { uuid: uuidv4(), schema: 'choice', index: 1 };
+  }
+  createChoiceConditional = () => {
+    return { uuid: uuidv4(), schema: 'choice_condition', operator: '== ' };
+  }
+  
   render() {
     const { 
       classes, 
@@ -31,14 +38,13 @@ class ChoiceListAnswer extends Component {
       choiceType, 
       formLanguages, 
       controllingQuestions,
-      onAddForm: onAddFormProp,
+      onAddChoiceConditional = () => this.props.fields.push(this.createChoiceConditional()),
       meta: { dirty, error },
       disableFields = false,
       onFieldMouseEnter,
       onFieldMouseLeave,
     } = this.props;
 
-    const onAddForm = onAddFormProp || onAddFormProp === false ? onAddFormProp : () => fields.push({ uuid: uuidv4(), schema: 'choice_condition', operator: '==' });
     return (
       <div>
         <AppBar position="static" color="default" elevation={1}>
@@ -48,14 +54,14 @@ class ChoiceListAnswer extends Component {
             </Typography>
             <div className={classes.flexGrow} />
             <Tooltip title="Add choice" placement="top">
-              <IconButton onClick={() => fields.push({uuid: uuidv4(), schema: 'choice', index: 1 })}>
+              <IconButton onClick={() => fields.push(this.createChoice())}>
                 <AddIcon />
               </IconButton>
             </Tooltip>
             {
-              !!controllingQuestions.length && onAddForm &&
+              !!controllingQuestions.length && !!onAddChoiceConditional &&
               <Tooltip title="Add conditional choice" placement="top">
-                <IconButton onClick={controllingQuestions.length && onAddForm}>
+                <IconButton onClick={onAddChoiceConditional}>
                   <PlaylistAddIcon />
                 </IconButton>
               </Tooltip>
@@ -90,6 +96,8 @@ class ChoiceListAnswer extends Component {
                     disabled={disableFields}
                     onMouseEnter={onFieldMouseEnter}
                     onMouseLeave={onFieldMouseLeave}
+                    onAddChoiceAfter={() => fields.insert(index+1, this.createChoice())}
+                    onAddChoiceConditionAfter={(!!controllingQuestions.length && !!onAddChoiceConditional) ? () => fields.insert(index+1, this.createChoiceConditional()) : false}
                     />
                 }
               </FormSection>);

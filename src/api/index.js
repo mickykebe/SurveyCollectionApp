@@ -32,10 +32,8 @@ const Auth = {
     requests.post('/api-token-auth/', { username, password }).then((data) => mapper.login(data)),
   memberRegister: (user) =>
     superagent.post(`${BASE_URL}/profiles/`, user).then(responseBody).then(data => mapper.register(data)),
-    //requests.post('/profiles/', user).then((data) => mapper.register(data)),
   adminRegister: (company) =>
     superagent.post(`${BASE_URL}/companies/`, company).then(responseBody).then(data => mapper.adminRegister(data)),
-    //requests.post('/profiles/', company).then((data) => mapper.register(data)),
 }
 
 const Surveys = {
@@ -97,6 +95,12 @@ const Profiles = {
   },
   get(id) {
     return requests.get(`/profiles/${id}/`);
+  },
+  activate(id) {
+    return requests.get(`/profiles/${id}/activate/`);
+  },
+  deactivate(id) {
+    return requests.get(`/profiles/${id}/deactivate/`);
   }
 }
 

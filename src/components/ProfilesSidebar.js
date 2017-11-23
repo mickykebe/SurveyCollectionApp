@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Drawer from 'material-ui/Drawer';
 import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
+import PersonIcon from 'material-ui-icons/PersonOutline';
 import OverlayError from './OverlayError';
 import OverlayLoading from './OverlayLoading';
 import ProfileSidebarItem from './ProfileSidebarItem';
@@ -37,7 +37,7 @@ class ProfilesSidebar extends Component {
           profiles.map(profile => this.renderUser(profile))
         }
         { 
-          profiles.length === 0 && loading &&
+          loading && profiles.length === 0 &&
           <OverlayLoading />
         }
         {
@@ -45,6 +45,12 @@ class ProfilesSidebar extends Component {
           <OverlayError
             text="Problem occurred fetching profiles"
             retry={retry} />
+        }
+        {
+          !loading && !error && profiles.length === 0 &&
+          <OverlayError
+            Icon={PersonIcon}
+            text="No members available" />
         }
       </List>
     );

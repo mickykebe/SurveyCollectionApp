@@ -11,7 +11,6 @@ import PagerLayout from './PagerLayout';
 import SurveyHeader from './SurveyHeader';
 import AnswerList from './AnswerList';
 import FileDownloadIcon from 'material-ui-icons/FileDownload';
-import api from '../api';
 
 const styles = theme => ({
   root: {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import _get from 'lodash/get';
 import { withStyles } from 'material-ui/styles';
 import { profileFetchSuccess } from '../actions';
 import api from '../api';
@@ -66,9 +65,8 @@ class ProfileManageContainer extends Component {
       return <OverlayError
         text="User not found" />
     }
-
     else {
-      <OverlayError
+      return <OverlayError
         text="Problem occurred fetching profile"
         retry={this.fetchProfile} />
     }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { profileFetchSuccess, showPopup } from '../actions';
+import { connect } from 'react-redux';
+import { profileFetchSuccess } from '../actions';
 import api from '../api';
 import PopupSnackbar from '../components/PopupSnackbar';
 import ProfileManageUser from '../components/ProfileManageUser';
@@ -7,11 +8,8 @@ import ProfileManageUser from '../components/ProfileManageUser';
 const mapDispatchToProps = dispatch =>({
   profileFetched(response) {
     dispatch(profileFetchSuccess(response));
-  },
-  displayPopup(message) {
-    dispatch(showPopup(message));
   }
-})
+});
 
 class ProfileManageUserContainer extends Component {
   state = {
@@ -52,4 +50,4 @@ class ProfileManageUserContainer extends Component {
   }
 }
 
-export default ProfileManageUserContainer;
+export default connect(null, mapDispatchToProps)(ProfileManageUserContainer);

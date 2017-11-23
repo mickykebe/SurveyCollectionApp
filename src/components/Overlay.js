@@ -1,6 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
-import { CircularProgress } from 'material-ui/Progress';
 import { withStyles } from 'material-ui/styles';
 
 const styles = theme => ({

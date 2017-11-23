@@ -34,5 +34,6 @@ export default combineReducers({
   ids,
 });
 
-export const getProfiles = (state) => state.ids.map(id => state.byId[id]);
+export const getProfiles = (state, companyId) => 
+  state.ids.map(id => state.byId[id]).filter(profile => profile.company === companyId);
 export const getProfile = (state, id) => state.byId[id];

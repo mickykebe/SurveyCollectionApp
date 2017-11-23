@@ -20,6 +20,7 @@ export default ({ dispatch }) => next => action => {
       window.localStorage.setItem('jwt', '');
       break;
     }
+    default:
   }
   return next(action);
 }

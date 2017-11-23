@@ -90,8 +90,8 @@ const Companies = {
 }
 
 const Profiles = {
-  all() {
-    return requests.get('/profiles/?limit=0');
+  all(companyId) {
+    return requests.get(`/profiles/?query={"company__uuid":"${companyId}"}&limit=0`);
   },
   get(id) {
     return requests.get(`/profiles/${id}/`);

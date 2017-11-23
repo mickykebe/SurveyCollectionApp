@@ -11,11 +11,6 @@ import {
   ACTION_ADMIN_REGISTER_FAIL } from '../actions/types';
 import asyncStatus from './hor/asyncStatus';
 
-const defaultState = {
-  isAuthenticating: false,
-  errors: null,
-}
-
 export default combineReducers({
   login: asyncStatus(ACTION_LOGIN_REQUEST, ACTION_LOGIN_SUCCESS, ACTION_LOGIN_FAIL),
   register: asyncStatus(ACTION_REGISTER_REQUEST, ACTION_REGISTER_SUCCESS, ACTION_REGISTER_FAIL),

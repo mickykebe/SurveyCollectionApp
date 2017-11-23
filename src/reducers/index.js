@@ -64,8 +64,8 @@ export const getCompany = (state, id) =>
   fromCompanies.getCompany(state, id);
 
 //Profile selectors
-export const getProfiles = (state) =>
-  fromProfiles.getProfiles(state.profiles);
+export const getProfiles = (state, companyId) =>
+  fromProfiles.getProfiles(state.profiles, companyId);
 export const getProfile = (state, id) =>
   fromProfiles.getProfile(state.profiles, id);
 

@@ -4,7 +4,6 @@ import AppFrame from './AppFrame';
 import Login from './Login';
 import RegisterContainer from '../containers/RegisterContainer';
 import Home from './Home';
-import PrivateRoute from './PrivateRoute';
 import PublicOnlyRoute from './PublicOnlyRoute';
 import SurveyCreate from '../containers/SurveyCreate';
 import SurveyEdit from '../containers/SurveyEdit';

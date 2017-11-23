@@ -38,7 +38,7 @@ class ChoiceCondition extends Component{
               controllingQuestions={controllingQuestions}
               formLanguages={formLanguages}
               choiceType={choiceType}
-              onAddForm={false}
+              onAddChoiceConditional={false}
               disableFields={disableFields}
               onFieldMouseEnter={onFieldMouseEnter}
               onFieldMouseLeave={onFieldMouseLeave} />

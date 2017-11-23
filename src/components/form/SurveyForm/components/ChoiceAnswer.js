@@ -11,11 +11,9 @@ import LangTextField from './LangTextField';
 
 const styles = (theme) => ({
   root: {
-    padding: '8px 0 0',
-  },
-  main: {
-    width: '100%',
     display: 'flex',
+    padding: '8px 0',
+    alignItems: 'center',
   },
   control: {
     marginRight: theme.spacing.unit,
@@ -23,9 +21,6 @@ const styles = (theme) => ({
   grow: {
     flex: 1,
   },
-  actions: {
-    display: 'flex',
-  }
 });
 
 class ChoiceAnswer extends Component {
@@ -51,24 +46,22 @@ class ChoiceAnswer extends Component {
         className={classes.root}
         onMouseEnter={() => this.setState({ actionVisible: true })}
         onMouseLeave={() => this.setState({ actionVisible: false })}>
-        <div className={classes.main}>
-          <div className={classes.control}>
-            <Control
-              disabled={true} />
-          </div>
-          <FormSection name="text">
-            <LangTextField
-              languages={formLanguages}
-              required={true}
-              className={classes.grow}
-              disabled={disabled}
-              onMouseEnter={onMouseEnter}
-              onMouseLeave={onMouseLeave} />
-          </FormSection>
+        <div className={classes.control}>
+          <Control
+            disabled={true} />
         </div>
+        <FormSection name="text">
+          <LangTextField
+            languages={formLanguages}
+            required={true}
+            className={classes.grow}
+            disabled={disabled}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave} />
+        </FormSection>
         {
           this.state.actionVisible &&
-          <div className={classes.actions}>
+          <div>
             <div className={classes.grow} />
             {
               !!onAddChoiceConditionAfter &&

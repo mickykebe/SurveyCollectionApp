@@ -5,15 +5,11 @@ import api from '../api';
 import { profilesFetchSuccess } from '../actions';
 import ProfilesSidebar from '../components/ProfilesSidebar';
 
-const mapStateToProps = (state) => {
-  const currentUser = getCurrentUser(state);
+const mapStateToProps = (state) => ({
+  currentUser: getCurrentUser(state),
+  profiles: getProfiles(state),
+});
 
-  const profiles = getProfiles(state, currentUser.company);
-  return {
-    currentUser,
-    profiles,
-  };
-};
 const mapDispatchToProps = (dispatch) => ({
   profilesFetched(response) {
     dispatch(profilesFetchSuccess(response));

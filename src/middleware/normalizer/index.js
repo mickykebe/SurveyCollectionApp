@@ -10,7 +10,8 @@ export default store => next => action => {
         ...action,
         response: normalize(action.response, schema.surveySchema)
       });
-    case actionTypes.ACTION_SURVEY_FEED_FETCH_SUCCESS:
+    case actionTypes.ACTION_SURVEY_PENDING_FEED_FETCH_SUCCESS:
+    case actionTypes.ACTION_SURVEY_PUBLISHED_FEED_FETCH_SUCCESS:
       return next({
         ...action,
         response: normalize(action.response.results, schema.surveyListSchema)

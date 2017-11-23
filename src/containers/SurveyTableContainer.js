@@ -1,26 +1,28 @@
 import { connect } from 'react-redux';
-import { surveyFeedFetch, surveyDelete } from '../actions';
+import { surveysPendingFetch, surveysPublishedFetch, surveyDelete } from '../actions';
 import { 
-  getCurrentUserSurveys, 
-  getIsFetchingSurveyFeed, 
-  getSurveyFeedFetchErrors,
-  getSurveyFeedNext,
+  getSurveys, 
+  getIsFetchingSurveys, 
+  getSurveysFetchErrors,
+  getSurveysNext,
  } from 'reducers';
 import SurveyTable from '../components/SurveyTable';
 import api from '../api';
 
-const mapStateToProps = (state, { languages: codes}) => ({
-  surveys: getCurrentUserSurveys(state),
-  isFetching: getIsFetchingSurveyFeed(state),
-  fetchErrors: getSurveyFeedFetchErrors(state),
-  next: getSurveyFeedNext(state),
+const mapStateToProps = (state, { languages: codes, published}) => ({
+  surveys: getSurveys(state),
+  isFetching: getIsFetchingSurveys(state, published),
+  fetchErrors: getSurveysFetchErrors(state, published),
+  next: getSurveysNext(state, published),
 });
 
 const mergeProps = (stateProps, { dispatch }, ownProps) => ({
   ...ownProps,
   ...stateProps,
   fetchSurveyFeed() {
-    return dispatch(surveyFeedFetch(api.Surveys.mine(stateProps.next)));
+    const { published } = ownProps;
+    const action = published ? surveysPublishedFetch : surveysPendingFetch;
+    return dispatch(action(api.Surveys.mine(ownProps.published, stateProps.next)));
   },
   deleteSurvey(surveyId) {
     return dispatch(surveyDelete(api.Surveys.delete(surveyId), { id: surveyId }));

@@ -87,11 +87,17 @@ export const surveyUpdate = apiActionCreator({
   fail: actionTypes.ACTION_SURVEY_UPDATE_FAIL,
 }, true);
 
-export const surveyFeedFetch = apiActionCreator({
-  request: actionTypes.ACTION_SURVEY_FEED_FETCH_REQUEST,
-  success: actionTypes.ACTION_SURVEY_FEED_FETCH_SUCCESS,
-  fail: actionTypes.ACTION_SURVEY_FEED_FETCH_FAIL,
-}, true);
+export const surveysPendingFetch = apiActionCreator({
+  request: actionTypes.ACTION_SURVEY_PENDING_FEED_FETCH_REQUEST,
+  success: actionTypes.ACTION_SURVEY_PENDING_FEED_FETCH_SUCCESS,
+  fail: actionTypes.ACTION_SURVEY_PENDING_FEED_FETCH_FAIL,
+});
+
+export const surveysPublishedFetch = apiActionCreator({
+  request: actionTypes.ACTION_SURVEY_PUBLISHED_FEED_FETCH_REQUEST,
+  success: actionTypes.ACTION_SURVEY_PUBLISHED_FEED_FETCH_SUCCESS,
+  fail: actionTypes.ACTION_SURVEY_PUBLISHED_FEED_FETCH_FAIL,
+});
 
 export const surveyFetch = apiActionCreator({
   request: actionTypes.ACTION_SURVEY_FETCH_REQUEST,

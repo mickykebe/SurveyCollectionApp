@@ -5,7 +5,8 @@ import SurveyTableContainer from '../containers/SurveyTableContainer';
 function Home(props) {
   return (
     <Content>
-      <SurveyTableContainer />
+      <SurveyTableContainer
+        published={false} />
     </Content>
   );
 }

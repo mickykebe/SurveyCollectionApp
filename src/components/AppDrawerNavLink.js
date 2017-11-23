@@ -25,7 +25,7 @@ const styles = theme => ({
   navLink: {
     fontWeight: theme.typography.fontWeightRegular,
     display: 'flex',
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`
+    padding: `${theme.spacing.unit}px ${theme.spacing.unit}px ${theme.spacing.unit}px ${theme.spacing.unit * 2}px`
   },
   navLinkButton: {
     color: theme.palette.text.secondary,

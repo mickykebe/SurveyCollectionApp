@@ -64,8 +64,8 @@ export const getCompany = (state, id) =>
   fromCompanies.getCompany(state, id);
 
 //Profile selectors
-export const getProfiles = (state, companyId) =>
-  fromProfiles.getProfiles(state.profiles, companyId);
+export const getProfiles = (state) =>
+  fromProfiles.getProfiles(state.profiles);
 export const getProfile = (state, id) =>
   fromProfiles.getProfile(state.profiles, id);
 
@@ -76,18 +76,20 @@ export const getElementFromClipboard = (state) =>
 //Survey selectors
 export const getSurvey = (state, id) =>
   fromSurveys.getSurvey(state.surveys, id);
+export const getSurveys = (state, active) =>
+  fromSurveys.getSurveys(state.surveys, active);
 export const getIsCreatingSurvey = (state) =>
   fromSurveys.getIsCreatingSurvey(state.surveys);
 export const getSurveyCreateErrors = (state) =>
   fromSurveys.getSurveyCreateErrors(state.surveys);
-export const getIsFetchingSurveyFeed = (state) =>
-  fromSurveys.getIsFetchingSurveyFeed(state.surveys);
-export const getSurveyFeedFetchErrors = (state) =>
-  fromSurveys.getSurveyFeedFetchErrors(state.surveys);
-export const getSurveyFeedCount = (state) =>
-  fromSurveys.getSurveyFeedCount(state.surveys);
-export const getSurveyFeedNext = (state) =>
-  fromSurveys.getSurveyFeedNext(state.surveys);
+export const getIsFetchingSurveys = (state, active) =>
+  fromSurveys.getIsFetchingSurveys(state.surveys, active);
+export const getSurveysFetchErrors = (state, active) =>
+  fromSurveys.getSurveysFetchErrors(state.surveys, active);
+export const getSurveysCount = (state, active) =>
+  fromSurveys.getSurveysCount(state.surveys, active);
+export const getSurveysNext = (state, active) =>
+  fromSurveys.getSurveysNext(state.surveys, active);
 export const getIsFetchingSurvey = (state, id) =>
   fromSurveys.getIsFetchingSurvey(state.surveys, id);
 export const getSurveyFetchErrors = (state, id) =>
@@ -157,8 +159,6 @@ export const getQuestionTypeOperators = (state, id) => {
   const operatorCodes = fromQuestionTypes.getQuestionTypeOperators(state.questionTypes, id);
   return operatorCodes.map(code => fromOperators.getOperator(state.operators, code));
 }
-export const getCurrentUserSurveys = (state) => 
-  fromSurveys.getUserSurveys(state.surveys, state.common.currentUser.id);
 
 export const getSurveyResponses = (state, id) => {
   const responseIds = fromSurveys.getSurveyResponseIds(state.surveys, id);

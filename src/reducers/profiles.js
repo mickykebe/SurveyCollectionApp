@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import union from 'lodash/union';
 import { 
   ACTION_PROFILE_FETCH_SUCCESS,
-  ACTION_PROFILES_FETCH_SUCCESS 
+  ACTION_PROFILES_FETCH_SUCCESS,
+  ACTION_LOGOUT
 } from '../actions/types';
 
 const byId = (state = {}, action) => {
@@ -13,6 +14,8 @@ const byId = (state = {}, action) => {
         ...state,
         ...action.response.entities.profiles,
       }
+    case ACTION_LOGOUT:
+      return {};
     default:
       return state;
   }
@@ -24,6 +27,8 @@ const ids = (state = [], action) => {
       return action.response.result;
     case ACTION_PROFILE_FETCH_SUCCESS:
       return union(state, action.response.result);
+    case ACTION_LOGOUT:
+      return [];
     default:
       return state;
   }
@@ -34,6 +39,6 @@ export default combineReducers({
   ids,
 });
 
-export const getProfiles = (state, companyId) => 
-  state.ids.map(id => state.byId[id]).filter(profile => profile.company === companyId);
+export const getProfiles = (state) => 
+  state.ids.map(id => state.byId[id]);
 export const getProfile = (state, id) => state.byId[id];

@@ -37,8 +37,8 @@ const Auth = {
 }
 
 const Surveys = {
-  mine(offset = 0) {
-    return requests.get(`/surveys/mine/?offset=${offset}`)
+  mine(published, offset = 0) {
+    return requests.get(`/surveys/mine/?query={"active":${published}}&offset=${offset}`)
       .then(data => mapper.surveyFeed(data));
   },
   get(id) {

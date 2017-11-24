@@ -7,7 +7,7 @@ import { createKeyWrappedReducer } from './hor/utils';
 
 const PENDING_KEY = 'pending';
 const PUBLISHED_KEY = 'published';
-const statusKey = (active) => active ? PENDING_KEY : PUBLISHED_KEY;
+const statusKey = (active) => active ? PUBLISHED_KEY : PENDING_KEY;
 
 const byId = (state = {}, action) => {
   switch(action.type) {

@@ -10,7 +10,7 @@ import SurveyTable from '../components/SurveyTable';
 import api from '../api';
 
 const mapStateToProps = (state, { languages: codes, published}) => ({
-  surveys: getSurveys(state),
+  surveys: getSurveys(state, published),
   isFetching: getIsFetchingSurveys(state, published),
   fetchErrors: getSurveysFetchErrors(state, published),
   next: getSurveysNext(state, published),

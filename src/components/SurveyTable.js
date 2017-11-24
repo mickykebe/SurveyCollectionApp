@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { compose } from 'redux';
-import { withRouter } from 'react-router';
-import Paper from 'material-ui/Paper';
 import Table, { 
   TableBody,
   TableRow,
@@ -16,7 +13,6 @@ import Dialog, {
 import Button from 'material-ui/Button';
 import PopupSnackbar from './PopupSnackbar';
 import OverlayLoading from './OverlayLoading';
-import TableToolbar from './table/TableToolbar';
 import TableHeadRow from './table/TableHeadRow';
 import TableFootRow from './table/TableFootRow';
 import HomeSurveyRowContainer from '../containers/HomeSurveyRowContainer';
@@ -26,6 +22,7 @@ const styles = theme => ({
   root: {
     position: 'relative',
     overflowX: 'auto',
+    paddingTop: theme.spacing.unit * 2,
   },
   loadMoreBtn: {
     display: 'block',
@@ -82,13 +79,12 @@ class SurveyTable extends Component {
   }
 
   render() {
-    const { classes, surveys, history, isFetching, fetchErrors, next } = this.props;
+    const { classes, surveys, isFetching, fetchErrors, next } = this.props;
     const { isDeletingSurvey, deleteErrors } = this.state;
 
     return (
       <div>
-        <Paper className={classes.root}>
-          <TableToolbar title="Surveys" onAddClick={() => history.push('/surveys/new')} />
+        <div className={classes.root}>
           <Table>
             <TableHeadRow columns={this.columns} />
             <TableBody>
@@ -136,7 +132,7 @@ class SurveyTable extends Component {
             (isDeletingSurvey || isFetching) &&
             <OverlayLoading />
           }
-        </Paper>
+        </div>
         <Dialog open={this.state.deleteDialogOpen} onRequestClose={this.deleteDialogClose}>
           <DialogTitle>Confirm</DialogTitle>
           <DialogContent>
@@ -167,7 +163,4 @@ class SurveyTable extends Component {
   }
 }
 
-export default compose(
-  withRouter,
-  withStyles(styles)
-)(SurveyTable);
+export default withStyles(styles)(SurveyTable);

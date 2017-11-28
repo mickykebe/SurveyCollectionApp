@@ -1,4 +1,3 @@
-import { denormalize } from 'normalizr';
 import { connect } from 'react-redux';
 import { surveyUpdate, showPopup } from '../actions';
 import api from '../api';
@@ -16,10 +15,10 @@ const mapStateToProps = (state, { survey: { uuid: id, languages: codes }}) => ({
 });
 
 const mergeProps = (stateProps, { dispatch }, ownProps) => {
-  const { denormalizedSurvey, ...rest } = stateProps;
+  const { denormalizedSurvey, ...restStateProps } = stateProps;
 
   return ({
-    ...stateProps,
+    ...restStateProps,
     publish() {
       dispatch(surveyUpdate(
         api.Surveys.update({ ...denormalizedSurvey, active: true }), 

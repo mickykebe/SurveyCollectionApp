@@ -27,3 +27,5 @@ export default combineReducers({
 
 export const getChoice = (state, id) =>
   state.byId[id];
+export const getMap = (state) =>
+  state.byId;

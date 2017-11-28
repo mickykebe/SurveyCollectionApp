@@ -108,13 +108,10 @@ class SurveyTable extends Component {
                 </TableRow>
               }
               {
-                surveys.map(({uuid: id, title, description, languages}) => 
+                surveys.map((survey) => 
                   <HomeSurveyRowContainer 
-                    key={id}
-                    id={id}
-                    title={title}
-                    description={description}
-                    languages={languages}
+                    key={survey.uuid}
+                    survey={survey}
                     onDeleteSurvey={this.onDeleteSurvey}
                   />)
               }

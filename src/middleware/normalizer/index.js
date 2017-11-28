@@ -6,6 +6,7 @@ export default store => next => action => {
   switch(action.type) {
     case actionTypes.ACTION_SURVEY_CREATE_SUCCESS:
     case actionTypes.ACTION_SURVEY_FETCH_SUCCESS:
+    case actionTypes.ACTION_SURVEY_UPDATE_SUCCESS:
       return next({
         ...action,
         response: normalize(action.response, schema.surveySchema)

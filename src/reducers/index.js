@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
+import { denormalize } from 'normalizr';
+import { surveySchema } from '../middleware/normalizer/schema';
 import surveyForm, * as fromSurveyForm from './surveyForm';
 import auth, * as fromAuth from './auth';
 import common, * as fromCommon from './common';
@@ -100,6 +102,15 @@ export const getIsDeletingSurvey = (state, id) =>
   fromSurveys.getIsDeletingSurvey(state.surveys, id);
 export const getSurveyDeleteErrors = (state, id) =>
   fromSurveys.getSurveyDeleteErrors(state.surveys, id);
+export const getDenormalizedSurvey = (state, id) =>
+  denormalize(
+    fromSurveys.getSurvey(state.surveys, id), 
+    surveySchema, {
+      groups: fromGroups.getMap(state.groups),
+      questions: fromQuestions.getMap(state.questions),
+      choices: fromChoices.getMap(state.choices),
+      choice_conditions: fromChoiceConditions.getMap(state.choiceConditions),
+     });
 
 //Response selectors
 export const getSurveyResponse = (state, id) =>

@@ -15,6 +15,7 @@ const byId = (state = {}, action) => {
     case actions.ACTION_SURVEY_PENDING_FEED_FETCH_SUCCESS:
     case actions.ACTION_SURVEY_PUBLISHED_FEED_FETCH_SUCCESS:
     case actions.ACTION_SURVEY_FETCH_SUCCESS:
+    case actions.ACTION_SURVEY_UPDATE_SUCCESS:
       return {
         ...state,
         ...action.response.entities.surveys,
@@ -36,7 +37,7 @@ const createList = (activeStatus) => {
     const handleUpdate = (state, action) => {
       const { result: surveyId, entities } = action.response;
       const { active } = entities.surveys[surveyId];
-      const shouldRemove = (active !== activeStatus && state.findIndex(surveyId) !== -1);
+      const shouldRemove = (active !== activeStatus && state.findIndex((id) => id === surveyId) !== -1);
       return shouldRemove ? state.filter(id => id !== surveyId) : state;
     }
     switch(action.type) {

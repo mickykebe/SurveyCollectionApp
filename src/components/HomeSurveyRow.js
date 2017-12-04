@@ -21,8 +21,8 @@ const styles = theme => ({
   }
 })
 
-function HomeSurveyRow({ survey, history, onDeleteSurvey, isUpdating, classes, publish }) {
-  const { uuid: id, active, title, description, languages } = survey;
+function HomeSurveyRow({ survey, languages, history, onDeleteSurvey, isUpdating, classes, publish }) {
+  const { uuid: id, active, title, description } = survey;
   const languagesStr = languages.slice(1).reduce((langText, lang, i) => {
     return `${langText}, ${lang.name}`;
   }, languages[0].name);

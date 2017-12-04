@@ -42,10 +42,11 @@ class LanguageRow extends Component {
       deleting,
       onDelete
     } = this.props;
-    const { code, name } = language;
+    const { uuid: id, code, name } = language;
 
     if(this.state.editing) {
       return <LanguageRowForm
+        id={id}
         initialValues={{ code, name }}
         onSubmit={onEditSubmit}
         errors={errors}

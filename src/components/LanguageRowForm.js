@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Button from 'material-ui/Button';
-import { TableCell } from 'material-ui/Table';
+import { TableCell, TableRow } from 'material-ui/Table';
 import TextField from 'material-ui/TextField';
 import { withStyles } from 'material-ui/styles';
 
@@ -65,24 +65,26 @@ class LanguageRowForm extends Component {
   }
 
   render() {
-    const { classes, errors, inProgress, onCancel, submitLabel = 'Submit' } = this.props;
+    const { id: formId = "langForm", classes, errors, inProgress, onCancel, submitLabel = 'Submit' } = this.props;
     const { 
       code: codeError = false,
       name: nameError = false,
     } = errors || {};
     return (
-      <form className={classes.root} onSubmit={this.onSubmit}>
+      <TableRow>
         <TableCell className={classes.fieldCell}>
-          <TextField
-            label="Code"
-            required={true}
-            fullWidth={true}
-            inputProps={{required: 'true'}}
-            onChange={this.handleFieldChange('code')}
-            value={this.fieldValue('code')}
-            error={!!codeError}
-            helperText={codeError}
-            />
+          <form id={formId} onSubmit={this.onSubmit}>
+            <TextField
+              label="Code"
+              required={true}
+              fullWidth={true}
+              inputProps={{required: 'true'}}
+              onChange={this.handleFieldChange('code')}
+              value={this.fieldValue('code')}
+              error={!!codeError}
+              helperText={codeError}
+              />
+          </form>
         </TableCell>
         <TableCell className={classes.fieldCell}>
           <TextField
@@ -93,7 +95,8 @@ class LanguageRowForm extends Component {
             onChange={this.handleFieldChange('name')}
             value={this.fieldValue('name')}
             error={!!nameError}
-            helperText={nameError} />
+            helperText={nameError}
+            inputProps={{form: formId}} />
         </TableCell>
         <TableCell className={classes.actionCell}>
           <Button 
@@ -101,7 +104,8 @@ class LanguageRowForm extends Component {
             raised 
             color="accent"
             type="submit"
-            disabled={inProgress}>{submitLabel}</Button>
+            disabled={inProgress}
+            form={formId}>{submitLabel}</Button>
           {
             !!onCancel &&
             <Button
@@ -113,7 +117,7 @@ class LanguageRowForm extends Component {
               onClick={onCancel}>Cancel</Button>
           }
         </TableCell>
-      </form>
+      </TableRow>
     );
   }
 }

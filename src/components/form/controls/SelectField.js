@@ -9,6 +9,7 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 200,
+    flex: 1,
   }
 });
 

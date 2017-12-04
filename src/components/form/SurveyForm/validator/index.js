@@ -70,6 +70,33 @@ const choiceErrors = (choices, languages) => {
   return errors;
 }
 
+const conditionErrors = (value) => {
+  const errors = {};
+  if(value && value.conditions) {
+    const condErrors = [];
+    value.conditions.forEach((condition, i) => {
+      if(!condition) {
+        condErrors[i] = { _error: 'Invalid condition' };
+      }
+      else {
+        if(condition.type === 'relational' && !condition.question) {
+          condErrors[i] = { question: 'Question not specified' };
+        }
+        else if(condition.type === 'logical') {
+          const errors = conditionErrors(condition);
+          if(!_isEmpty(errors)) {
+            condErrors[i] = errors;
+          }
+        }
+      }
+    });
+    if(condErrors.length) {
+      errors.conditions = condErrors;
+    }
+  }
+  return errors;
+}
+
 const questionErrors = (value, languages) => {
   const errors = {};
   if(!value.type) {
@@ -79,6 +106,12 @@ const questionErrors = (value, languages) => {
   if(!_isEmpty(titleErrors)) {
     errors.title = titleErrors;
   }
+
+  const condErrors = conditionErrors(value.condition);
+  if(!_isEmpty(condErrors)) {
+    errors.condition = condErrors;
+  }
+
   const date_errors = dateErrors(value);
   Object.assign(errors, date_errors);
   
@@ -103,6 +136,10 @@ const groupErrors = (value, languages) => {
     return { _error: "Group must have at least one question" }
   }
   const errors = {};
+  const condErrors = conditionErrors(value.condition);
+  if(!_isEmpty(condErrors)) {
+    errors.condition = condErrors;
+  }
   const groupElemErrors = [];
   value.groupElements.forEach((elem, i) => {
     if(!elem || !elem.schema || (elem.schema !== 'group' && elem.schema !== 'question')) {

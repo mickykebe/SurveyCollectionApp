@@ -4,6 +4,7 @@ import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
 import { withStyles } from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
+import SelectField from 'components/form/controls/SelectField';
 import ConditionRHSContainer from 'components/form/SurveyForm/containers/ConditionRHSContainer';
 import { valFromLangObj } from 'utils';
 
@@ -43,7 +44,7 @@ class Condition extends Component {
         <div className={classes.conditionBox}>
           <Field
             name="question"
-            component={renderMenuSelectField}
+            component={SelectField}
             label='Question'
             options={questionOptions}
             className={classes.selectQuestion}

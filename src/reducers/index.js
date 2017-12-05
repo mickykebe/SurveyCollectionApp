@@ -5,6 +5,7 @@ import surveyForm, * as fromSurveyForm from './surveyForm';
 import auth, * as fromAuth from './auth';
 import common, * as fromCommon from './common';
 import companies, * as fromCompanies from './companies';
+import currencies, * as fromCurrencies from './currencies';
 import profiles, * as fromProfiles from './profiles';
 import surveys, * as fromSurveys from './surveys';
 import responses, * as fromResponses from './responses';
@@ -21,6 +22,7 @@ export default combineReducers({
   common,
   auth,
   companies,
+  currencies,
   profiles,
   surveys,
   responses,
@@ -38,12 +40,8 @@ export default combineReducers({
 //Common selectors
 export const getCurrentUser = (state) =>
   fromCommon.getCurrentUser(state.common);
-export const getIsAppDataLoading = (state) =>
-  fromCommon.getIsAppDataLoading(state.common);
-export const getAppDataLoaded = (state) =>
-  fromCommon.getAppDataLoaded(state.common);
-export const getAppDataLoadError = (state) =>
-  fromCommon.getAppDataLoadError(state.common);
+export const getIsCommonDataLoaded = (state) =>
+  fromCommon.getIsCommonDataLoaded(state.common);
 
 //Auth selectors
 export const getIsAuthenticating = (state) =>
@@ -64,6 +62,10 @@ export const getAllCompanies = (state) =>
   fromCompanies.getAllCompanies(state.companies);
 export const getCompany = (state, id) =>
   fromCompanies.getCompany(state, id);
+
+//Currency selectors
+export const getCurrencies = (state) =>
+  fromCurrencies.getCurrencies(state.currencies);
 
 //Profile selectors
 export const getProfiles = (state) =>
@@ -251,4 +253,3 @@ export const getSurveyFormData = (state, surveyId) => {
   const groupRoot = buildGroup(rootGroup, groups, questions);
   return { ..._survey, groupRoot };
 }
-

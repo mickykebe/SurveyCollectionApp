@@ -13,13 +13,15 @@ const styles = theme => ({
   }
 });
 
-function SelectField({ classes, input, meta, label, options }) {
+function SelectField({ classes, input, meta, label, options, multiple = false }) {
+  const value = (!input.value && multiple === true) ? [] : input.value;
   return (
     <FormControl error={meta.touched && !!meta.error} className={classes.formControl}>
       <InputLabel>{label}</InputLabel>
       <Select
-        value={input.value}
-        onChange={e => input.onChange(e.target.value)}>
+        value={value}
+        onChange={e => input.onChange(e.target.value)}
+        multiple={multiple}>
         {
           options.map(({ val, label }) => 
             <MenuItem

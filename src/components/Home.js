@@ -8,7 +8,6 @@ import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
 import { withStyles } from 'material-ui/styles';
 import Tabs, { Tab } from 'material-ui/Tabs';
-import Toolbar from 'material-ui/Toolbar';
 import AddIcon from 'material-ui-icons/Add';
 import CheckIcon from 'material-ui-icons/CheckCircle';
 import PencilIcon from 'material-ui-icons/Create';

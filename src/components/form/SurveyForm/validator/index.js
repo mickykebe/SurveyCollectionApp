@@ -51,6 +51,16 @@ const numRangeErrors = (question) => {
   return errors;
 }
 
+const currencyErrors = (question) => {
+  const errors = {};
+  if(question && question.type === 'currency') {
+    if(!question.currencies || _isEmpty(question.currencies)) {
+      errors.currencies = 'Required';
+    }
+  }
+  return errors;
+}
+
 const choiceErrors = (choices, languages) => {
   const errors = [];
   choices.forEach((choice, i) => {
@@ -112,11 +122,9 @@ const questionErrors = (value, languages) => {
     errors.condition = condErrors;
   }
 
-  const date_errors = dateErrors(value);
-  Object.assign(errors, date_errors);
-  
-  const rangeErrors = numRangeErrors(value);
-  Object.assign(errors, rangeErrors);
+  Object.assign(errors, dateErrors(value));
+  Object.assign(errors, numRangeErrors(value));
+  Object.assign(errors, currencyErrors(value));
 
   if(value.type === 'choose-one' || value.type === 'choose-any') {
     if(!value.choices || !value.choices.length) {

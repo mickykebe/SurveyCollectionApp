@@ -32,7 +32,6 @@ export default store => next => action => {
         ...action,
         response: normalize(action.response.results, schema.profileListSchema),
       });
-    case actionTypes.ACTION_APP_DATA_LOAD_SUCCESS:
     case actionTypes.ACTION_LANGUAGE_FEED_FETCH_SUCCESS:
       return next({
         ...action,
@@ -48,6 +47,11 @@ export default store => next => action => {
       return next({
         ...action,
         response: normalize(action.response.results, schema.companyListSchema),
+      });
+    case actionTypes.ACTION_CURRENCIES_FETCH_SUCCESS:
+      return next({
+        ...action,
+        response: normalize(action.response.results, schema.currencyListSchema),
       });
     case actionTypes.ACTION_ADMIN_REGISTER_SUCCESS:
       return next({

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
 import { withStyles } from 'material-ui/styles';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';

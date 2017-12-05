@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import AuthDataLoader from './AuthDataLoader';
+import CommonDataLoader from './CommonDataLoader';
 
 class AuthContainer extends Component {
   render() {
@@ -11,9 +11,9 @@ class AuthContainer extends Component {
     }
     else {
       return (
-        <AuthDataLoader>
+        <CommonDataLoader>
           {children}
-        </AuthDataLoader>
+        </CommonDataLoader>
       )
     }
   }

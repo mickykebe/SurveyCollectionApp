@@ -91,12 +91,11 @@ class LanguageRowForm extends Component {
             label="Name"
             required={true}
             fullWidth={true}
-            inputProps={{required: 'true'}}
+            inputProps={{required: 'true', form: formId}}
             onChange={this.handleFieldChange('name')}
             value={this.fieldValue('name')}
             error={!!nameError}
-            helperText={nameError}
-            inputProps={{form: formId}} />
+            helperText={nameError} />
         </TableCell>
         <TableCell className={classes.actionCell}>
           <Button 

@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import {
-  ACTION_APP_DATA_LOAD_SUCCESS,
   ACTION_LANGUAGE_FEED_FETCH_REQUEST,
   ACTION_LANGUAGE_FEED_FETCH_SUCCESS,
   ACTION_LANGUAGE_FEED_FETCH_FAIL,
@@ -15,7 +14,6 @@ const byCode = (state = {}, action) => {
     case ACTION_LANGUAGE_FEED_FETCH_SUCCESS:
     case ACTION_LANGUAGE_CREATE_SUCCESS:
     case ACTION_LANGUAGE_UPDATE_SUCCESS:
-    case ACTION_APP_DATA_LOAD_SUCCESS:
       return {
         ...state,
         ...action.response.entities.languages,
@@ -27,7 +25,6 @@ const byCode = (state = {}, action) => {
 
 const codes = (state = [], action) => {
   switch (action.type) {
-    case ACTION_APP_DATA_LOAD_SUCCESS:
     case ACTION_LANGUAGE_FEED_FETCH_SUCCESS:
       return action.response.result;
     case ACTION_LANGUAGE_CREATE_SUCCESS:

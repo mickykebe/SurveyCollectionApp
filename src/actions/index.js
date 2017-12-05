@@ -30,11 +30,9 @@ export const apiActionCreator =
         )
       }
 
-export const appDataLoad = apiActionCreator({
-  request: actionTypes.ACTION_APP_DATA_LOAD_REQUEST,
-  success: actionTypes.ACTION_APP_DATA_LOAD_SUCCESS,
-  fail: actionTypes.ACTION_APP_DATA_LOAD_FAIL,
-}, true);
+export const commonDataLoaded = () => ({
+  type: actionTypes.ACTION_COMMON_DATA_LOADED,
+});
 
 export const login = apiActionCreator({
   request: actionTypes.ACTION_LOGIN_REQUEST,
@@ -117,11 +115,10 @@ export const responsesFetch = apiActionCreator({
   fail: actionTypes.ACTION_RESPONSES_FETCH_FAIL,
 }, true);
 
-export const languagesFetch = apiActionCreator({
-  request: actionTypes.ACTION_LANGUAGE_FEED_FETCH_REQUEST,
-  success: actionTypes.ACTION_LANGUAGE_FEED_FETCH_SUCCESS,
-  fail: actionTypes.ACTION_LANGUAGE_FEED_FETCH_FAIL,
-}, true);
+export const fetchLanguagesSuccess = (response) => ({
+  type: actionTypes.ACTION_LANGUAGE_FEED_FETCH_SUCCESS,
+  response,
+});
 
 export const createLanguageSuccess = (response) => ({
   type: actionTypes.ACTION_LANGUAGE_CREATE_SUCCESS,
@@ -137,6 +134,11 @@ export const updateLanguageSuccess = (response, prevCode) => ({
 export const deleteLanguageSuccess = (code) => ({
   type: actionTypes.ACTION_LANGUAGE_DELETE_SUCCESS,
   code,
+});
+
+export const fetchCurrenciesSuccess = (response) => ({
+  type: actionTypes.ACTION_CURRENCIES_FETCH_SUCCESS,
+  response,
 });
 
 export const showPopup = (message) => ({

@@ -21,3 +21,5 @@ export const companySchema = new schema.Entity('companies', {}, { idAttribute: '
 export const companyListSchema = [companySchema];
 export const profileSchema = new schema.Entity('profiles', {}, { idAttribute: 'uuid' });
 export const profileListSchema = [profileSchema];
+const currencySchema = new schema.Entity('currencies', {}, { idAttribute: 'uuid' });
+export const currencyListSchema = [currencySchema];

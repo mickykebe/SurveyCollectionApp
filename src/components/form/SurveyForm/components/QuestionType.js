@@ -4,8 +4,10 @@ import { withStyles } from 'material-ui/styles';
 import BlankAnswer from './BlankAnswer';
 import NumberRangeAnswer from './NumberRangeAnswer';
 import ChoiceListAnswer from './ChoiceListAnswer';
+import CurrencyAnswerContainer from '../containers/CurrencyAnswerContainer'
 import DateAnswer from './DateAnswer';
 import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
+import SelectField from 'components/form/controls/SelectField';
 
 const styles = {
   root: {
@@ -98,7 +100,7 @@ class QuestionType extends Component {
           }
           {
             activeQuestionType === 'currency' &&
-            <BlankAnswer placeholder="Currency" />
+            <CurrencyAnswerContainer />
           }
         </div>
       </div>

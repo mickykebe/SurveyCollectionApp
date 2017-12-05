@@ -89,6 +89,12 @@ const Companies = {
   } */
 }
 
+const Currencies = {
+  all() {
+    return requests.get('/currencies/?limit=0');
+  }
+}
+
 const Profiles = {
   all(companyId) {
     return requests.get(`/profiles/?query={"company__uuid":"${companyId}"}&limit=0`);
@@ -110,6 +116,7 @@ export default {
   SurveyResponses,
   Languages,
   Companies,
+  Currencies,
   Profiles,
   setToken: _token => { token = _token; }
 };

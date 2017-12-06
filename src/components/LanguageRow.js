@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import IconButton from 'material-ui/IconButton';
 import { TableRow, TableCell } from 'material-ui/Table';
+import Tooltip from 'material-ui/Tooltip';
 import CreateIcon from 'material-ui-icons/Create';
 import DeleteIcon from 'material-ui-icons/Delete';
 import LanguageRowForm from './LanguageRowForm';
@@ -63,12 +64,16 @@ class LanguageRow extends Component {
           {name}
         </TableCell>
         <TableCell className={classes.actions}>
-          <IconButton onClick={() => this.setState({ editing: true })}>
-            <CreateIcon />
-          </IconButton>
-          <IconButton onClick={() => this.setState({ dialogOpen: true })}>
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="Edit language" placement="bottom">
+            <IconButton onClick={() => this.setState({ editing: true })}>
+              <CreateIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete language" placement="bottom">
+            <IconButton onClick={() => this.setState({ dialogOpen: true })}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
           {
             deleting &&
             <OverlayLoading classes={{ spinner: classes.loadingSpinner }} />

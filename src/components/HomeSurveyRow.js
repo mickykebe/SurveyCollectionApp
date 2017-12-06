@@ -1,9 +1,10 @@
 import React from 'react';
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
+import IconButton from 'material-ui/IconButton';
 import { withStyles } from 'material-ui/styles';
 import { TableRow, TableCell } from 'material-ui/Table';
-import IconButton from 'material-ui/IconButton';
+import Tooltip from 'material-ui/Tooltip';
 import CreateIcon from 'material-ui-icons/Create';
 import DeleteIcon from 'material-ui-icons/Delete';
 import PublishIcon from 'material-ui-icons/Publish';
@@ -39,22 +40,30 @@ function HomeSurveyRow({ survey, languages, history, onDeleteSurvey, isUpdating,
       <TableCell className={classes.actions}>
         {
           active &&
-          <IconButton onClick={() => history.push(`/surveys/responses/${id}`)}>
-            <ResponseIcon />
-          </IconButton>
+          <Tooltip title="View responses" placement="bottom">
+            <IconButton onClick={() => history.push(`/surveys/responses/${id}`)}>
+              <ResponseIcon />
+            </IconButton>
+          </Tooltip>
         }
         {
           !active &&
-          <IconButton onClick={publish}>
-            <PublishIcon />
-          </IconButton>
+          <Tooltip title="Publish survey" placement="bottom">
+            <IconButton onClick={publish}>
+              <PublishIcon />
+            </IconButton>
+          </Tooltip>
         }
-        <IconButton onClick={() => history.push(`/surveys/edit/${id}`)}>
-          <CreateIcon />
-        </IconButton>
-        <IconButton onClick={() => onDeleteSurvey(id)}>
-          <DeleteIcon />
-        </IconButton>
+        <Tooltip title="Edit survey" placement="bottom">
+          <IconButton onClick={() => history.push(`/surveys/edit/${id}`)}>
+            <CreateIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete survey" placement="bottom">
+          <IconButton onClick={() => onDeleteSurvey(id)}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
         {
           isUpdating &&
           <OverlayLoading classes={{spinner: classes.loadingSpinner}}/>

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { reduxForm } from 'redux-form';
+import { reduxForm, initialize } from 'redux-form';
 import { formValueSelector } from 'redux-form';
 import { 
   getAllLanguages, 
@@ -25,10 +25,17 @@ const mapStateToProps = (state) => {
   };
 };
 
+const mapDispatchToProps = (dispatch, { initialValues }) => ({
+  initializeForm() {
+    dispatch(initialize(surveyFormName, initialValues));
+  }
+})
+
 export default compose(
     reduxForm({
       form: surveyFormName,
       validate: validator,
+      destroyOnUnmount: false,
     }),
-    connect(mapStateToProps),
+    connect(mapStateToProps, mapDispatchToProps),
   )(SurveyForm);

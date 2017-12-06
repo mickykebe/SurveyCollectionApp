@@ -45,6 +45,10 @@ class SurveyForm extends Component {
     this.props.onSubmit(data);
   }
 
+  componentWillMount() {
+    this.props.initializeForm();
+  }
+
   render() {
     const { 
       classes, 

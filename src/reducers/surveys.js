@@ -44,9 +44,9 @@ const createList = (activeStatus) => {
       case actions.ACTION_SURVEY_CREATE_SUCCESS:
         return handleCreate(state, action);
       case actions.ACTION_SURVEY_PENDING_FEED_FETCH_SUCCESS:
-        return !activeStatus ? union(state, action.response.result) : state;
+        return !activeStatus ? union(action.response.result, state) : state;
       case actions.ACTION_SURVEY_PUBLISHED_FEED_FETCH_SUCCESS:
-        return activeStatus ? union(state, action.response.result) : state;
+        return activeStatus ? union(action.response.result, state) : state;
       case actions.ACTION_SURVEY_UPDATE_SUCCESS:
         return handleUpdate(state, action);
       case actions.ACTION_SURVEY_DELETE_SUCCESS:

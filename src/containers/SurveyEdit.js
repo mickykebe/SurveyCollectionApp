@@ -37,12 +37,15 @@ class SurveyEdit extends Component {
   }
 
   handleSubmit(data) {
-    const { history, updateSurvey, displayPopup, isUpdating } = this.props;
+    const { surveyFormData, history, updateSurvey, displayPopup, isUpdating } = this.props;
+    const active = surveyFormData.active;
     if(!isUpdating) {
       updateSurvey(data)
         .then(() => {
           displayPopup('Survey updated successfully');
-          history.push('/');
+          if(active !== data.active) {
+            history.push('/');
+          }
         })
         .catch(e => displayPopup('Error occurred updating survey'));
     }
@@ -50,6 +53,7 @@ class SurveyEdit extends Component {
 
   componentDidMount() {
     const { id, fetchSurvey, displayPopup, isFetching } = this.props;
+    console.log('Edit mounted');
 
     if(!isFetching) {
       fetchSurvey(id)
@@ -59,6 +63,7 @@ class SurveyEdit extends Component {
 
   render() {
     const { surveyFormData, isFetching, isUpdating } = this.props;
+    console.log(surveyFormData);
     if(!surveyFormData && isFetching) {
       return (
         <Content>

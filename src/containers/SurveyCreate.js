@@ -29,16 +29,23 @@ class SurveyCreate extends Component{
   }
 
   create(data) {
-    const { inProgress, createSurvey, displayPopup, history } = this.props;
+    const { inProgress, createSurvey, displayPopup, history, destroyForm } = this.props;
 
     if(!inProgress) {
       createSurvey(data)
         .then(() => {
           displayPopup('Survey created successfully');
-          history.push('/');
+          if(data.active)
+            history.push('/');
+          else
+            history.push(`/surveys/edit/${data.uuid}`);
         })
         .catch(e => displayPopup('Error occurred creating survey'));
     }
+  }
+
+  componentWillUnmount() {
+    console.log('Create unmounting');
   }
 
   render() {

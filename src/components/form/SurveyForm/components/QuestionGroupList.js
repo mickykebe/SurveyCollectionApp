@@ -156,6 +156,7 @@ class QuestionGroupList extends Component {
           render={(isOver, enableDragSource, disableDragSource) => 
             <div>
               <ElementComponent
+                hideRemoveButton={fields.length === 1}
                 onRemove={() => fields.remove(index)}
                 rootChild={!!root}
                 root={false}

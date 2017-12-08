@@ -29,7 +29,7 @@ class SurveyCreate extends Component{
   }
 
   create(data) {
-    const { inProgress, createSurvey, displayPopup, history, destroyForm } = this.props;
+    const { inProgress, createSurvey, displayPopup, history } = this.props;
 
     if(!inProgress) {
       createSurvey(data)

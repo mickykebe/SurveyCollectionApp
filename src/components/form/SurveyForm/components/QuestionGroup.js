@@ -79,6 +79,7 @@ class QuestionGroup extends Component{
       onFieldMouseLeave,
       onCopy,
       onCut,
+      hideRemoveButton
     } = this.props;
 
     return (
@@ -107,11 +108,14 @@ class QuestionGroup extends Component{
                   <CutIcon />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Delete Group">
-                <IconButton onClick={onRemove}>
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
+              {
+                !hideRemoveButton &&
+                <Tooltip title="Delete Group">
+                  <IconButton onClick={onRemove}>
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
+              }
             </Toolbar>
           </AppBar>
           <FormSection name="condition">

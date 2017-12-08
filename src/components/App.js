@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
 import AppFrame from "./AppFrame";
 import Login from "./Login";
 import RegisterContainer from "../containers/RegisterContainer";

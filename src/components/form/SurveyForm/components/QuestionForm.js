@@ -86,6 +86,7 @@ class QuestionForm extends Component {
       onRemove,
       onCopy,
       onCut,
+      hideRemoveButton = false
      } = this.props;
 
     return (
@@ -113,11 +114,14 @@ class QuestionForm extends Component {
                 <CutIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete Question" placement="bottom">
-              <IconButton onClick={onRemove}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+            {
+              !hideRemoveButton &&
+              <Tooltip title="Delete Question" placement="bottom">
+                <IconButton onClick={onRemove}>
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            }
           </Toolbar>
         </AppBar>
         <FormSection name="condition">

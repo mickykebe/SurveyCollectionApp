@@ -7,7 +7,6 @@ import ChoiceListAnswer from './ChoiceListAnswer';
 import CurrencyAnswerContainer from '../containers/CurrencyAnswerContainer'
 import DateAnswer from './DateAnswer';
 import { renderMenuSelectField } from 'components/form/helper/fieldRenderers';
-import SelectField from 'components/form/controls/SelectField';
 
 const styles = {
   root: {

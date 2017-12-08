@@ -14,7 +14,7 @@ import PencilIcon from 'material-ui-icons/Create';
 
 const styles = theme => ({
   addButton: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing.unit * 4,
     right: theme.spacing.unit * 4,
   }

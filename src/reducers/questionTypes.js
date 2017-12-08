@@ -36,7 +36,7 @@ const types = {
   "currency": {
     id: 'currency',
     name: 'Currency',
-    validOperators: ["==", "!=="]
+    validOperators: ["==", "!="]
   },
   "image": {
     id: 'image',

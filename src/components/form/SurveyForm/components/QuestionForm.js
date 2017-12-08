@@ -6,23 +6,27 @@ import Card, { CardContent, CardActions} from 'material-ui/Card';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import { FormControlLabel } from 'material-ui/Form';
+import Paper from 'material-ui/Paper';
 import Toolbar from 'material-ui/Toolbar';
 import Tooltip from 'material-ui/Tooltip';
 import Typography from 'material-ui/Typography';
+import AddIcon from 'material-ui-icons/Add';
 import CopyIcon from 'material-ui-icons/ContentCopy';
 import CutIcon from 'material-ui-icons/ContentCut';
 import DeleteIcon from 'material-ui-icons/Delete';
 import FunctionIcon from 'material-ui-icons/Functions';
+import GroupAddIcon from 'material-ui-icons/PlaylistAdd';
 import LangTextField from './LangTextField';
 import QuestionTypeContainer from '../containers/QuestionTypeContainer';
 import ConditionCollapse from './ConditionCollapse';
 import Overlay from 'components/Overlay';
+import QuestionBottomActions from './QuestionBottomActions';
 import { valFromLangObj } from 'utils';
 import { renderSwitch } from '../../helper/fieldRenderers';
 
 const styles = (theme) => ({
   root: {
-    margin: '16px',
+    marginBottom: theme.spacing.unit,
   },
   rootBox: {
     border: `1px solid ${theme.palette.common.faintBlack}`,
@@ -45,6 +49,10 @@ const styles = (theme) => ({
   },
   overflow: {
     overflow: 'visible',
+  },
+  bottomActions: {
+    display: 'flex',
+    marginBottom: theme.spacing.unit,
   },
   verticalDivider: {
     margin: `0 ${theme.spacing.unit}px`,
@@ -167,19 +175,39 @@ class QuestionForm extends Component {
   }
 }
 
-function CardWrapper(props) {
-  if(props.rootChild) {
+class LayoutWrapper extends Component {
+  render() {
+    const { classes, rootChild, onAddQuestion, onAddGroup, disableFields } = this.props;
+    let Component;
+    if(rootChild) {
+      Component = (
+        <Card className={classes.root}>
+          <QuestionForm {...this.props} />
+        </Card>
+      );
+    }
+    else
+      Component = (
+        <div className={classes.rootBox}>
+          <QuestionForm {...this.props} />
+        </div>
+      )
     return (
-      <Card className={props.classes.root}>
-        <QuestionForm {...props} />
-      </Card>
+      <div>
+        {Component}
+        {
+          !disableFields &&
+          <div className={classes.bottomActions}>
+            <div className={classes.flexGrow} />
+            <QuestionBottomActions
+              withElevation={this.props.rootChild}
+              onAddClick={onAddQuestion}
+              onAddGroupClick={onAddGroup} />
+          </div>
+        }
+      </div>
     );
   }
-  return (
-    <div className={props.classes.rootBox}>
-      <QuestionForm {...props} />
-    </div>
-  );
 }
 
-export default withStyles(styles)(CardWrapper);
+export default withStyles(styles)(LayoutWrapper);

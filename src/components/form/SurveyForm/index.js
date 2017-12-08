@@ -13,8 +13,7 @@ function SurveyFormWrapper({ initialValues: initValuesProp, ...props }) {
       index: 1,
       groupElements: [{ 
         uuid: uuidv4(), 
-        schema: 'question', 
-        index: 1,
+        schema: 'question',
         type: 'text',
         condition: { operator: '&&', conditions: [] },
         required: true,

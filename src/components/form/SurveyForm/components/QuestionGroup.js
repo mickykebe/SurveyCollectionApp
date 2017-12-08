@@ -14,12 +14,13 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import FunctionIcon from 'material-ui-icons/Functions';
 import ConditionCollapse from './ConditionCollapse';
 import Overlay from 'components/Overlay';
+import QuestionBottomActions from './QuestionBottomActions';
 import QuestionGroupListContainer from '../containers/QuestionGroupListContainer';
 import { valFromLangObj } from 'utils';
 
 const styles = (theme) => ({
   root: {
-    margin: '16px',
+    marginBottom: theme.spacing.unit,
   },
   header: {
     position: 'relative',
@@ -39,6 +40,10 @@ const styles = (theme) => ({
   },
   flexGrow: {
     flex: '1 1 auto',
+  },
+  bottomActions: {
+    display: 'flex',
+    marginBottom: theme.spacing.unit,
   },
   content: {
     paddingLeft: theme.spacing.unit * 4,
@@ -160,23 +165,43 @@ function RootQuestionGroup({ id, root, formLanguages }) {
     />
 }
 
-function CardWrapper(props) {
-  if(props.rootChild) {
+class LayoutWrapper extends Component {
+  render() {
+    const { classes, rootChild, root, onAddQuestion, onAddGroup, disableFields } = this.props;
+    if(root)
+      return <RootQuestionGroup {...this.props} />;
+    let Component;
+    if(rootChild) {
+      Component = (
+        <Card className={classes.root}>
+          <QuestionGroup {...this.props} />
+        </Card>
+      );
+    }
+    else {
+      Component = (
+        <div className={classes.rootBox}>
+          <QuestionGroup {...this.props} />
+        </div>
+      );
+    }
+
     return (
-      <Card className={props.classes.root}>
-        <QuestionGroup {...props} />
-      </Card>
-    );
-  }
-  if(!props.root) {
-    return (
-      <div className={props.classes.rootBox}>
-        <QuestionGroup {...props} />
+      <div>
+        {Component}
+        {
+          !disableFields &&
+          <div className={classes.bottomActions}>
+            <div className={classes.flexGrow} />
+            <QuestionBottomActions
+              withElevation={this.props.rootChild}
+              onAddClick={onAddQuestion}
+              onAddGroupClick={onAddGroup} />
+          </div>
+        }
       </div>
     );
   }
-  return <RootQuestionGroup {...props} />;
-  
 }
 
-export default withStyles(styles)(CardWrapper);
+export default withStyles(styles)(LayoutWrapper);

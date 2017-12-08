@@ -5,13 +5,13 @@ import { withStyles } from 'material-ui/styles';
 import OverlayLoading from './OverlayLoading';
 import { valFromLangObj } from '../utils';
 
-const Content = ({ id, title, description }) => {
+const Content = ({ classes, id, title, description }) => {
   return (
     <div>
-      <Typography type="headline" component="h1" align="center">
+      <Typography type="headline" component="h1" align="center" className={classes.text}>
         { valFromLangObj(title) }
       </Typography>
-      <Typography type="subheading" color="secondary" align="center">
+      <Typography type="subheading" color="secondary" align="center" className={classes.text}>
         { valFromLangObj(description) }
       </Typography>
     </div>
@@ -23,20 +23,21 @@ const styles = theme => ({
     position: 'relative',
     padding: theme.spacing.unit * 4
   },
+  text: {
+    overflowWrap: 'break-word',
+  }
 });
 
 function SurveyHeader({ classes, inProgress, error, onRetry, survey }) {
   return (
-    <div>
-      <Paper className={classes.root}>
-        {
-          survey && <Content {...survey} />
-        }
-        {
-          inProgress && <OverlayLoading />
-        }
-      </Paper>
-    </div>
+    <Paper className={classes.root}>
+      {
+        survey && <Content {...survey} classes={classes} />
+      }
+      {
+        inProgress && <OverlayLoading />
+      }
+    </Paper>
   );
 }
 

@@ -4,15 +4,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
-import Button from 'material-ui/Button';
 import { FormHelperText } from 'material-ui/Form';
-import Tooltip from 'material-ui/Tooltip';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import QuestionGroup from './QuestionGroup';
 import QuestionForm from './QuestionForm';
 import PasteArea from './PasteArea';
-import Overlay from 'components/Overlay';
 import { uuidv4 } from 'utils';
 import DragDroppable from '../containers/DragDroppable';
 import { 

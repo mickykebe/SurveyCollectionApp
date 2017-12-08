@@ -3,7 +3,6 @@ import IconButton from 'material-ui/IconButton';
 import Paper from 'material-ui/Paper';
 import AddIcon from 'material-ui-icons/Add';
 import AddGroupIcon from 'material-ui-icons/PlaylistAdd';
-import { withStyles } from 'material-ui/styles';
 import Tooltip from 'material-ui/Tooltip';
 
 class QuestionBottomActions extends Component {

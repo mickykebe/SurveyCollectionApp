@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field, FormSection } from 'redux-form';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
+import Tooltip from 'material-ui/Tooltip';
 import PublishIcon from 'material-ui-icons/Publish';
 import SaveIcon from 'material-ui-icons/Save';
 import { renderMultiChoiceField } from 'components/form/helper/fieldRenderers';
@@ -15,17 +16,12 @@ const styles = theme => ({
   },
   actions: {
     display: 'flex',
-    paddingTop: theme.spacing.unit * 4,
-  },
-  flexGrow: {
-    flex: 1,
+    paddingTop: theme.spacing.unit * 2,
+    justifyContent: 'center',
   },
   actionButton: {
-    marginLeft: theme.spacing.unit,
+    margin: theme.spacing.unit,
   },
-  buttonIcon: {
-    marginRight: theme.spacing.unit,
-  }
 });
 
 class SurveyForm extends Component {
@@ -94,25 +90,28 @@ class SurveyForm extends Component {
                 />
             </FormSection>
             <div className={classes.actions}>
-              <div className={classes.flexGrow} />
-              <Button 
-                raised
-                color="accent" 
-                className={classes.actionButton} 
-                type="submit"
-                disabled={submittingForm}>
-                <SaveIcon className={classes.buttonIcon} />Save
-              </Button>
+              <Tooltip title="Save survey">
+                <Button
+                  fab
+                  color="accent"
+                  className={classes.actionButton} 
+                  type="submit"
+                  disabled={submittingForm}>
+                  <SaveIcon />
+                </Button>
+              </Tooltip>
               {
                 !initialValues.active &&
-                <Button
-                  raised
-                  color="accent"
-                  className={classes.actionButton}
-                  onClick={handleSubmit(this.publish)}
-                  disabled={submittingForm}>
-                  <PublishIcon className={classes.buttonIcon} /> Publish
-                </Button>
+                <Tooltip title="Publish survey">
+                  <Button
+                    fab
+                    color="accent"
+                    className={classes.actionButton}
+                    onClick={handleSubmit(this.publish)}
+                    disabled={submittingForm}>
+                    <PublishIcon />
+                  </Button>
+                </Tooltip>
               }
             </div>
           </form>

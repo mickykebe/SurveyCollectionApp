@@ -37,14 +37,15 @@ const groupsAndQuestions = (groupRoot) => {
   let groups = [group, ];
 
   group.questions = [];
-  groupElements.forEach((groupElement) => {
+  groupElements.forEach((groupElement, i) => {
     if(groupElement.schema === 'question') {
       const question = normalizeQuestion(groupElement);
+      question.index = i+1;
       group.questions.push(groupElement.uuid);
       questions.push({ group: group.uuid, ...question });
     }
     else if(groupElement.schema === 'group') {
-      const subGroup = { parent: group.uuid, ...groupElement };
+      const subGroup = { parent: group.uuid, ...groupElement, index: i+1, };
       const {groups: subGroups, questions: subQuestions} = groupsAndQuestions(subGroup);
       groups = [...groups, ...subGroups];
       questions = [...questions, ...subQuestions];

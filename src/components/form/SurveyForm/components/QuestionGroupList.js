@@ -7,8 +7,6 @@ import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import { FormHelperText } from 'material-ui/Form';
 import Tooltip from 'material-ui/Tooltip';
-import AddIcon from 'material-ui-icons/Add';
-import PlaylistAddIcon from 'material-ui-icons/PlaylistAdd';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import QuestionGroup from './QuestionGroup';
@@ -31,16 +29,6 @@ const styles = (theme) => ({
     textAlign: 'center',
     paddingTop: theme.spacing.unit,
   },
-  actions: {
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  button: {
-    margin: theme.spacing.unit,
-    width: theme.spacing.unit * 6,
-    height: theme.spacing.unit * 6,
-  }
 });
 
 const mapStateToProps = (state) => ({
@@ -61,41 +49,35 @@ class QuestionGroupList extends Component {
   constructor(props) {
     super(props);
 
-    this.addQuestion = this.addQuestion.bind(this);
-    this.addQuestionGroup = this.addQuestionGroup.bind(this);
     this.onMove = this.onMove.bind(this);
     this.getControllingQuestions = this.getControllingQuestions.bind(this);
   }
 
-  addQuestion = () => {
-    const fields = this.props.fields;
-    fields.push({ 
+  addQuestion = (fields, i = fields.length) => {
+    const question = {
       uuid: uuidv4(),
-      schema: 'question', 
-      index: fields.length+1,
+      schema: 'question',
       type: 'text',
       condition: { operator: '&&', conditions: [] },
       required: true,
-    });
+    };
+    fields.insert(i, question);
   }
 
-  addQuestionGroup = () => {
-    const fields = this.props.fields;
-
-    fields.push({ 
+  addQuestionGroup = (fields, i = fields.length) => {
+    const group = { 
       uuid: uuidv4(), 
       schema: 'group',
-      index: fields.length+1,
       condition: { operator: '&&', conditions: [] },
       groupElements: [{ 
         uuid: uuidv4(), 
-        schema: 'question', 
-        index: 1,
+        schema: 'question',
         type: 'text',
         condition: { operator: '&&', conditions: [] },
         required: true,
       }] 
-    })
+    };
+    fields.insert(i, group);
   }
 
   copyElement = (index) => {
@@ -122,14 +104,7 @@ class QuestionGroupList extends Component {
   }
 
   onMove = (dragIndex, hoverIndex) => {
-    const { fields: { name }, changeFieldValue } = this.props;
-    const { fields } = this.props;
-
-    fields.move(dragIndex, hoverIndex);
-    const { min, max } = dragIndex > hoverIndex ? { min: hoverIndex, max: dragIndex } : { min: dragIndex, max: hoverIndex };
-    for(let i = min; i <= max; i++) {
-      changeFieldValue(`${name}[${i}].index`, i+1);
-    }
+    this.props.fields.move(dragIndex, hoverIndex);
   }
 
   getControllingQuestions(curIndex) {
@@ -158,6 +133,8 @@ class QuestionGroupList extends Component {
               <ElementComponent
                 hideRemoveButton={fields.length === 1}
                 onRemove={() => fields.remove(index)}
+                onAddQuestion={() => this.addQuestion(fields, index+1)}
+                onAddGroup={() => this.addQuestionGroup(fields, index+1)}
                 rootChild={!!root}
                 root={false}
                 index={index}
@@ -167,6 +144,7 @@ class QuestionGroupList extends Component {
                 onFieldMouseLeave={enableDragSource}
                 onCopy={() => this.copyElement(index)}
                 onCut={() => this.cutElement(field, index)}
+
                 {...elemProps}
                 {...props}
                 />
@@ -201,19 +179,6 @@ class QuestionGroupList extends Component {
               return this.renderElement(uuid, index, schema, groupElement, rest);
             })
           }
-          <div className={classes.actions}>
-            <Tooltip title="Add Question" placement="bottom">
-              <Button fab color="accent" className={classes.button} onClick={this.addQuestion}>
-                <AddIcon />
-              </Button>
-            </Tooltip>
-            <Tooltip title="Add Question Group" placement="bottom">
-              <Button fab color="accent" className={classes.button} onClick={this.addQuestionGroup}>
-                <PlaylistAddIcon />
-              </Button>
-            </Tooltip>
-            { !!clipboardElement && <Overlay />}
-          </div>
         </div>
       </div>
     )

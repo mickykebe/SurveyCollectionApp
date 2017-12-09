@@ -21,8 +21,11 @@ import { withStyles } from 'material-ui/styles';
 const styles = theme => ({
   root: {
     position: 'relative',
-    overflowX: 'auto',
     paddingTop: theme.spacing.unit * 2,
+    overflowX: 'auto',
+  },
+  table: {
+    minWidth: 800,
   },
   loadMoreBtn: {
     display: 'block',
@@ -83,53 +86,51 @@ class SurveyTable extends Component {
     const { isDeletingSurvey, deleteErrors } = this.state;
 
     return (
-      <div>
-        <div className={classes.root}>
-          <Table>
-            <TableHeadRow columns={this.columns} />
-            <TableBody>
-              { 
-                !surveys.length &&
-                <TableRow>
-                  <TableCell colSpan={this.columns.length}>
-                    {
-                      !!fetchErrors &&
-                      <Typography type="subheading" align="center">
-                        Problem occurred fetching surveys.
-                      </Typography>
-                    }
-                    {
-                      !fetchErrors &&
-                      <Typography type="subheading" align="center">
-                        Surveys unavailable
-                      </Typography>
-                    }
-                  </TableCell>
-                </TableRow>
-              }
-              {
-                surveys.map((survey) => 
-                  <HomeSurveyRowContainer 
-                    key={survey.uuid}
-                    survey={survey}
-                    onDeleteSurvey={this.onDeleteSurvey}
-                  />)
-              }
-            </TableBody>
-            {
-              !isFetching && !!next &&
-              <TableFootRow>
-                <Button className={classes.loadMoreBtn} raised color="accent" onClick={this.props.fetchSurveyFeed}>
-                  Load More
-                </Button>
-              </TableFootRow>
+      <div className={classes.root}>
+        <Table className={classes.table}>
+          <TableHeadRow columns={this.columns} />
+          <TableBody>
+            { 
+              !surveys.length &&
+              <TableRow>
+                <TableCell colSpan={this.columns.length}>
+                  {
+                    !!fetchErrors &&
+                    <Typography type="subheading" align="center">
+                      Problem occurred fetching surveys.
+                    </Typography>
+                  }
+                  {
+                    !fetchErrors &&
+                    <Typography type="subheading" align="center">
+                      Surveys unavailable
+                    </Typography>
+                  }
+                </TableCell>
+              </TableRow>
             }
-          </Table>
+            {
+              surveys.map((survey) => 
+                <HomeSurveyRowContainer 
+                  key={survey.uuid}
+                  survey={survey}
+                  onDeleteSurvey={this.onDeleteSurvey}
+                />)
+            }
+          </TableBody>
           {
-            (isDeletingSurvey || isFetching) &&
-            <OverlayLoading />
+            !isFetching && !!next &&
+            <TableFootRow>
+              <Button className={classes.loadMoreBtn} raised color="accent" onClick={this.props.fetchSurveyFeed}>
+                Load More
+              </Button>
+            </TableFootRow>
           }
-        </div>
+        </Table>
+        {
+          (isDeletingSurvey || isFetching) &&
+          <OverlayLoading />
+        }
         <Dialog open={this.state.deleteDialogOpen} onRequestClose={this.deleteDialogClose}>
           <DialogTitle>Confirm</DialogTitle>
           <DialogContent>

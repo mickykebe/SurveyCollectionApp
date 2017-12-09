@@ -4,6 +4,8 @@ import { withStyles } from 'material-ui/styles';
 const styles = theme => ({
   root: {
     flex: 1,
+    padding: theme.spacing.unit,
+    overflow: 'auto',
   }
 })
 

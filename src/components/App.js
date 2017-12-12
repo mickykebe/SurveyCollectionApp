@@ -7,7 +7,7 @@ import Home from "./Home";
 import PublicOnlyRoute from "./PublicOnlyRoute";
 import SurveyCreate from "../containers/SurveyCreate";
 import SurveyEdit from "../containers/SurveyEdit";
-import ResponsePageContainer from "../containers/ResponsePageContainer";
+import ResponseTableContainer from "../containers/ResponseTableContainer";
 import LanguageTableContainer from "../containers/LanguageTableContainer";
 import AuthContainer from "../containers/AuthContainer";
 import ProfilesManage from "./ProfilesManage";
@@ -69,7 +69,7 @@ class App extends Component {
           <Route
             path="/surveys/responses/:surveyId"
             render={({ match }) => (
-              <ResponsePageContainer id={match.params.surveyId} />
+              <ResponseTableContainer surveyId={match.params.surveyId} />
             )}
           />
           <Route path="/languages" component={LanguageTableContainer} />

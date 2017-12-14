@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { compose } from "redux";
+import { withRouter } from "react-router";
 import AppBar from "material-ui/AppBar";
 import Button from "material-ui/Button";
 import IconButton from "material-ui/IconButton";
@@ -38,6 +40,9 @@ const styles = theme => ({
   },
   title: {
     paddingLeft: theme.spacing.unit * 2
+  },
+  row: {
+    cursor: "pointer"
   }
 });
 
@@ -52,7 +57,8 @@ class ResponsesTable extends Component {
       fetchingResponses,
       hasMore,
       onFetchMore,
-      downloadResponses
+      downloadResponses,
+      history
     } = this.props;
     const columns = columnQuestions.map((question, i) => ({
       id: `${i}`,
@@ -116,8 +122,19 @@ class ResponsesTable extends Component {
                     </TableCell>
                   </TableRow>
                 )}
-                {responses.map(response => (
-                  <TableRow key={response.uuid} hover>
+                {responses.map((response, index) => (
+                  <TableRow
+                    className={classes.row}
+                    key={response.uuid}
+                    hover
+                    onClick={() =>
+                      history.push({
+                        pathname: `/surveys/responses/${survey.uuid}`,
+                        state: { curResponseIndex: index },
+                        search: "swipeView=true"
+                      })
+                    }
+                  >
                     {columnQuestions.map(q => (
                       <ResponseAnswerContainer
                         key={q.uuid}
@@ -159,4 +176,4 @@ class ResponsesTable extends Component {
   }
 }
 
-export default withStyles(styles)(ResponsesTable);
+export default compose(withRouter, withStyles(styles))(ResponsesTable);

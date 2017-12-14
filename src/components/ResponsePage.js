@@ -33,21 +33,21 @@ const styles = theme => ({
 });
 
 class ResponsePage extends Component {
-  constructor(props) {
-    super(props);
+  static defaultProps = {
+    curResponseIndex: 0
+  };
+  state = {
+    curIndex: this.props.curResponseIndex
+  };
 
-    this.state = { curIndex: 0 };
-    this.nextResponse = this.nextResponse.bind(this);
-  }
-
-  nextResponse() {
+  nextResponse = () => {
     if (this.state.curIndex + 1 >= this.props.responses.length) {
       this.props.onFetchMore();
     }
     this.setState({
       curIndex: this.state.curIndex + 1
     });
-  }
+  };
 
   render() {
     const {

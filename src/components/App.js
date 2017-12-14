@@ -7,7 +7,7 @@ import Home from "./Home";
 import PublicOnlyRoute from "./PublicOnlyRoute";
 import SurveyCreate from "../containers/SurveyCreate";
 import SurveyEdit from "../containers/SurveyEdit";
-import ResponseTableContainer from "../containers/ResponseTableContainer";
+import ResponsesContainer from "../containers/ResponsesContainer";
 import LanguageTableContainer from "../containers/LanguageTableContainer";
 import AuthContainer from "../containers/AuthContainer";
 import ProfilesManage from "./ProfilesManage";
@@ -68,9 +68,21 @@ class App extends Component {
           <Route path="/surveys/new" component={SurveyCreate} />
           <Route
             path="/surveys/responses/:surveyId"
-            render={({ match }) => (
-              <ResponseTableContainer surveyId={match.params.surveyId} />
-            )}
+            render={({ match, location }) => {
+              const query = new URLSearchParams(location.search);
+              const swipeView =
+                query.has("swipeView") && query.get("swipeView") != "false";
+              const curResponseIndex =
+                (location.state && location.state.curResponseIndex) || 0;
+
+              return (
+                <ResponsesContainer
+                  surveyId={match.params.surveyId}
+                  swipeView={swipeView}
+                  curResponseIndex={curResponseIndex}
+                />
+              );
+            }}
           />
           <Route path="/languages" component={LanguageTableContainer} />
           <Route path="/users" component={ProfilesManage} />

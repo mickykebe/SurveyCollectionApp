@@ -15,6 +15,7 @@ import api from "../api";
 import Content from "../components/Content";
 import download from "../download";
 import PopupSnackbar from "../components/PopupSnackbar";
+import ResponsePage from "../components/ResponsePage";
 import ResponsesTable from "../components/ResponsesTable";
 import SurveyContainer from "./SurveyContainer";
 
@@ -43,7 +44,7 @@ const mergeProps = (stateProps, { dispatch }, ownProps) => ({
   }
 });
 
-class ResponseTableCotainer extends Component {
+class ResponsesContainer extends Component {
   fetchResponses = () => {
     const { fetchingResponses, fetchResponses } = this.props;
     if (!fetchingResponses) {
@@ -68,6 +69,8 @@ class ResponseTableCotainer extends Component {
 
   render() {
     const {
+      swipeView,
+      curResponseIndex,
       surveyId,
       columnQuestions,
       responses,
@@ -81,31 +84,35 @@ class ResponseTableCotainer extends Component {
         <SurveyContainer
           id={surveyId}
           onLoadSuccess={this.fetchResponses}
-          render={surveyProps => (
-            <div>
-              <ResponsesTable
-                survey={surveyProps.survey}
-                columnQuestions={columnQuestions}
-                responses={responses}
-                fetchingSurvey={surveyProps.isFetching}
-                fetchingResponses={fetchingResponses}
-                responsesCount={responsesCount}
-                hasMore={!!responsesNext}
-                onFetchMore={this.fetchResponses}
-                downloadResponses={this.downloadResponses}
-              />
-              <PopupSnackbar
-                show={!surveyProps.isFetching && !!surveyProps.errors}
-                message="Problem occurred fetcing survey"
-                retryAction={surveyProps.fetchSurvey}
-              />
-              <PopupSnackbar
-                show={!fetchingResponses && !!responsesFetchError}
-                message="Problem occurred fetching responses"
-                retryAction={this.fetchResponses}
-              />
-            </div>
-          )}
+          render={surveyProps => {
+            const ResponseComponent = swipeView ? ResponsePage : ResponsesTable;
+            return (
+              <div>
+                <ResponseComponent
+                  survey={surveyProps.survey}
+                  columnQuestions={columnQuestions}
+                  responses={responses}
+                  fetchingSurvey={surveyProps.isFetching}
+                  fetchingResponses={fetchingResponses}
+                  responsesCount={responsesCount}
+                  hasMore={!!responsesNext}
+                  onFetchMore={this.fetchResponses}
+                  downloadResponses={this.downloadResponses}
+                  curResponseIndex={curResponseIndex}
+                />
+                <PopupSnackbar
+                  show={!surveyProps.isFetching && !!surveyProps.errors}
+                  message="Problem occurred fetcing survey"
+                  retryAction={surveyProps.fetchSurvey}
+                />
+                <PopupSnackbar
+                  show={!fetchingResponses && !!responsesFetchError}
+                  message="Problem occurred fetching responses"
+                  retryAction={this.fetchResponses}
+                />
+              </div>
+            );
+          }}
         />
       </Content>
     );
@@ -113,5 +120,5 @@ class ResponseTableCotainer extends Component {
 }
 
 export default compose(withRouter, connect(mapStateToProps, null, mergeProps))(
-  ResponseTableCotainer
+  ResponsesContainer
 );

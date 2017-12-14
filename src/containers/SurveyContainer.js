@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { connect } from "react-redux";
-import { surveyFetch, showPopup } from "../actions";
+import { surveyFetch } from "../actions";
 import api from "../api";
 import {
   getSurvey,

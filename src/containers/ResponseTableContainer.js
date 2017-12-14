@@ -7,17 +7,19 @@ import {
   getIsFetchingSurveyResponses,
   getSurveyResponsesFetchErrors,
   getSurveyResponsesCount,
-  getSurveyResponsesNext
+  getSurveyResponsesNext,
+  getResponseTableQuestions
 } from "../reducers";
 import { responsesFetch, showPopup } from "../actions";
 import api from "../api";
 import Content from "../components/Content";
 import download from "../download";
 import PopupSnackbar from "../components/PopupSnackbar";
-import ResponsePage from "../components/ResponsePage";
+import ResponsesTable from "../components/ResponsesTable";
 import SurveyContainer from "./SurveyContainer";
 
 const mapStateToProps = (state, { surveyId }) => ({
+  columnQuestions: getResponseTableQuestions(state, surveyId),
   responses: getSurveyResponses(state, surveyId),
   fetchingResponses: getIsFetchingSurveyResponses(state, surveyId),
   responsesFetchError: getSurveyResponsesFetchErrors(state, surveyId),
@@ -50,12 +52,12 @@ class ResponseTableCotainer extends Component {
   };
 
   downloadResponses = format => {
-    const { id, displayPopup } = this.props;
-    api.SurveyResponses.allFormat(id, format)
+    const { surveyId, displayPopup } = this.props;
+    api.SurveyResponses.allFormat(surveyId, format)
       .then(blob =>
         download(
           blob,
-          `responses-${id}.${format}`,
+          `responses-${surveyId}.${format}`,
           format === "csv"
             ? "text/csv"
             : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -67,6 +69,7 @@ class ResponseTableCotainer extends Component {
   render() {
     const {
       surveyId,
+      columnQuestions,
       responses,
       fetchingResponses,
       responsesFetchError,
@@ -80,8 +83,9 @@ class ResponseTableCotainer extends Component {
           onLoadSuccess={this.fetchResponses}
           render={surveyProps => (
             <div>
-              <ResponsePage
+              <ResponsesTable
                 survey={surveyProps.survey}
+                columnQuestions={columnQuestions}
                 responses={responses}
                 fetchingSurvey={surveyProps.isFetching}
                 fetchingResponses={fetchingResponses}

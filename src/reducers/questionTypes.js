@@ -1,48 +1,57 @@
 const types = {
-  "text": {
+  text: {
     id: "text",
     name: "Text",
-    validOperators: ["==", "!="]
+    validOperators: ["==", "!="],
+    tableDisplay: true
   },
-  "number": {
+  number: {
     id: "number",
     name: "Number",
-    validOperators: ["==", "!=", "<", ">", "<=", ">="]
+    validOperators: ["==", "!=", "<", ">", "<=", ">="],
+    tableDisplay: true
   },
   "number-range": {
     id: "number-range",
     name: "Number Range",
-    validOperators: ["==", "!=", "<", ">", "<=", ">="]
+    validOperators: ["==", "!=", "<", ">", "<=", ">="],
+    tableDisplay: true
   },
-  "date": {
+  date: {
     id: "date",
     name: "Date",
     validOperators: ["==", "!="],
+    tableDisplay: true
   },
   "choose-one": {
     id: "choose-one",
     name: "Choose One",
-    validOperators: ["==", "!="]
+    validOperators: ["==", "!="],
+    tableDisplay: true
   },
   "choose-any": {
     id: "choose-any",
     name: "Choose Many",
-    validOperators: ["one-of"]
+    validOperators: ["one-of"],
+    tableDisplay: true
   },
-  "location": {
-    id: 'location',
-    name: 'Location',
+  location: {
+    id: "location",
+    name: "Location",
+    tableDisplay: false
   },
-  "currency": {
-    id: 'currency',
-    name: 'Currency',
-    validOperators: ["==", "!="]
+  currency: {
+    id: "currency",
+    name: "Currency",
+    validOperators: ["==", "!="],
+    tableDisplay: true
   },
-  "image": {
-    id: 'image',
-    name: 'Image',
-  },
-}
+  image: {
+    id: "image",
+    name: "Image",
+    tableDisplay: false
+  }
+};
 
 const questionTypes = (state, action) => {
   return types;
@@ -50,7 +59,8 @@ const questionTypes = (state, action) => {
 
 export default questionTypes;
 
-export const getAllQuestionTypes = (state) => 
+export const getAllQuestionTypes = state =>
   Object.keys(state).map(id => state[id]);
 export const getQuestionTypeOperators = (state, id) =>
   state[id].validOperators || [];
+export const getQuestionType = (state, id) => state[id];

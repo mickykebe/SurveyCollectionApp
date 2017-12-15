@@ -71,7 +71,7 @@ class App extends Component {
             render={({ match, location }) => {
               const query = new URLSearchParams(location.search);
               const swipeView =
-                query.has("swipeView") && query.get("swipeView") != "false";
+                query.has("swipeView") && query.get("swipeView") !== "false";
               const curResponseIndex =
                 (location.state && location.state.curResponseIndex) || 0;
 

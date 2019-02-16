@@ -138,6 +138,12 @@ const Profiles = {
   }
 };
 
+const Permissions = {
+  all() {
+    return requests.get("/permissions/?limit=0");
+  }
+};
+
 export default {
   Auth,
   Surveys,
@@ -146,6 +152,7 @@ export default {
   Companies,
   Currencies,
   Profiles,
+  Permissions,
   setToken: _token => {
     token = _token;
   }

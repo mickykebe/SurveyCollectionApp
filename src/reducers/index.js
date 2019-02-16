@@ -16,6 +16,7 @@ import choiceConditions, * as fromChoiceConditions from "./choiceConditions";
 import languages, * as fromLanguages from "./languages";
 import questionTypes, * as fromQuestionTypes from "./questionTypes";
 import operators, * as fromOperators from "./operators";
+import permissions, * as fromPermissions from "./permissions";
 import ui, * as fromUi from "./ui";
 
 export default combineReducers({
@@ -34,6 +35,7 @@ export default combineReducers({
   questionTypes,
   operators,
   ui,
+  permissions,
   form: surveyForm
 });
 

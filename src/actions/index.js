@@ -74,12 +74,6 @@ export const companiesFetchSuccess = response => ({
   response
 });
 
-export const companiesFetch = apiActionCreator({
-  request: actionTypes.ACTION_COMPANIES_FETCH_REQUEST,
-  success: actionTypes.ACTION_COMPANIES_FETCH_SUCCESS,
-  fail: actionTypes.ACTION_COMPANIES_FETCH_FAIL
-});
-
 export const surveyCreate = apiActionCreator(
   {
     request: actionTypes.ACTION_SURVEY_CREATE_REQUEST,
@@ -160,6 +154,11 @@ export const deleteLanguageSuccess = code => ({
 
 export const fetchCurrenciesSuccess = response => ({
   type: actionTypes.ACTION_CURRENCIES_FETCH_SUCCESS,
+  response
+});
+
+export const fetchPermissionsSuccess = response => ({
+  type: actionTypes.ACTION_PERMISSIONS_FETCH_SUCCESS,
   response
 });
 

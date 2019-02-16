@@ -1,9 +1,9 @@
-import { normalize } from 'normalizr';
-import * as schema from './schema';
-import * as actionTypes from '../../actions/types';
+import { normalize } from "normalizr";
+import * as schema from "./schema";
+import * as actionTypes from "../../actions/types";
 
 export default store => next => action => {
-  switch(action.type) {
+  switch (action.type) {
     case actionTypes.ACTION_SURVEY_CREATE_SUCCESS:
     case actionTypes.ACTION_SURVEY_FETCH_SUCCESS:
     case actionTypes.ACTION_SURVEY_UPDATE_SUCCESS:
@@ -20,43 +20,51 @@ export default store => next => action => {
     case actionTypes.ACTION_RESPONSES_FETCH_SUCCESS:
       return next({
         ...action,
-        response: normalize(action.response.results, schema.responseListSchema),
+        response: normalize(action.response.results, schema.responseListSchema)
       });
     case actionTypes.ACTION_PROFILE_FETCH_SUCCESS:
       return next({
         ...action,
-        response: normalize(action.response, schema.profileSchema),
+        response: normalize(action.response, schema.profileSchema)
       });
     case actionTypes.ACTION_PROFILES_FETCH_SUCCESS:
       return next({
         ...action,
-        response: normalize(action.response.results, schema.profileListSchema),
+        response: normalize(action.response.results, schema.profileListSchema)
+      });
+    case actionTypes.ACTION_PERMISSIONS_FETCH_SUCCESS:
+      return next({
+        ...action,
+        response: normalize(
+          action.response.results,
+          schema.permissionListSchema
+        )
       });
     case actionTypes.ACTION_LANGUAGE_FEED_FETCH_SUCCESS:
       return next({
         ...action,
-        response: normalize(action.response.results, schema.languageListSchema),
+        response: normalize(action.response.results, schema.languageListSchema)
       });
     case actionTypes.ACTION_LANGUAGE_UPDATE_SUCCESS:
     case actionTypes.ACTION_LANGUAGE_CREATE_SUCCESS:
       return next({
         ...action,
-        response: normalize(action.response, schema.languageSchema),
+        response: normalize(action.response, schema.languageSchema)
       });
     case actionTypes.ACTION_COMPANIES_FETCH_SUCCESS:
       return next({
         ...action,
-        response: normalize(action.response.results, schema.companyListSchema),
+        response: normalize(action.response.results, schema.companyListSchema)
       });
     case actionTypes.ACTION_CURRENCIES_FETCH_SUCCESS:
       return next({
         ...action,
-        response: normalize(action.response.results, schema.currencyListSchema),
+        response: normalize(action.response.results, schema.currencyListSchema)
       });
     case actionTypes.ACTION_ADMIN_REGISTER_SUCCESS:
       return next({
         ...action,
-        response: normalize(action.response.company, schema.companySchema),
+        response: normalize(action.response.company, schema.companySchema)
       });
     default:
       return next(action);
